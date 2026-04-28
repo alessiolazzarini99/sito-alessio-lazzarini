@@ -1481,6 +1481,10 @@
 
       /* ── FOOTER ── */
       footer { padding: 18px 20px; flex-direction: column; gap: 6px; text-align: center; }
+
+      /* ── SCROLL PROGRESS BAR — nascosta su mobile ── */
+      #scroll-progress-line { display: none; }
+      #scroll-section-dot   { display: none; }
     }
 
     /* ── GEAR HERO CARD ── */
@@ -1975,6 +1979,18 @@
     @media (pointer: coarse) {
       body { cursor: auto; }
       #cursor-dot, #cursor-ring, #cursor-play { display: none; }
+      /* Ripristina cursore di sistema su tutti gli elementi interattivi */
+      a, button, [role="button"],
+      input, select, textarea,
+      video, label, .service-card,
+      .port-item, .insta-card,
+      .gear-item, .pkg-card,
+      .carousel-btn, .hero-cta,
+      .cta-btn-primary, .cta-btn-secondary,
+      .form-submit, .pkg-cta,
+      .nav-hamburger, .social-link,
+      .insta-svg-btn, .projects-carousel-btn,
+      .siri-accept-btn { cursor: auto !important; }
     }
 
     /* ── SCROLL PROGRESS LINE ── */
@@ -3900,11 +3916,25 @@
     const svgMuted   = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>`;
     const svgUnmuted = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`;
 
+    // Rileva dispositivo touch una volta sola all'avvio
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+
     document.querySelectorAll('video').forEach(video => {
       const isSilent = video.hasAttribute('data-silent');
       const isHero   = !isSilent && (!!video.closest('#hero') || video.hasAttribute('data-bg'));
       const container = video.parentElement;
       if (getComputedStyle(container).position === 'static') container.style.position = 'relative';
+
+      // ── MOBILE / TOUCH: tutti i video sempre muted + autoplay, nessun listener hover ──
+      if (isTouch) {
+        video.muted  = true;
+        video.volume = 0;
+        video.style.cursor = 'default';
+        video.play().catch(() => {});
+        return; // niente icona, niente mouseenter/mouseleave
+      }
+
+      // ── DESKTOP: logica hover audio invariata ──
 
       // Video silenziosi — autoplay muted, zero logica hover audio
       if (isSilent) {
