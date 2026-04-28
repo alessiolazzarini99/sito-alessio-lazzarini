@@ -1303,23 +1303,22 @@
     /* ── MOBILE RESPONSIVE ── */
     @media (max-width: 768px) {
 
-      /* ── NAV ── */
-      nav { padding: 16px 20px; }
-      .nav-hamburger { display: none !important; }
-      .nav-links { display: none !important; }
+      /* ── NAV — completamente nascosta su mobile ── */
+      nav { display: none !important; }
+      .hero-nav-spacer { height: 0 !important; }
 
       /* ── SECTION COMUNE ── */
       .section-header { padding: 52px 20px 28px; margin-bottom: 28px; }
       .section-intro { padding: 0 20px 28px; gap: 8px; }
-      .section-title { font-size: 22px; }
-      .section-subtitle { font-size: 12px; }
-      .section-sub { text-align: right; }
+      .section-title { font-size: 22px; text-align: center; }
+      .section-subtitle { font-size: 12px; text-align: center; }
+      .section-sub { text-align: center; }
 
       /* ── HERO ── */
       .hero-content { padding: 0 24px 36px; }
-      .hero-name { font-size: clamp(36px, 8vw, 56px); }
-      .hero-eyebrow { font-size: 9px; }
-      .hero-role { margin-bottom: 28px; gap: 8px; }
+      .hero-name { font-size: clamp(36px, 8vw, 56px); text-align: center; }
+      .hero-eyebrow { font-size: 9px; text-align: center; }
+      .hero-role { margin-bottom: 28px; gap: 8px; justify-content: center; }
       .role-item { font-size: 12px; }
       .rec-indicator { top: 62px; right: 20px; }
       .scroll-hint { display: none; }
@@ -1337,6 +1336,7 @@
       /* ── COLLABORAZIONI ── */
       .collab-grid { padding: 0 20px; grid-template-columns: 1fr; }
       .collab-context { padding: 24px 20px 0; grid-template-columns: 1fr; }
+      .ctx-name, .ctx-desc { text-align: center; }
 
       /* ── SPORT ── */
       .sport-layout { padding: 0 20px; grid-template-columns: 1fr; }
@@ -1360,8 +1360,8 @@
       .wf-video-hero { grid-template-columns: 1fr; padding: 24px 20px; }
       .wf-hero-side { display: none; }
       .wf-intro { padding: 28px 20px; gap: 8px; }
-      .wf-title { font-size: 22px; }
-      .wf-sub { text-align: right; }
+      .wf-title { font-size: 22px; text-align: center; }
+      .wf-sub { text-align: center; }
       /* Pipeline: mostra solo colonna sinistra su mobile */
       .pipeline { padding: 0 20px; }
       .pipe-step { flex-direction: column; }
@@ -1374,7 +1374,8 @@
 
       /* ── DRONE ── */
       .drone-hero-content { padding: 20px; }
-      .drone-hero-title { font-size: 20px; }
+      .drone-hero-title { font-size: 20px; text-align: center; }
+      .drone-intro-title, .drone-intro-desc { text-align: center; }
       .hud-tl-info { font-size: 7px; left: 34px; }
       .hud-tr-info { font-size: 7px; right: 34px; }
       .hud-bl-info { bottom: 48px; left: 34px; font-size: 7px; }
@@ -1398,8 +1399,8 @@
 
       /* ── PACCHETTI ── */
       .pkg-intro { padding: 0 20px 32px; gap: 8px; }
-      .pkg-intro-title { font-size: 22px; }
-      .pkg-intro-sub { text-align: right; }
+      .pkg-intro-title { font-size: 22px; text-align: center; }
+      .pkg-intro-sub { text-align: center; }
       .pkg-grid { padding: 0 20px; grid-template-columns: 1fr; gap: 12px; }
       .pkg-card { padding: 24px; }
       .pkg-visit-num { font-size: 36px; }
@@ -1408,8 +1409,8 @@
       /* ── CTA ── */
       #cta { padding: 60px 20px; }
       .cta-bg-text { font-size: 44px; }
-      .cta-title { font-size: 26px; }
-      .cta-desc { font-size: 12px; }
+      .cta-title { font-size: 26px; text-align: center; }
+      .cta-desc { font-size: 12px; text-align: center; }
       .cta-buttons { flex-direction: column; align-items: stretch; gap: 10px; }
       .cta-btn-primary, .cta-btn-secondary { text-align: center; }
 
@@ -1421,7 +1422,8 @@
         border-bottom: 0.5px solid rgba(255,255,255,0.07);
       }
       .contact-right { padding: 32px 20px 48px; }
-      .contact-title { font-size: 22px; }
+      .contact-title { font-size: 22px; text-align: center; }
+      .contact-sub { text-align: center; }
 
       /* ── SHOWREEL ── */
       .showreel-content { padding: 24px 20px; }
@@ -1482,9 +1484,21 @@
       /* ── FOOTER ── */
       footer { padding: 18px 20px; flex-direction: column; gap: 6px; text-align: center; }
 
-      /* ── SCROLL PROGRESS BAR — nascosta su mobile ── */
-      #scroll-progress-line { display: none; }
-      #scroll-section-dot   { display: none; }
+      /* ── SCROLL PROGRESS BAR — visibile solo in #workflow su mobile ── */
+      /* Default: nascosta, riposizionata a destra per non coprire contenuti */
+      #scroll-progress-line {
+        display: none;
+        left: auto; right: 8px;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      /* Classe aggiunta da JS quando #workflow è nel viewport */
+      #scroll-progress-line.progress-visible {
+        display: block;
+        opacity: 1;
+      }
+      /* Punto indicatore nascosto su mobile */
+      #scroll-section-dot { display: none; }
     }
 
     /* ── GEAR HERO CARD ── */
@@ -4383,6 +4397,27 @@
 
       window.addEventListener('scroll', () => { if (!rafId) rafId = requestAnimationFrame(update); }, { passive: true });
       update();
+    })();
+
+    // ── SCROLL PROGRESS — visibile solo in #workflow su mobile ──
+    (function() {
+      if (!window.matchMedia('(max-width: 768px)').matches) return; // solo mobile
+
+      const progressLine   = document.getElementById('scroll-progress-line');
+      const workflowSection = document.getElementById('workflow');
+      if (!progressLine || !workflowSection) return;
+
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            progressLine.classList.add('progress-visible');
+          } else {
+            progressLine.classList.remove('progress-visible');
+          }
+        });
+      }, { threshold: 0.05 }); // si attiva appena il 5% della sezione è visibile
+
+      obs.observe(workflowSection);
     })();
 
     // ── WORKFLOW ANIMATED PIPELINE ──
