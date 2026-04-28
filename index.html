@@ -1279,6 +1279,42 @@
     .wedding-feat-title { font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.7); margin-bottom: 4px; }
     .wedding-feat-desc { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.25); line-height: 1.6; }
 
+    /* ── WEDDING PLAYER ── */
+    .wedding-player-wrap { margin: 0 48px; }
+    .wedding-player-label {
+      font-size: 10px; font-weight: 300; letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.3); text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .wedding-player-embed {
+      border: 0.5px solid rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden;
+    }
+
+    /* ── PREMIUM DELIVERY CARD ── */
+    .wedding-delivery-card {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      border: 0.5px solid rgba(255,255,255,0.08); border-radius: 4px;
+      background: rgba(255,255,255,0.02);
+      margin-top: 16px;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    .wedding-delivery-card.is-visible {
+      opacity: 1; transform: translateY(0);
+    }
+    .wedding-delivery-col {
+      padding: 24px;
+      border-right: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .wedding-delivery-col:last-child { border-right: none; }
+    .wedding-delivery-col-title {
+      font-size: 12px; font-weight: 400; color: rgba(255,255,255,0.7);
+      margin-bottom: 8px;
+    }
+    .wedding-delivery-col-desc {
+      font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.3); line-height: 1.6;
+    }
+
     /* ── HAMBURGER BUTTON (nascosto su desktop) ── */
     .nav-hamburger {
       display: none;
@@ -1433,19 +1469,14 @@
       .sport-layout-3 { padding: 0 20px; grid-template-columns: 1fr; }
 
       /* ── MATRIMONI ── */
-      /* Tutta larghezza, solo primo slide, niente JS-transform */
-      .wedding-reel { margin: 0; border-radius: 0; }
-      .wedding-reel-title { font-size: 14px; }
-      .wedding-reel .carousel-btn { display: none; }
-      .wedding-reel .carousel-dots-row { display: none; }
-      .wedding-reel .carousel-wrapper { width: 100%; aspect-ratio: 16/9; overflow: hidden; }
-      .wedding-reel .carousel-track { transform: none !important; }
-      .wedding-reel .carousel-slide { display: none; }
-      .wedding-reel .carousel-slide:first-child { display: block; width: 100%; height: 100%; }
-      .wedding-reel .carousel-slide:first-child video { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .wedding-player-wrap { margin: 0; }
+      .wedding-player-embed { border-radius: 0; }
       .wedding-features { margin: 12px 20px 0; grid-template-columns: 1fr; }
       .wedding-feat { border-right: none; border-bottom: 0.5px solid rgba(255,255,255,0.07); }
       .wedding-feat:last-child { border-bottom: none; }
+      .wedding-delivery-card { grid-template-columns: 1fr; margin: 12px 0 0; border-radius: 0; }
+      .wedding-delivery-col { border-right: none; border-bottom: 0.5px solid rgba(255,255,255,0.06); padding: 18px 20px; }
+      .wedding-delivery-col:last-child { border-bottom: none; }
 
       /* ── INSTAGRAM CAROSELLI ── */
       /* Solo primo slide visibile, blocca JS transform, overflow hidden */
@@ -2510,8 +2541,8 @@
         <!-- Slide 1 — SOSTITUIRE titolo -->
         <div class="projects-carousel-slide">
           <video loop muted playsinline data-silent preload="none">
-            <source src="assets/Placeholder_Progetto%20personale%201.mov" type="video/quicktime">
-            <source src="assets/Placeholder_Progetto%20personale%201.mov">
+            <source src="assets/placeholder_progetto1_web.mp4" type="video/mp4">
+            <source src="assets/placeholder_progetto1_web.mp4">
           </video>
           <div class="projects-carousel-overlay"></div>
           <div class="projects-carousel-text">Progetto personale — Home <!-- SOSTITUIRE --></div>
@@ -2779,7 +2810,7 @@
             <!-- Slide 1 — SOSTITUIRE: Comano_auto-1.mov -->
             <div class="carousel-slide">
               <video autoplay loop muted playsinline preload="none">
-                <source src="assets/Comano_auto-1.mov" type="video/mp4">
+                <source src="assets/Comano_auto_v2.mp4" type="video/mp4">
               </video>
             </div>
             <!-- Slide 2 — slot vuoto per video future -->
@@ -2835,13 +2866,13 @@
             <!-- Slide 1 — SOSTITUIRE: placeholder_lapponia_1.mov -->
             <div class="carousel-slide">
               <video autoplay loop muted playsinline preload="none">
-                <source src="assets/placeholder_lapponia_1-1.mov" type="video/mp4">
+                <source src="assets/placeholder_lapponia_1_web.mp4" type="video/mp4">
               </video>
             </div>
             <!-- Slide 2 — SOSTITUIRE: placeholder_lapponia_2.mov -->
             <div class="carousel-slide">
               <video autoplay loop muted playsinline preload="none">
-                <source src="assets/placeholder_lapponia_2-1.mov" type="video/mp4">
+                <source src="assets/placeholder_lapponia_2_web.mp4" type="video/mp4">
               </video>
             </div>
             <!-- Slide 3 — slot "Prossimamente" per contenuto futuro -->
@@ -2913,7 +2944,7 @@
           </div>
           <!-- Slide 3 — Placeholder calcio_3.jpg -->
           <div class="carousel-slide">
-            <img loading="lazy" src="assets/Placeholder%20calcio_3.jpg" alt="Foto sportiva 3" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <img loading="lazy" src="assets/placeholder_calcio3_compressed.jpg" alt="Foto sportiva 3" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
           <!-- Slide 4 — SOSTITUIRE con foto sportiva -->
           <div class="carousel-slide">
@@ -2947,8 +2978,8 @@
     <div class="sport-video-wrap">
       <div class="seq-video-card">
         <video autoplay loop playsinline data-bg preload="none">
-          <source src="assets/placeholder_sequenza_calcio 2.mov" type="video/quicktime">
-          <source src="assets/placeholder_sequenza_calcio 2.mov">
+          <source src="assets/placeholder_sequenza_calcio2_web.mp4" type="video/mp4">
+          <source src="assets/placeholder_sequenza_calcio2_web.mp4">
         </video>
         <div class="seq-video-overlay"></div>
         <div class="seq-video-badge">Hover per audio</div>
@@ -2969,32 +3000,30 @@
       <div class="section-subtitle">raccontato per sempre</div>
       <div class="section-sub">Trailer, foto e video per matrimoni. Ogni storia è unica, ogni racconto è su misura.</div>
     </div>
-    <div class="wedding-reel reveal" data-carousel>
-      <div class="carousel-wrapper">
-        <div class="carousel-track">
-          <!-- Slide 1 — SOSTITUIRE: placeholder matrimonio.mov -->
-          <div class="carousel-slide">
-            <video autoplay loop muted playsinline data-bg preload="none">
-              <source src="assets/placeholder_matrimonio_compressed.mp4" type="video/mp4">
-              <source src="assets/placeholder_matrimonio_compressed.mp4">
-            </video>
-            <div class="wedding-overlay"></div>
-            <div class="wedding-reel-text">
-              <div class="wedding-reel-title">Showreel matrimoni 2025 — disponibile su richiesta</div>
-              <div class="wedding-reel-tag">Video · Trailer</div>
-            </div>
-          </div>
-          <!-- Slide 2 — slot vuoto per trailer futuri -->
-          <div class="carousel-slide wedding-reel-empty">
-            <span class="carousel-empty-label">Prossimamente</span>
-          </div>
-          <!-- Slide 3 — slot vuoto per trailer futuri -->
-          <div class="carousel-slide wedding-reel-empty"></div>
+    <div class="wedding-player-wrap reveal">
+      <div class="wedding-player-label">Anteprima — trailer cinematografico</div>
+      <div class="wedding-player-embed">
+        <div style="position:relative;padding:0 0 56.25% 0;height:0;">
+          <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;"
+            src="https://galleries.vidflow.co/videos/43d75bda"
+            frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen>
+          </iframe>
         </div>
-        <button class="carousel-btn carousel-prev" aria-label="Precedente">‹</button>
-        <button class="carousel-btn carousel-next" aria-label="Successivo">›</button>
       </div>
-      <div class="carousel-dots-row"></div>
+      <div class="wedding-delivery-card" id="weddingDeliveryCard">
+        <div class="wedding-delivery-col">
+          <div class="wedding-delivery-col-title">Consegna digitale premium</div>
+          <div class="wedding-delivery-col-desc">Il tuo film viene caricato su piattaforma professionale con player dedicato ad alta risoluzione</div>
+        </div>
+        <div class="wedding-delivery-col">
+          <div class="wedding-delivery-col-title">Download in alta qualità</div>
+          <div class="wedding-delivery-col-desc">File originale disponibile per il download in qualità 4K o Full HD direttamente dalla piattaforma</div>
+        </div>
+        <div class="wedding-delivery-col">
+          <div class="wedding-delivery-col-title">Accesso illimitato</div>
+          <div class="wedding-delivery-col-desc">Link personale sempre disponibile da condividere con familiari e amici in qualsiasi momento</div>
+        </div>
+      </div>
     </div>
     <div class="wedding-features">
       <div class="wedding-feat">
@@ -3029,8 +3058,8 @@
     <div class="gear-hero-card">
       <!-- SOSTITUIRE: placeholder_gearmatters_1.mov -->
       <video autoplay loop muted playsinline data-bg preload="none">
-        <source src="assets/placeholder_gearmatters_1.mov" type="video/quicktime">
-        <source src="assets/placeholder_gearmatters_1.mov">
+        <source src="assets/placeholder_gearmatters_web.mp4" type="video/mp4">
+        <source src="assets/placeholder_gearmatters_web.mp4">
       </video>
       <div class="gear-hero-overlay"></div>
       <div class="gear-hero-text">Il setup — ogni pezzo al suo posto</div>
@@ -3366,7 +3395,7 @@
       <div class="section-num">07</div>
     </div>
     <div class="drone-hero">
-      <img loading="lazy" src="assets/placeholder_il%20mondo%20visto%20dall%27altojpg.jpeg" alt="Riprese aeree" style="opacity:0.6;">
+      <img loading="lazy" src="assets/placeholder_drone_compressed.jpg" alt="Riprese aeree" style="opacity:0.6;">
       <div class="hud-corner hud-tl"></div>
       <div class="hud-corner hud-tr"></div>
       <div class="hud-corner hud-bl"></div>
@@ -3397,7 +3426,7 @@
           <div class="drone-photo-bar">Drone in volo — location alpina</div>
         </div>
         <div class="drone-photo">
-          <div class="drone-photo-img green"><img loading="lazy" src="assets/placeholder_pilota_con_radiocomando_001.jpg" alt="Pilota con radiocomando" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="drone-photo-img green"><img loading="lazy" src="assets/placeholder_pilota_compressed.jpg" alt="Pilota con radiocomando" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
           <div class="drone-photo-bar">Pilota con radiocomando — sul campo</div>
         </div>
       </div>
@@ -4810,6 +4839,21 @@
         applyChoice(next);
       });
     })();
+
+  /* ── WEDDING DELIVERY CARD — fade-in animazione entrata ── */
+  (function() {
+    const card = document.getElementById('weddingDeliveryCard');
+    if (!card) return;
+    const obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          card.classList.add('is-visible');
+          obs.unobserve(card);
+        }
+      });
+    }, { threshold: 0.3 });
+    obs.observe(card);
+  })();
 
   /* ── LAZY VIDEO LOADING — IntersectionObserver ── */
   (function() {
