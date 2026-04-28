@@ -645,17 +645,18 @@
       background: transparent;
     }
     .pipe-logo {
-      height: 42px; width: auto;
+      max-height: 32px; height: auto; width: auto;
       object-fit: contain; opacity: 0.85;
       transition: transform 0.2s, opacity 0.2s;
-      cursor: default; display: block;
+      cursor: default; display: block; margin: 0 auto;
     }
     .pipe-logo:hover { opacity: 1; transform: scale(1.1); }
     .pipe-logo-row { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; }
-    .pipe-logo-row .pipe-logo { height: 32px; }
+    .pipe-logo-row .pipe-logo { max-height: 32px; }
     .pipe-logo-label {
       font-size: 8px; font-weight: 300; letter-spacing: 0.08em;
-      color: rgba(255,255,255,0.2); text-transform: uppercase; text-align: center; white-space: nowrap;
+      color: rgba(255,255,255,0.2); text-transform: uppercase; text-align: center;
+      white-space: nowrap; margin-top: 6px;
     }
     .pipe-logo-row .pipe-logo-label { font-size: 7px; }
     .wf-screens {
@@ -825,11 +826,11 @@
       opacity: 0; transition: opacity 0.6s ease 0.4s;
     }
     .wf-step.active .wf-logos { opacity: 1; }
-    .wf-logo { height: 48px; width: auto; object-fit: contain; }
+    .wf-logo { max-height: 32px; height: auto; width: auto; object-fit: contain; display: block; margin: 0 auto; }
     .wf-logos-sm { gap: 14px; }
-    .wf-logos-sm .wf-logo { height: 38px; }
+    .wf-logos-sm .wf-logo { max-height: 32px; }
     .wf-step[data-step="5"] .wf-logos { gap: 14px; }
-    .wf-step[data-step="5"] .wf-logo { height: 36px; }
+    .wf-step[data-step="5"] .wf-logo { max-height: 32px; }
     /* File extension typewriter */
     .wf-ext-row {
       display: flex; gap: 4px; flex-wrap: wrap;
@@ -2438,7 +2439,7 @@
   </div>
 
   <!-- PROGETTI PERSONALI -->
-  <section id="showreel" style="display:none">
+  <section id="showreel">
     <div class="section-header reveal">
       <div class="section-label">Progetti personali</div>
     </div>
@@ -2523,7 +2524,7 @@
   </section>
 
   <!-- SHOWREEL -->
-  <div class="showreel-card" data-carousel>
+  <div class="showreel-card" data-carousel style="display:none">
     <!-- Carousel (z-index 0, dietro overlay e content) -->
     <div class="carousel-wrapper">
       <div class="carousel-track">

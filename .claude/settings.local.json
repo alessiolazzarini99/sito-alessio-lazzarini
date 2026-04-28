@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sed -n '2441,2445p' \"/Users/alessiolazzarini/Documents/New website 2026/sito-alessio-lazzarini/index.html\")",
+      "Bash(sed -n '2944,2948p' \"/Users/alessiolazzarini/Documents/New website 2026/sito-alessio-lazzarini/index.html\")",
+      "Bash(sed -n '3337,3342p' \"/Users/alessiolazzarini/Documents/New website 2026/sito-alessio-lazzarini/index.html\")"
+    ]
+  }
+}
