@@ -344,7 +344,7 @@
       width: 100%; aspect-ratio: 16/9;
       display: flex; align-items: center; justify-content: center;
       position: relative;
-      /* SOSTITUIRE con <video autoplay loop muted playsinline> */
+      /* SOSTITUIRE con <video autoplay loop muted playsinline preload="none"> */
     }
     .insta-media-garda { background: #0d1a2a; }
     .insta-media-dolomiti { background: #1a1208; }
@@ -2395,7 +2395,7 @@
   <!-- NAV -->
   <nav>
     <div class="nav-logo">
-      <img src="assets/logo ph white.png" alt="AL" style="height:24px;width:auto;object-fit:contain;display:block;">
+      <img loading="lazy" src="assets/logo ph white.png" alt="AL" style="height:24px;width:auto;object-fit:contain;display:block;">
       <span class="nav-logo-name">Alessio Lazzarini</span>
     </div>
     <div class="nav-links" id="nav-links">
@@ -2410,7 +2410,13 @@
 
   <!-- 01 HERO -->
   <section id="hero">
-    <img id="heroParallaxImg" src="assets/placeholder_header_002.jpg" alt="Hero background" style="position:absolute;left:0;right:0;top:-10%;width:100%;height:120%;object-fit:cover;opacity:0.6;z-index:0;will-change:transform;">
+    <img id="heroParallaxImg"
+      src="/.netlify/images?url=/assets/placeholder_header_002.jpg&w=1920&q=80"
+      srcset="/.netlify/images?url=/assets/placeholder_header_002.jpg&w=768&q=80 768w,
+              /.netlify/images?url=/assets/placeholder_header_002.jpg&w=1280&q=80 1280w,
+              /.netlify/images?url=/assets/placeholder_header_002.jpg&w=1920&q=80 1920w"
+      sizes="100vw"
+      alt="Hero background" style="position:absolute;left:0;right:0;top:-10%;width:100%;height:120%;object-fit:cover;opacity:0.6;z-index:0;will-change:transform;">
     <div class="hero-overlay"></div>
     <div class="hero-nav-spacer"></div>
     <div class="rec-indicator">
@@ -2467,7 +2473,7 @@
       ║                                                              ║
       ║  Modello da copiare:                                         ║
       ║  <span class="client-logo-wrap" data-brand="Nome Brand">    ║
-      ║    <img class="client-logo" src="assets/LOGO.png"           ║
+      ║    <img loading="lazy" class="client-logo" src="assets/LOGO.png"           ║
       ║         alt="Nome Brand">                                    ║
       ║  </span>                                                     ║
       ╚══════════════════════════════════════════════════════════════╝
@@ -2476,13 +2482,13 @@
 
         <!-- ═══ AGGIUNGI NUOVI LOGHI QUI — solo questo blocco ═══ -->
         <span class="client-logo-wrap" data-brand="Garda Trentino">
-          <img class="client-logo" src="assets/logo gardatrentino.png" alt="Garda Trentino">
+          <img loading="lazy" class="client-logo" src="assets/logo gardatrentino.png" alt="Garda Trentino">
         </span>
         <span class="client-logo-wrap" data-brand="Bike Festival Riva">
-          <img class="client-logo" src="assets/logo bike festival.png" alt="Bike Festival Riva">
+          <img loading="lazy" class="client-logo" src="assets/logo bike festival.png" alt="Bike Festival Riva">
         </span>
         <span class="client-logo-wrap" data-brand="Kumbe">
-          <img class="client-logo" src="assets/logo kumbe.png" alt="Kumbe">
+          <img loading="lazy" class="client-logo" src="assets/logo kumbe.png" alt="Kumbe">
         </span>
         <!-- ════════════════════════════════════════════════════════ -->
 
@@ -2503,7 +2509,7 @@
       <div class="projects-carousel-track">
         <!-- Slide 1 — SOSTITUIRE titolo -->
         <div class="projects-carousel-slide">
-          <video loop muted playsinline data-silent>
+          <video loop muted playsinline data-silent preload="none">
             <source src="assets/Placeholder_Progetto%20personale%201.mov" type="video/quicktime">
             <source src="assets/Placeholder_Progetto%20personale%201.mov">
           </video>
@@ -2512,7 +2518,7 @@
         </div>
         <!-- Slide 2 — SOSTITUIRE titolo -->
         <div class="projects-carousel-slide">
-          <video loop muted playsinline data-silent>
+          <video loop muted playsinline data-silent preload="none">
             <source src="assets/placeholder_progetto2_compressed.mp4" type="video/mp4">
             <source src="assets/placeholder_progetto2_compressed.mp4">
           </video>
@@ -2535,7 +2541,13 @@
     <div class="services-grid">
       <div class="service-card">
         <div class="service-bg service-bg-foto">
-          <img src="assets/placeholder_servizi_fotografia.jpeg" alt="Fotografia" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+          <img loading="lazy"
+            src="/.netlify/images?url=/assets/placeholder_servizi_fotografia.jpeg&w=1200&q=80"
+            srcset="/.netlify/images?url=/assets/placeholder_servizi_fotografia.jpeg&w=600&q=80 600w,
+                    /.netlify/images?url=/assets/placeholder_servizi_fotografia.jpeg&w=900&q=80 900w,
+                    /.netlify/images?url=/assets/placeholder_servizi_fotografia.jpeg&w=1200&q=80 1200w"
+            sizes="(max-width: 768px) 100vw, 33vw"
+            alt="Fotografia" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
           <div class="service-bg-label">foto · jpg · raw</div>
         </div>
         <div class="service-overlay"></div>
@@ -2548,7 +2560,7 @@
       </div>
       <div class="service-card">
         <div class="service-bg service-bg-video">
-          <img src="assets/placeholder_servizi_videomaking.jpeg" alt="Videomaking" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+          <img loading="lazy" src="assets/placeholder_servizi_videomaking.jpeg" alt="Videomaking" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
           <div class="service-bg-label">video · 4k · log</div>
         </div>
         <div class="service-overlay"></div>
@@ -2561,7 +2573,7 @@
       </div>
       <div class="service-card">
         <div class="service-bg service-bg-drone">
-          <img src="assets/placeholder_servizi_riprese%20aeree.jpeg" alt="Riprese aeree" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+          <img loading="lazy" src="assets/placeholder_servizi_riprese%20aeree.jpeg" alt="Riprese aeree" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
           <div class="service-bg-label">drone · aerial · fpv</div>
         </div>
         <div class="service-overlay"></div>
@@ -2622,7 +2634,7 @@
       <!-- CARD 1: gardatrentino — carosello 3 slide (1 popolato + 2 vuoti) -->
       <div class="insta-card" data-carousel>
         <div class="insta-topbar">
-          <div class="insta-avatar"><img src="assets/loghi%20ig/logo%20garda%20trentino.jpg" alt="Garda Trentino"></div>
+          <div class="insta-avatar"><img loading="lazy" src="assets/loghi%20ig/logo%20garda%20trentino.jpg" alt="Garda Trentino"></div>
           <div>
             <div class="insta-handle-wrap">
               <div class="insta-handle">gardatrentino</div>
@@ -2637,21 +2649,21 @@
           <div class="carousel-track">
             <!-- Slide 1 -->
             <div class="carousel-slide">
-              <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;">
+              <video autoplay loop muted playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;">
                 <source src="assets/garda_trentino.mov" type="video/quicktime">
                 <source src="assets/garda_trentino.mov">
               </video>
             </div>
             <!-- Slide 2 -->
             <div class="carousel-slide">
-              <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;">
+              <video autoplay loop muted playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;">
                 <source src="assets/garda_trentino 2.mov" type="video/quicktime">
                 <source src="assets/garda_trentino 2.mov">
               </video>
             </div>
             <!-- Slide 3 -->
             <div class="carousel-slide">
-              <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;">
+              <video autoplay loop muted playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;">
                 <source src="assets/garda_trentino 3.mov" type="video/quicktime">
                 <source src="assets/garda_trentino 3.mov">
               </video>
@@ -2687,7 +2699,7 @@
       <!-- CARD 2: bikefestival_riva — carosello 3 slide (1 popolato + 2 vuoti) -->
       <div class="insta-card" data-carousel>
         <div class="insta-topbar">
-          <div class="insta-avatar"><img src="assets/loghi%20ig/logo%20bike%20festival.png" alt="Bike Festival Riva"></div>
+          <div class="insta-avatar"><img loading="lazy" src="assets/loghi%20ig/logo%20bike%20festival.png" alt="Bike Festival Riva"></div>
           <div>
             <div class="insta-handle-wrap">
               <div class="insta-handle">bikefestivalriva</div>
@@ -2702,7 +2714,7 @@
           <div class="carousel-track">
             <!-- Slide 1 — SOSTITUIRE: bike_festival.jpg -->
             <div class="carousel-slide">
-              <img src="assets/bike_festival.jpg" alt="Bike Festival Riva">
+              <img loading="lazy" src="assets/bike_festival.jpg" alt="Bike Festival Riva">
             </div>
             <!-- Slide 2 — slot vuoto per foto future -->
             <div class="carousel-slide carousel-empty-slide">
@@ -2741,7 +2753,7 @@
       <!-- CARD 3: comanoauto — carosello 3 slide (1 popolato + 2 vuoti) -->
       <div class="insta-card" data-carousel>
         <div class="insta-topbar">
-          <div class="insta-avatar"><img src="assets/loghi%20ig/logo%20comano%20auto.png" alt="Comano Auto"></div>
+          <div class="insta-avatar"><img loading="lazy" src="assets/loghi%20ig/logo%20comano%20auto.png" alt="Comano Auto"></div>
           <div>
             <div class="insta-handle-wrap">
               <div class="insta-handle">comanoauto</div>
@@ -2756,7 +2768,7 @@
           <div class="carousel-track">
             <!-- Slide 1 — SOSTITUIRE: Comano_auto-1.mov -->
             <div class="carousel-slide">
-              <video autoplay loop muted playsinline>
+              <video autoplay loop muted playsinline preload="none">
                 <source src="assets/Comano_auto-1.mov" type="video/mp4">
               </video>
             </div>
@@ -2797,7 +2809,7 @@
       <!-- CARD 4: nordiccamper.se — carosello 3 slide (2 video + 1 "Prossimamente") -->
       <div class="insta-card" data-carousel>
         <div class="insta-topbar">
-          <div class="insta-avatar"><img src="assets/loghi%20ig/logo%20nordic%20camper.jpg" alt="Nordic Camper"></div>
+          <div class="insta-avatar"><img loading="lazy" src="assets/loghi%20ig/logo%20nordic%20camper.jpg" alt="Nordic Camper"></div>
           <div>
             <div class="insta-handle-wrap">
               <div class="insta-handle">nordiccamper.se</div>
@@ -2812,13 +2824,13 @@
           <div class="carousel-track">
             <!-- Slide 1 — SOSTITUIRE: placeholder_lapponia_1.mov -->
             <div class="carousel-slide">
-              <video autoplay loop muted playsinline>
+              <video autoplay loop muted playsinline preload="none">
                 <source src="assets/placeholder_lapponia_1-1.mov" type="video/mp4">
               </video>
             </div>
             <!-- Slide 2 — SOSTITUIRE: placeholder_lapponia_2.mov -->
             <div class="carousel-slide">
-              <video autoplay loop muted playsinline>
+              <video autoplay loop muted playsinline preload="none">
                 <source src="assets/placeholder_lapponia_2-1.mov" type="video/mp4">
               </video>
             </div>
@@ -2883,15 +2895,15 @@
         <div class="carousel-track">
           <!-- Slide 1 — Placeholder calcio_1_jpeg.jpeg -->
           <div class="carousel-slide">
-            <img src="assets/Placeholder%20calcio_1_jpeg.jpeg" alt="Foto sportiva 1" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <img loading="lazy" src="assets/Placeholder%20calcio_1_jpeg.jpeg" alt="Foto sportiva 1" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
           <!-- Slide 2 — Placeholder calcio_2.jpg -->
           <div class="carousel-slide">
-            <img src="assets/Placeholder%20calcio_2.jpg" alt="Foto sportiva 2" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <img loading="lazy" src="assets/Placeholder%20calcio_2.jpg" alt="Foto sportiva 2" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
           <!-- Slide 3 — Placeholder calcio_3.jpg -->
           <div class="carousel-slide">
-            <img src="assets/Placeholder%20calcio_3.jpg" alt="Foto sportiva 3" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <img loading="lazy" src="assets/Placeholder%20calcio_3.jpg" alt="Foto sportiva 3" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
           <!-- Slide 4 — SOSTITUIRE con foto sportiva -->
           <div class="carousel-slide">
@@ -2924,7 +2936,7 @@
     <!-- VIDEO SEQUENZA — card video sotto il carosello -->
     <div class="sport-video-wrap">
       <div class="seq-video-card">
-        <video autoplay loop playsinline data-bg>
+        <video autoplay loop playsinline data-bg preload="none">
           <source src="assets/placeholder_sequenza_calcio 2.mov" type="video/quicktime">
           <source src="assets/placeholder_sequenza_calcio 2.mov">
         </video>
@@ -2952,7 +2964,7 @@
         <div class="carousel-track">
           <!-- Slide 1 — SOSTITUIRE: placeholder matrimonio.mov -->
           <div class="carousel-slide">
-            <video autoplay loop muted playsinline data-bg>
+            <video autoplay loop muted playsinline data-bg preload="none">
               <source src="assets/placeholder_matrimonio_compressed.mp4" type="video/mp4">
               <source src="assets/placeholder_matrimonio_compressed.mp4">
             </video>
@@ -3006,7 +3018,7 @@
     </div>
     <div class="gear-hero-card">
       <!-- SOSTITUIRE: placeholder_gearmatters_1.mov -->
-      <video autoplay loop muted playsinline data-bg>
+      <video autoplay loop muted playsinline data-bg preload="none">
         <source src="assets/placeholder_gearmatters_1.mov" type="video/quicktime">
         <source src="assets/placeholder_gearmatters_1.mov">
       </video>
@@ -3052,7 +3064,7 @@
           <div class="setup-tag">Foto in studio</div>
         </div>
         <div class="setup-photo">
-          <!-- SOSTITUIRE con <img src="assets/gear-setup.jpg"> -->
+          <!-- SOSTITUIRE con <img loading="lazy" src="assets/gear-setup.jpg"> -->
           <div class="setup-photo-label">foto attrezzatura disposta su tavolo — sfondo neutro · illuminazione cinematografica</div>
         </div>
       </div>
@@ -3073,7 +3085,7 @@
       </div>
       <div class="wf-hero-glow-wrap">
         <div class="wf-hero-video-wrap">
-          <video autoplay loop muted playsinline data-silent>
+          <video autoplay loop muted playsinline data-silent preload="none">
             <source src="assets/placeholder_workflow_apps.mov" type="video/quicktime">
             <source src="assets/placeholder_workflow_apps.mov">
           </video>
@@ -3114,8 +3126,8 @@
           </div>
           <div class="wf-step-visual">
             <div class="wf-logos wf-logos-sm">
-              <img class="wf-logo" src="assets/Nikon_RED_Logo trasp.png" alt="Nikon" style="filter:drop-shadow(0 0 6px rgba(255,255,255,0.3));">
-              <img class="wf-logo" src="assets/dji-1.png" alt="DJI" style="filter:drop-shadow(0 0 6px rgba(255,255,255,0.3));">
+              <img loading="lazy" class="wf-logo" src="assets/Nikon_RED_Logo trasp.png" alt="Nikon" style="filter:drop-shadow(0 0 6px rgba(255,255,255,0.3));">
+              <img loading="lazy" class="wf-logo" src="assets/dji-1.png" alt="DJI" style="filter:drop-shadow(0 0 6px rgba(255,255,255,0.3));">
             </div>
             <div class="wf-vis wf-vis-field">
               <div class="wf-corner wf-corner-tl"></div>
@@ -3147,7 +3159,7 @@
           </div>
           <div class="wf-step-visual">
             <div class="wf-logos">
-              <img class="wf-logo" src="assets/adobe_premiere_pro_macos_bigsur_icon_189485.png" alt="Premiere Pro" style="filter:drop-shadow(0 0 8px rgba(153,153,255,0.4));">
+              <img loading="lazy" class="wf-logo" src="assets/adobe_premiere_pro_macos_bigsur_icon_189485.png" alt="Premiere Pro" style="filter:drop-shadow(0 0 8px rgba(153,153,255,0.4));">
             </div>
             <div class="wf-vis">
               <div class="wf-vis-timeline">
@@ -3178,7 +3190,7 @@
           </div>
           <div class="wf-step-visual">
             <div class="wf-logos">
-              <img class="wf-logo" src="assets/davinci_resolve_macos_bigsur_icon_190261 2.png" alt="DaVinci Resolve" style="filter:drop-shadow(0 0 8px rgba(255,107,53,0.4));">
+              <img loading="lazy" class="wf-logo" src="assets/davinci_resolve_macos_bigsur_icon_190261 2.png" alt="DaVinci Resolve" style="filter:drop-shadow(0 0 8px rgba(255,107,53,0.4));">
             </div>
             <div class="wf-vis">
               <div class="wf-vis-color">
@@ -3231,7 +3243,7 @@
           </div>
           <div class="wf-step-visual">
             <div class="wf-logos">
-              <img class="wf-logo" src="assets/adobe_after_effects_macos_bigsur_icon_190464.png" alt="After Effects" style="filter:drop-shadow(0 0 8px rgba(210,145,255,0.4));">
+              <img loading="lazy" class="wf-logo" src="assets/adobe_after_effects_macos_bigsur_icon_190464.png" alt="After Effects" style="filter:drop-shadow(0 0 8px rgba(210,145,255,0.4));">
             </div>
             <div class="wf-vis">
               <div class="wf-vis-motion">
@@ -3271,8 +3283,8 @@
           </div>
           <div class="wf-step-visual">
             <div class="wf-logos">
-              <img class="wf-logo" src="assets/lrc.png" alt="Lightroom" style="filter:drop-shadow(0 0 8px rgba(49,168,255,0.4));">
-              <img class="wf-logo" src="assets/photoshop_thumb 2.png" alt="Photoshop" style="filter:drop-shadow(0 0 8px rgba(49,168,255,0.4));">
+              <img loading="lazy" class="wf-logo" src="assets/lrc.png" alt="Lightroom" style="filter:drop-shadow(0 0 8px rgba(49,168,255,0.4));">
+              <img loading="lazy" class="wf-logo" src="assets/photoshop_thumb 2.png" alt="Photoshop" style="filter:drop-shadow(0 0 8px rgba(49,168,255,0.4));">
             </div>
             <div class="wf-vis">
               <div class="wf-vis-photo">
@@ -3344,7 +3356,7 @@
       <div class="section-num">07</div>
     </div>
     <div class="drone-hero">
-      <img src="assets/placeholder_il%20mondo%20visto%20dall%27altojpg.jpeg" alt="Riprese aeree" style="opacity:0.6;">
+      <img loading="lazy" src="assets/placeholder_il%20mondo%20visto%20dall%27altojpg.jpeg" alt="Riprese aeree" style="opacity:0.6;">
       <div class="hud-corner hud-tl"></div>
       <div class="hud-corner hud-tr"></div>
       <div class="hud-corner hud-bl"></div>
@@ -3371,18 +3383,18 @@
       </div>
       <div class="drone-photos">
         <div class="drone-photo">
-          <div class="drone-photo-img"><img src="assets/placeholder_drone_in_volo.jpeg" alt="Drone in volo" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="drone-photo-img"><img loading="lazy" src="assets/placeholder_drone_in_volo.jpeg" alt="Drone in volo" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
           <div class="drone-photo-bar">Drone in volo — location alpina</div>
         </div>
         <div class="drone-photo">
-          <div class="drone-photo-img green"><img src="assets/placeholder_pilota_con_radiocomando_001.jpg" alt="Pilota con radiocomando" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="drone-photo-img green"><img loading="lazy" src="assets/placeholder_pilota_con_radiocomando_001.jpg" alt="Pilota con radiocomando" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
           <div class="drone-photo-bar">Pilota con radiocomando — sul campo</div>
         </div>
       </div>
     </div>
     <div class="drone-video-strip" style="display:none">
       <div class="strip-top"><div class="strip-label">Clip aerea in loop</div><div class="strip-tag">Video · No audio</div></div>
-      <div class="strip-body"><!-- SOSTITUIRE con <video autoplay loop muted playsinline> --><div class="strip-placeholder">video drone — panoramica aerea · 4–8 secondi · loop</div></div>
+      <div class="strip-body"><!-- SOSTITUIRE con <video autoplay loop muted playsinline preload="none"> --><div class="strip-placeholder">video drone — panoramica aerea · 4–8 secondi · loop</div></div>
     </div>
   </section>
 
@@ -3610,7 +3622,7 @@
           <div class="sp-node" data-node="3" style="left:50%;top:86%">
             <span class="sp-node-num">4</span>
             <div class="sp-node-circle">
-              <img src="assets/davinci_resolve_macos_bigsur_icon_190261 2.png" width="28" alt="DaVinci Resolve">
+              <img loading="lazy" src="assets/davinci_resolve_macos_bigsur_icon_190261 2.png" width="28" alt="DaVinci Resolve">
             </div>
             <span class="sp-node-name">Editing &amp;<br>Post-produzione</span>
           </div>
@@ -4788,6 +4800,23 @@
         applyChoice(next);
       });
     })();
+
+  /* ── LAZY VIDEO LOADING — IntersectionObserver ── */
+  (function() {
+    const lazyVideos = document.querySelectorAll('video[preload="none"]');
+    if (!lazyVideos.length) return;
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          const video = entry.target;
+          video.preload = 'auto';
+          video.load();
+          observer.unobserve(video);
+        }
+      });
+    }, { rootMargin: '200px', threshold: 0 });
+    lazyVideos.forEach(function(video) { observer.observe(video); });
+  })();
   </script>
 
 </body>
