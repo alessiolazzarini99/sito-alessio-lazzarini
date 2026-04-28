@@ -1315,6 +1315,106 @@
       font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.3); line-height: 1.6;
     }
 
+    /* ── VIDFLOW PLATFORM ── */
+    .vdf-platform {
+      margin: 40px 48px 0;
+      padding: 48px 0 0;
+      border-top: 0.5px solid rgba(99,102,241,0.1);
+      text-align: center;
+    }
+    .vdf-title {
+      font-size: 28px; font-weight: 300; color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .vdf-subtitle {
+      font-size: 13px; font-weight: 300;
+      color: rgba(255,255,255,0.35);
+      margin-top: 8px;
+    }
+    /* device grid */
+    .vdf-devices {
+      display: flex; flex-wrap: wrap;
+      justify-content: center; gap: 12px;
+      margin-top: 40px;
+    }
+    .vdf-device-card {
+      width: 120px;
+      border: 0.5px solid rgba(99,102,241,0.2);
+      border-radius: 8px;
+      padding: 16px 12px;
+      background: rgba(99,102,241,0.04);
+      display: flex; flex-direction: column;
+      align-items: center; gap: 8px;
+      cursor: default;
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.5s cubic-bezier(0.16,1,0.3,1),
+                  border-color 0.3s ease,
+                  background 0.3s ease;
+    }
+    .vdf-device-card.is-visible {
+      opacity: 1; transform: translateY(0);
+    }
+    .vdf-device-card:hover {
+      border-color: rgba(139,92,246,0.5);
+      background: rgba(99,102,241,0.08);
+    }
+    .vdf-device-card svg {
+      color: rgba(139,92,246,0.6);
+      transition: color 0.3s ease;
+    }
+    .vdf-device-card:hover svg { color: rgba(139,92,246,1); }
+    .vdf-device-name {
+      font-size: 10px; font-weight: 300;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.06em; text-align: center;
+    }
+    /* pills */
+    .vdf-pills {
+      display: flex; flex-wrap: wrap;
+      justify-content: center; gap: 12px;
+      margin-top: 24px;
+      opacity: 0;
+      transition: opacity 0.6s ease 0.5s;
+    }
+    .vdf-pills.is-visible { opacity: 1; }
+    .vdf-pill {
+      border: 0.5px solid rgba(99,102,241,0.25);
+      border-radius: 20px;
+      padding: 8px 16px;
+      background: rgba(99,102,241,0.06);
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 300;
+      color: rgba(255,255,255,0.5);
+    }
+    .vdf-pulse-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #4ade80; flex-shrink: 0;
+      animation: vdf-pulse 2s ease-in-out infinite;
+    }
+    @keyframes vdf-pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+    .vdf-pill svg { color: rgba(139,92,246,0.7); flex-shrink: 0; }
+    /* powered by */
+    .vdf-powered {
+      display: flex; align-items: center;
+      justify-content: center; gap: 6px;
+      margin-top: 32px; padding-bottom: 8px;
+    }
+    .vdf-powered-label {
+      font-size: 10px; font-weight: 300;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .vdf-powered-brand {
+      font-size: 13px; font-weight: 400;
+      color: rgba(139,92,246,0.6);
+      letter-spacing: 0.06em;
+      text-shadow: 0 0 20px rgba(139,92,246,0.3);
+    }
+
     /* ── HAMBURGER BUTTON (nascosto su desktop) ── */
     .nav-hamburger {
       display: none;
@@ -1477,6 +1577,10 @@
       .wedding-delivery-card { grid-template-columns: 1fr; margin: 12px 0 0; border-radius: 0; }
       .wedding-delivery-col { border-right: none; border-bottom: 0.5px solid rgba(255,255,255,0.06); padding: 18px 20px; }
       .wedding-delivery-col:last-child { border-bottom: none; }
+      .vdf-platform { margin: 32px 0 0; padding: 32px 20px 0; }
+      .vdf-title { font-size: 22px; }
+      .vdf-device-card { width: 100px; padding: 14px 10px; }
+      .vdf-devices { gap: 8px; margin-top: 28px; }
 
       /* ── INSTAGRAM CAROSELLI ── */
       /* Solo primo slide visibile, blocca JS transform, overflow hidden */
@@ -3011,6 +3115,99 @@
         </div>
       </div>
     </div>
+
+    <!-- VIDFLOW PLATFORM PROMO -->
+    <div class="vdf-platform">
+
+      <!-- Elemento 1 — Titolo -->
+      <div class="vdf-title">Il tuo film, sempre con te</div>
+      <div class="vdf-subtitle">Consegnato su piattaforma professionale — accessibile ovunque, per sempre</div>
+
+      <!-- Elemento 2 — Griglia dispositivi -->
+      <div class="vdf-devices" id="vdfDevices">
+
+        <!-- Smart TV -->
+        <div class="vdf-device-card">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="13" rx="2"/>
+            <line x1="9" y1="21" x2="15" y2="21"/>
+            <line x1="12" y1="16" x2="12" y2="21"/>
+          </svg>
+          <span class="vdf-device-name">Smart TV</span>
+        </div>
+
+        <!-- iPhone -->
+        <div class="vdf-device-card">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="7" y="2" width="10" height="20" rx="3"/>
+            <line x1="10.5" y1="18.5" x2="13.5" y2="18.5"/>
+          </svg>
+          <span class="vdf-device-name">iPhone</span>
+        </div>
+
+        <!-- iPad -->
+        <div class="vdf-device-card">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2" width="16" height="20" rx="2"/>
+            <circle cx="12" cy="18.5" r="0.8" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="vdf-device-name">iPad</span>
+        </div>
+
+        <!-- MacBook -->
+        <div class="vdf-device-card">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="12" rx="2"/>
+            <path d="M1 20h22"/>
+            <path d="M9.5 20l.5-4h4l.5 4"/>
+          </svg>
+          <span class="vdf-device-name">MacBook</span>
+        </div>
+
+        <!-- Windows -->
+        <div class="vdf-device-card">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+            <line x1="6" y1="21" x2="18" y2="21"/>
+          </svg>
+          <span class="vdf-device-name">Windows</span>
+        </div>
+
+      </div><!-- /.vdf-devices -->
+
+      <!-- Elemento 3 — Feature pill -->
+      <div class="vdf-pills" id="vdfPills">
+        <div class="vdf-pill">
+          <span class="vdf-pulse-dot"></span>
+          Visite illimitate
+        </div>
+        <div class="vdf-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2v13"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="2" y1="20" x2="22" y2="20"/>
+          </svg>
+          Download in alta qualità
+        </div>
+        <div class="vdf-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="11" width="14" height="11" rx="2"/>
+            <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+          </svg>
+          Accesso privato e sicuro
+        </div>
+      </div><!-- /.vdf-pills -->
+
+      <!-- Elemento 4 — Powered by Vidflow -->
+      <div class="vdf-powered">
+        <span class="vdf-powered-label">Powered by</span>
+        <span class="vdf-powered-brand">Vidflow</span>
+      </div>
+
+    </div><!-- /.vdf-platform -->
+
     <div class="wedding-features">
       <div class="wedding-feat">
         <div class="wedding-feat-num">01 —</div>
@@ -4825,6 +5022,30 @@
         applyChoice(next);
       });
     })();
+
+  /* ── VIDFLOW PLATFORM — stagger animazione device cards + pills ── */
+  (function() {
+    const cards = document.querySelectorAll('#vdfDevices .vdf-device-card');
+    const pills = document.getElementById('vdfPills');
+    if (!cards.length) return;
+
+    const cardObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        cards.forEach(function(card, i) {
+          setTimeout(function() {
+            card.classList.add('is-visible');
+          }, i * 100);
+        });
+        if (pills) {
+          setTimeout(function() { pills.classList.add('is-visible'); }, cards.length * 100 + 500);
+        }
+        cardObs.disconnect();
+      });
+    }, { threshold: 0.25 });
+
+    cardObs.observe(document.getElementById('vdfDevices'));
+  })();
 
   /* ── WEDDING DELIVERY CARD — fade-in animazione entrata ── */
   (function() {
