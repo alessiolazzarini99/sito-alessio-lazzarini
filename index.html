@@ -1304,24 +1304,8 @@
 
       /* ── NAV ── */
       nav { padding: 16px 20px; }
-      .nav-hamburger { display: flex; }
-      .nav-links {
-        position: fixed;
-        inset: 0;
-        background: rgba(10,10,10,0.97);
-        backdrop-filter: blur(16px);
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 36px;
-        transform: translateX(100%);
-        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        z-index: 101;
-        pointer-events: none;
-      }
-      .nav-links.open { transform: translateX(0); pointer-events: auto; }
-      .nav-links a { font-size: 22px; font-weight: 300; color: rgba(255,255,255,0.5); letter-spacing: -0.01em; }
-      .nav-links a:hover { color: rgba(255,255,255,0.9); }
+      .nav-hamburger { display: none !important; }
+      .nav-links { display: none !important; }
 
       /* ── SECTION COMUNE ── */
       .section-header { padding: 52px 20px 28px; margin-bottom: 28px; }
@@ -1332,7 +1316,7 @@
 
       /* ── HERO ── */
       .hero-content { padding: 0 24px 36px; }
-      .hero-name { font-size: clamp(36px, 12vw, 72px); }
+      .hero-name { font-size: clamp(36px, 8vw, 56px); }
       .hero-eyebrow { font-size: 9px; }
       .hero-role { margin-bottom: 28px; gap: 8px; }
       .role-item { font-size: 12px; }
@@ -1446,11 +1430,20 @@
       .sport-layout-3 { padding: 0 20px; grid-template-columns: 1fr; }
 
       /* ── MATRIMONI ── */
-      .wedding-reel { margin: 0 20px; }
+      /* Tutta larghezza su mobile, nasconde navigazione carosello */
+      .wedding-reel { margin: 0; border-radius: 0; }
       .wedding-reel-title { font-size: 14px; }
+      .wedding-reel .carousel-btn { display: none; }
+      .wedding-reel .carousel-dots-row { display: none; }
       .wedding-features { margin: 12px 20px 0; grid-template-columns: 1fr; }
       .wedding-feat { border-right: none; border-bottom: 0.5px solid rgba(255,255,255,0.07); }
       .wedding-feat:last-child { border-bottom: none; }
+
+      /* ── INSTAGRAM CAROSELLI ── */
+      .insta-media { width: 100%; aspect-ratio: 16/9; overflow: hidden; }
+      .insta-media.carousel-host .carousel-track { height: 100%; }
+      .insta-media.carousel-host .carousel-slide img,
+      .insta-media.carousel-host .carousel-slide video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
       /* ── GEAR HERO CARD mobile ── */
       .gear-hero-card { margin: 0 20px 16px; }
@@ -1955,6 +1948,12 @@
     }
     #cursor-play.visible { opacity: 1; }
 
+    /* ── DISABLE CUSTOM CURSOR ON TOUCH DEVICES ── */
+    @media (pointer: coarse) {
+      body { cursor: auto; }
+      #cursor-dot, #cursor-ring, #cursor-play { display: none; }
+    }
+
     /* ── SCROLL PROGRESS LINE ── */
     #scroll-progress-line {
       position: fixed; left: 24px; top: 0;
@@ -2071,7 +2070,7 @@
     .sp-step-title-text { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.7); }
     .sp-step-desc-text  { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.3); line-height: 1.6; }
     @media (max-width: 768px) {
-      .sp-wheel { width: 300px; height: 300px; }
+      .sp-wheel { width: 280px; height: 280px; }
       .sp-node-circle { width: 36px; height: 36px; }
       .sp-node-name { font-size: 8px; max-width: 56px; }
       .sp-wheel-frame { padding: 0; }
@@ -2831,15 +2830,15 @@
         <div class="carousel-track">
           <!-- Slide 1 — Placeholder calcio_1_jpeg.jpeg -->
           <div class="carousel-slide">
-            <img src="assets/Placeholder%20calcio_1_jpeg.jpeg" alt="Foto sportiva 1" style="width:100%;height:100%;object-fit:contain;display:block;">
+            <img src="assets/Placeholder%20calcio_1_jpeg.jpeg" alt="Foto sportiva 1" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
           <!-- Slide 2 — Placeholder calcio_2.jpg -->
           <div class="carousel-slide">
-            <img src="assets/Placeholder%20calcio_2.jpg" alt="Foto sportiva 2" style="width:100%;height:100%;object-fit:contain;display:block;">
+            <img src="assets/Placeholder%20calcio_2.jpg" alt="Foto sportiva 2" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
           <!-- Slide 3 — Placeholder calcio_3.jpg -->
           <div class="carousel-slide">
-            <img src="assets/Placeholder%20calcio_3.jpg" alt="Foto sportiva 3" style="width:100%;height:100%;object-fit:contain;display:block;">
+            <img src="assets/Placeholder%20calcio_3.jpg" alt="Foto sportiva 3" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
           <!-- Slide 4 — SOSTITUIRE con foto sportiva -->
           <div class="carousel-slide">
