@@ -1431,27 +1431,49 @@
       .sport-layout-3 { padding: 0 20px; grid-template-columns: 1fr; }
 
       /* ── MATRIMONI ── */
-      /* Tutta larghezza su mobile, nasconde navigazione carosello */
+      /* Tutta larghezza, solo primo slide, niente JS-transform */
       .wedding-reel { margin: 0; border-radius: 0; }
       .wedding-reel-title { font-size: 14px; }
       .wedding-reel .carousel-btn { display: none; }
       .wedding-reel .carousel-dots-row { display: none; }
+      .wedding-reel .carousel-wrapper { width: 100%; aspect-ratio: 16/9; overflow: hidden; }
+      .wedding-reel .carousel-track { transform: none !important; }
+      .wedding-reel .carousel-slide { display: none; }
+      .wedding-reel .carousel-slide:first-child { display: block; width: 100%; height: 100%; }
+      .wedding-reel .carousel-slide:first-child video { width: 100%; height: 100%; object-fit: cover; display: block; }
       .wedding-features { margin: 12px 20px 0; grid-template-columns: 1fr; }
       .wedding-feat { border-right: none; border-bottom: 0.5px solid rgba(255,255,255,0.07); }
       .wedding-feat:last-child { border-bottom: none; }
 
       /* ── INSTAGRAM CAROSELLI ── */
+      /* Solo primo slide visibile, blocca JS transform, overflow hidden */
       .insta-media { width: 100%; aspect-ratio: 16/9; overflow: hidden; }
-      .insta-media.carousel-host .carousel-track { height: 100%; }
-      .insta-media.carousel-host .carousel-slide img,
-      .insta-media.carousel-host .carousel-slide video { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .insta-media.carousel-host .carousel-track { transform: none !important; height: 100%; }
+      .insta-media.carousel-host .carousel-slide { display: none; }
+      .insta-media.carousel-host .carousel-slide:first-child { display: block; width: 100%; height: 100%; }
+      .insta-media.carousel-host .carousel-slide:first-child img,
+      .insta-media.carousel-host .carousel-slide:first-child video { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .insta-card .carousel-btn { display: none; }
+      .insta-card .carousel-counter-badge { display: none; }
+      .insta-card .carousel-dots-row { display: none; }
+
+      /* ── SPORT SHOWREEL mobile ── */
+      /* Solo primo slide, blocca JS transform, immagini cover */
+      .sport-showreel { margin: 0 20px 12px; }
+      .sport-showreel .carousel-track { transform: none !important; }
+      .sport-showreel .carousel-slide { display: none; }
+      .sport-showreel .carousel-slide:first-child { display: block; width: 100%; height: 100%; }
+      .sport-showreel .carousel-slide:first-child img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .sport-video-wrap { padding: 0 20px; }
+      /* Testo reportage sportivo centrato su mobile */
+      #sport .section-sub { text-align: center; }
+
+      /* ── TICKER MOBILE (più lento per schermo piccolo) ── */
+      .cine-ticker--slow  .cine-ticker-track { animation-duration: 60s; }
+      .cine-ticker--slow2 .cine-ticker-track { animation-duration: 75s; }
 
       /* ── GEAR HERO CARD mobile ── */
       .gear-hero-card { margin: 0 20px 16px; }
-
-      /* ── SPORT SHOWREEL mobile ── */
-      .sport-showreel { margin: 0 20px 12px; }
-      .sport-video-wrap { padding: 0 20px; }
       .gear-hero-text { font-size: 14px; padding: 18px 20px; }
 
       /* ── CAROUSEL mobile ── */
@@ -3424,7 +3446,7 @@
           <li class="pkg-feat"><span class="feat-check">—</span>Strategia social inclusa</li>
           <li class="pkg-feat"><span class="feat-check">—</span>Consegna entro 5 giorni lavorativi</li>
         </ul>
-        <a href="#contatti" class="pkg-cta">Richiedi preventivo →</a>
+        <a href="#contatti" class="pkg-cta">Richiedi preventivo &#x2192;</a>
       </div>
       <div class="pkg-card pkg-featured reveal" style="--reveal-delay:100ms">
         <div class="pkg-featured-badge">Più scelto</div>
@@ -3448,7 +3470,7 @@
           <li class="pkg-feat"><span class="feat-check">—</span>1 ripresa drone inclusa</li>
           <li class="pkg-feat"><span class="feat-check">—</span>Consegna entro 3 giorni lavorativi</li>
         </ul>
-        <a href="#contatti" class="pkg-cta pkg-cta-featured">Richiedi preventivo →</a>
+        <a href="#contatti" class="pkg-cta pkg-cta-featured">Richiedi preventivo &#x2192;</a>
       </div>
       <div class="pkg-card reveal" style="--reveal-delay:200ms">
         <div class="pkg-header">
@@ -3472,12 +3494,12 @@
           <li class="pkg-feat"><span class="feat-check">—</span>Video istituzionale trimestrale</li>
           <li class="pkg-feat"><span class="feat-check">—</span>Consegna prioritaria entro 48h</li>
         </ul>
-        <a href="#contatti" class="pkg-cta">Richiedi preventivo →</a>
+        <a href="#contatti" class="pkg-cta">Richiedi preventivo &#x2192;</a>
       </div>
     </div>
     <div class="pkg-note reveal">
       <div class="pkg-note-icon">↗</div>
-      <div class="pkg-note-text">Tutti i pacchetti prevedono contratto annuale con prezzo mensile bloccato. Ogni piano è personalizzabile sulle esigenze specifiche della tua azienda. <a href="#contatti" class="pkg-note-link">Contattami per un preventivo su misura →</a></div>
+      <div class="pkg-note-text">Tutti i pacchetti prevedono contratto annuale con prezzo mensile bloccato. Ogni piano è personalizzabile sulle esigenze specifiche della tua azienda. <a href="#contatti" class="pkg-note-link">Contattami per un preventivo su misura &#x2192;</a></div>
     </div>
   </section>
 
