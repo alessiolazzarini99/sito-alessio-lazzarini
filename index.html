@@ -1600,7 +1600,7 @@
       .sport-showreel .carousel-track { transform: none !important; }
       .sport-showreel .carousel-slide { display: none; }
       .sport-showreel .carousel-slide:first-child { display: block; width: 100%; height: 100%; }
-      .sport-showreel .carousel-slide:first-child img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .sport-showreel .carousel-slide:first-child img { width: 100%; height: 100%; object-fit: contain; background: #0a0a0a; display: block; }
       .sport-video-wrap { padding: 0 20px; }
       /* Testo reportage sportivo centrato su mobile */
       #sport .section-sub { text-align: center; }
@@ -1815,7 +1815,7 @@
       position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden;
     }
     .sport-showreel .carousel-track { display: flex; height: 100%; }
-    .sport-showreel .carousel-slide { min-width: 100%; height: 100%; flex-shrink: 0; position: relative; }
+    .sport-showreel .carousel-slide { min-width: 100%; height: 100%; flex-shrink: 0; position: relative; background: #0a0a0a; }
     .sport-slide-ph {
       width: 100%; height: 100%; background: #0c0c0e;
       display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
@@ -2628,7 +2628,7 @@
   </div>
 
   <!-- PROGETTI PERSONALI -->
-  <section id="showreel">
+  <section id="showreel" style="display:none">
     <div class="section-header reveal">
       <div class="section-label">Progetti personali</div>
     </div>
@@ -3026,15 +3026,15 @@
         <div class="carousel-track">
           <!-- Slide 1 — Placeholder calcio_1_jpeg.jpeg -->
           <div class="carousel-slide">
-            <img loading="lazy" src="assets/Placeholder%20calcio_1_jpeg.jpeg" alt="Foto sportiva 1" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <img loading="lazy" src="assets/Placeholder%20calcio_1_jpeg.jpeg" alt="Foto sportiva 1" style="width:100%;height:100%;object-fit:contain;display:block;">
           </div>
           <!-- Slide 2 — Placeholder calcio_2.jpg -->
           <div class="carousel-slide">
-            <img loading="lazy" src="assets/Placeholder%20calcio_2.jpg" alt="Foto sportiva 2" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <img loading="lazy" src="assets/Placeholder%20calcio_2.jpg" alt="Foto sportiva 2" style="width:100%;height:100%;object-fit:contain;display:block;">
           </div>
           <!-- Slide 3 — Placeholder calcio_3.jpg -->
           <div class="carousel-slide">
-            <img loading="lazy" src="assets/placeholder_calcio3_compressed.jpg" alt="Foto sportiva 3" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <img loading="lazy" src="assets/placeholder_calcio3_compressed.jpg" alt="Foto sportiva 3" style="width:100%;height:100%;object-fit:contain;display:block;">
           </div>
           <!-- Slide 4 — SOSTITUIRE con foto sportiva -->
           <div class="carousel-slide">
@@ -3091,7 +3091,7 @@
       <div class="section-sub">Trailer, foto e video per matrimoni. Ogni storia è unica, ogni racconto è su misura.</div>
     </div>
     <div class="wedding-player-wrap reveal">
-      <div class="wedding-player-label">Anteprima — trailer cinematografico</div>
+      <div class="wedding-player-label">Trailer cinematografico</div>
       <div class="wedding-player-embed">
         <div style="position:relative;padding:0 0 56.25% 0;height:0;">
           <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;"
