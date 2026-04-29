@@ -1191,6 +1191,19 @@
       padding-top: 12px;
     }
 
+    /* ── MOBILE MUTE BUTTON ── */
+    .mobile-mute-btn {
+      display: none; /* nascosto su desktop */
+      position: fixed; bottom: 24px; left: 24px; z-index: 9997;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(15,15,15,0.85);
+      border: 0.5px solid rgba(255,255,255,0.15);
+      align-items: center; justify-content: center;
+      cursor: pointer; padding: 0;
+      transition: border-color 0.2s ease;
+    }
+    .mobile-mute-btn:active { border-color: rgba(255,255,255,0.4); }
+
     /* ── WHATSAPP BUTTON ── */
     .wa-btn {
       position: fixed; bottom: 24px; right: 24px; z-index: 9997;
@@ -1550,6 +1563,12 @@
       .rec-card { width: 260px; }
       footer { flex-direction: column; gap: 6px; text-align: center; padding: 24px 20px; }
       .footer-left { justify-content: center; }
+      /* audio popup nascosto su mobile */
+      #audio-notice { display: none !important; }
+      /* bottone muto globale visibile su mobile */
+      .mobile-mute-btn { display: flex; }
+      /* icona audio video più grande per il touch */
+      .video-audio-icon { width: 28px; height: 28px; }
 
       /* ── NAV — completamente nascosta su mobile ── */
       nav { display: none !important; }
@@ -4212,6 +4231,13 @@
     </div>
   </section>
 
+  <!-- MOBILE MUTE BUTTON -->
+  <button id="mobileMuteBtn" class="mobile-mute-btn" aria-label="Attiva/disattiva audio">
+    <span class="mmb-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+    </span>
+  </button>
+
   <!-- WHATSAPP BUTTON -->
   <a href="https://wa.me/393462772270" target="_blank" rel="noopener noreferrer" class="wa-btn" aria-label="Scrivimi su WhatsApp">
     <svg width="26" height="26" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
@@ -4353,19 +4379,60 @@
     // Rileva dispositivo touch una volta sola all'avvio
     const isTouch = window.matchMedia('(pointer: coarse)').matches;
 
+    // Tracker video attivo su mobile (un solo video con audio alla volta)
+    window._activeMobileVideo = null;
+    window._activeMobileIcon  = null;
+
     document.querySelectorAll('video').forEach(video => {
       const isSilent = video.hasAttribute('data-silent');
       const isHero   = !isSilent && (!!video.closest('#hero') || video.hasAttribute('data-bg'));
       const container = video.parentElement;
       if (getComputedStyle(container).position === 'static') container.style.position = 'relative';
 
-      // ── MOBILE / TOUCH: tutti i video sempre muted + autoplay, nessun listener hover ──
+      // ── MOBILE / TOUCH ──
       if (isTouch) {
         video.muted  = true;
         video.volume = 0;
         video.style.cursor = 'default';
         video.play().catch(() => {});
-        return; // niente icona, niente mouseenter/mouseleave
+
+        // Video data-silent: solo autoplay muto, nessun tap handler
+        if (isSilent) return;
+
+        // Icona speaker: visibile, mostra stato muted/unmuted
+        const icon = document.createElement('div');
+        icon.className = 'video-audio-icon';
+        icon.innerHTML = svgMuted;
+        container.appendChild(icon);
+
+        // Tap sul video: attiva audio (un solo video alla volta)
+        video.addEventListener('click', () => {
+          if (document.body.classList.contains('global-muted')) return;
+
+          // Tap sullo stesso video attivo → rimuta
+          if (window._activeMobileVideo === video) {
+            video.muted = true; video.volume = 0;
+            icon.innerHTML = svgMuted;
+            window._activeMobileVideo = null;
+            window._activeMobileIcon  = null;
+            return;
+          }
+
+          // Muta il video precedentemente attivo
+          if (window._activeMobileVideo) {
+            window._activeMobileVideo.muted  = true;
+            window._activeMobileVideo.volume = 0;
+            if (window._activeMobileIcon) window._activeMobileIcon.innerHTML = svgMuted;
+          }
+
+          // Attiva audio su questo video
+          video.muted = false; video.volume = 0.7;
+          icon.innerHTML = svgUnmuted;
+          window._activeMobileVideo = video;
+          window._activeMobileIcon  = icon;
+        });
+
+        return; // fine logica mobile
       }
 
       // ── DESKTOP: logica hover audio invariata ──
@@ -5208,6 +5275,44 @@
         applyChoice(next);
       });
     })();
+
+  /* ── MOBILE MUTE BUTTON — toggle audio globale ── */
+  (function() {
+    const btn = document.getElementById('mobileMuteBtn');
+    if (!btn || !window.matchMedia('(pointer: coarse)').matches) return;
+
+    const iconWrap = btn.querySelector('.mmb-icon');
+    const svgOn  = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
+    const svgOff = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
+
+    let globalMuted = false;
+
+    btn.addEventListener('click', function() {
+      globalMuted = !globalMuted;
+      document.body.classList.toggle('global-muted', globalMuted);
+      iconWrap.innerHTML = globalMuted ? svgOff : svgOn;
+
+      if (globalMuted) {
+        // Muta tutti i video
+        document.querySelectorAll('video').forEach(function(v) {
+          v.muted = true; v.volume = 0;
+        });
+        // Aggiorna icona del video attivo
+        if (window._activeMobileIcon) {
+          window._activeMobileIcon.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
+        }
+      } else {
+        // Ripristina audio solo sul video attivo
+        if (window._activeMobileVideo && !window._activeMobileVideo.hasAttribute('data-silent')) {
+          window._activeMobileVideo.muted  = false;
+          window._activeMobileVideo.volume = 0.7;
+          if (window._activeMobileIcon) {
+            window._activeMobileIcon.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>';
+          }
+        }
+      }
+    });
+  })();
 
   /* ── BIO — fade-in colonne con direzione opposta ── */
   (function() {
