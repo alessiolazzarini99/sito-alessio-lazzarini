@@ -1565,10 +1565,12 @@
       .footer-left { justify-content: center; }
       /* audio popup nascosto su mobile */
       #audio-notice { display: none !important; }
-      /* bottone muto globale visibile su mobile */
-      .mobile-mute-btn { display: flex; }
+      /* bottone muto globale nascosto su mobile */
+      .mobile-mute-btn { display: none !important; }
       /* icona audio video più grande per il touch */
       .video-audio-icon { width: 28px; height: 28px; }
+      /* loghi workflow spaziati su mobile */
+      .wf-logo { margin-top: 8px; }
 
       /* ── NAV — completamente nascosta su mobile ── */
       nav { display: none !important; }
@@ -2737,7 +2739,7 @@
       </div>
       <div class="bio-row">
         <span class="bio-row-label">P.IVA</span>
-        <span class="bio-row-value">02763540222</span>
+        <span class="bio-row-value" style="color:rgba(255,255,255,0.6);text-decoration:none;cursor:default;">02763540222</span>
       </div>
     </div>
   </section>
@@ -3179,7 +3181,7 @@
     <!-- SHOWREEL CAROUSEL sport — 6 slide 16:9 -->
     <div class="sport-showreel" data-carousel>
       <div class="carousel-wrapper">
-        <div class="carousel-counter-badge sport-showreel-counter">1/6</div>
+        <div class="carousel-counter-badge sport-showreel-counter">1/3</div>
         <div class="carousel-track">
           <!-- Slide 1 — Placeholder calcio_1_jpeg.jpeg -->
           <div class="carousel-slide">
@@ -3192,27 +3194,6 @@
           <!-- Slide 3 — Placeholder calcio_3.jpg -->
           <div class="carousel-slide">
             <img loading="lazy" src="assets/placeholder_calcio3_compressed.jpg" alt="Foto sportiva 3" style="width:100%;height:100%;object-fit:contain;display:block;">
-          </div>
-          <!-- Slide 4 — SOSTITUIRE con foto sportiva -->
-          <div class="carousel-slide">
-            <div class="sport-slide-ph">
-              <!-- SOSTITUIRE -->
-              <span class="sport-slide-label">Foto sportiva — trascina per navigare</span>
-            </div>
-          </div>
-          <!-- Slide 5 — SOSTITUIRE con foto sportiva -->
-          <div class="carousel-slide">
-            <div class="sport-slide-ph">
-              <!-- SOSTITUIRE -->
-              <span class="sport-slide-label">Foto sportiva — trascina per navigare</span>
-            </div>
-          </div>
-          <!-- Slide 6 — SOSTITUIRE con foto sportiva -->
-          <div class="carousel-slide">
-            <div class="sport-slide-ph">
-              <!-- SOSTITUIRE -->
-              <span class="sport-slide-label">Foto sportiva — trascina per navigare</span>
-            </div>
           </div>
         </div>
         <button class="carousel-btn carousel-prev" aria-label="Precedente">‹</button>
@@ -3368,18 +3349,18 @@
     <div class="wedding-features">
       <div class="wedding-feat">
         <div class="wedding-feat-num">01 —</div>
-        <div class="wedding-feat-title">Trailer cinematografico</div>
-        <div class="wedding-feat-desc">Un cortometraggio emozionale del vostro giorno. Musica, sguardi, dettagli indimenticabili.</div>
+        <div class="wedding-feat-title">Regia &amp; Riprese</div>
+        <div class="wedding-feat-desc">Mi occupo delle riprese video durante tutta la giornata.</div>
       </div>
       <div class="wedding-feat">
         <div class="wedding-feat-num">02 —</div>
-        <div class="wedding-feat-title">Fotografia completa</div>
-        <div class="wedding-feat-desc">Dalla preparazione al ricevimento. Ogni momento catturato con discrezione e precisione.</div>
+        <div class="wedding-feat-title">Montaggio &amp; Color grading</div>
+        <div class="wedding-feat-desc">Editing professionale e color grading cinematografico in DaVinci Resolve.</div>
       </div>
       <div class="wedding-feat">
         <div class="wedding-feat-num">03 —</div>
-        <div class="wedding-feat-title">Editing professionale</div>
-        <div class="wedding-feat-desc">Color grading cinematografico, sviluppo RAW e consegna in alta risoluzione.</div>
+        <div class="wedding-feat-title">Consegna premium</div>
+        <div class="wedding-feat-desc">Il film viene consegnato su piattaforma professionale con accesso illimitato.</div>
       </div>
     </div>
   </section>
@@ -3504,10 +3485,6 @@
             <div class="wf-node-ring"><span class="wf-node-number">01</span></div>
           </div>
           <div class="wf-step-visual">
-            <div class="wf-logos wf-logos-sm">
-              <img loading="lazy" class="wf-logo" src="assets/Nikon_RED_Logo trasp.png" alt="Nikon" style="filter:drop-shadow(0 0 6px rgba(255,255,255,0.3));">
-              <img loading="lazy" class="wf-logo" src="assets/dji-1.png" alt="DJI" style="filter:drop-shadow(0 0 6px rgba(255,255,255,0.3));">
-            </div>
             <div class="wf-vis wf-vis-field">
               <div class="wf-corner wf-corner-tl"></div>
               <div class="wf-corner wf-corner-tr"></div>
@@ -4253,7 +4230,7 @@
       <img loading="lazy" src="assets/logo ph white.png" alt="AL" class="footer-logo">
       <span class="footer-brand">Alessio Lazzarini — Fotografo &amp; Videomaker</span>
     </div>
-    <div class="footer-center">P.IVA 02763540222</div>
+    <div class="footer-center" style="color:rgba(255,255,255,0.6);text-decoration:none;cursor:default;">P.IVA 02763540222</div>
     <div class="footer-right">© 2025 Developed by Alessio Lazzarini</div>
   </footer>
 
@@ -5275,6 +5252,47 @@
         applyChoice(next);
       });
     })();
+
+  /* ── MOBILE VIDEO VIEWPORT OBSERVER — auto-mute quando esce dal viewport ── */
+  (function() {
+    if (!window.matchMedia('(pointer: coarse)').matches) return;
+
+    // SVG muted inline per aggiornare icona (stesso dell'IIFE principale)
+    const svgMutedInline = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
+
+    const obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) return; // video nel viewport: nessuna azione
+        const video = entry.target;
+        if (video.muted) return; // già muto: nessuna azione
+
+        // Fade volume → 0 in 300ms poi muta
+        var steps = 15;
+        var dt = 300 / steps;
+        var n = 0;
+        var startVol = video.volume;
+        var t = setInterval(function() {
+          n++;
+          video.volume = Math.max(0, startVol * (1 - n / steps));
+          if (n >= steps) {
+            clearInterval(t);
+            video.muted = true;
+            video.volume = 0;
+            // Aggiorna icona speaker del video se presente
+            if (window._activeMobileVideo === video) {
+              if (window._activeMobileIcon) window._activeMobileIcon.innerHTML = svgMutedInline;
+              window._activeMobileVideo = null;
+              window._activeMobileIcon  = null;
+            }
+          }
+        }, dt);
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('video').forEach(function(v) {
+      if (!v.hasAttribute('data-silent')) obs.observe(v);
+    });
+  })();
 
   /* ── MOBILE MUTE BUTTON — toggle audio globale ── */
   (function() {
