@@ -8,6 +8,8 @@
   <!-- SEO -->
   <meta name="description" content="Alessio Lazzarini — Fotografo, Videomaker e Drone Operator. Riprese aeree, video professionali e fotografia per eventi, aziende e matrimoni nel Triveneto." />
   <meta name="theme-color" content="#0a0a0a" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="format-detection" content="telephone=no">
 
   <!-- Open Graph -->
   <meta property="og:type"        content="website" />
@@ -21,6 +23,8 @@
   <meta name="twitter:description" content="Alessio Lazzarini — Fotografo, Videomaker e Drone Operator. Riprese aeree, video professionali e fotografia per eventi, aziende e matrimoni nel Triveneto." />
   <meta name="twitter:image"       content="assets/placeholder_header_002.jpg" />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -2654,6 +2658,19 @@
     }
     #audio-toggle:hover { background: rgba(30,30,30,0.9); border-color: rgba(255,255,255,0.2); }
 
+    /* ── VIDEO LAZY PLACEHOLDER ── */
+    .video-lazy-ph {
+      position: absolute; inset: 0;
+      background: #111;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2; pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .video-lazy-ph svg {
+      opacity: 0.18;
+      color: rgba(255,255,255,0.7);
+    }
+
     /* ── SECTION SMOOTH REVEAL ── */
     .section-reveal {
       will-change: transform, opacity;
@@ -2701,7 +2718,10 @@
   <section id="hero">
     <img id="heroParallaxImg"
       src="assets/placeholder_header_002.jpg"
-      alt="Hero background" style="position:absolute;left:0;right:0;top:-10%;width:100%;height:120%;object-fit:cover;opacity:0.6;z-index:0;will-change:transform;">
+      alt="Hero background"
+      fetchpriority="high"
+      sizes="100vw"
+      style="position:absolute;left:0;right:0;top:-10%;width:100%;height:120%;object-fit:cover;opacity:0.6;z-index:0;will-change:transform;">
     <div class="hero-overlay"></div>
     <div class="hero-nav-spacer"></div>
     <div class="rec-indicator">
@@ -2866,9 +2886,11 @@
     <div class="services-grid">
       <div class="service-card">
         <div class="service-bg service-bg-foto">
-          <img loading="lazy"
+          <img loading="lazy" fetchpriority="low"
             src="assets/placeholder_servizi_fotografia.jpeg"
-            alt="Fotografia" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+            alt="Fotografia"
+            sizes="(max-width: 768px) 100vw, 33vw"
+            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
           <div class="service-bg-label">foto · jpg · raw</div>
         </div>
         <div class="service-overlay"></div>
@@ -2881,9 +2903,11 @@
       </div>
       <div class="service-card">
         <div class="service-bg service-bg-video">
-          <img loading="lazy"
+          <img loading="lazy" fetchpriority="low"
             src="assets/placeholder_servizi_videomaking.jpeg"
-            alt="Videomaking" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+            alt="Videomaking"
+            sizes="(max-width: 768px) 100vw, 33vw"
+            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
           <div class="service-bg-label">video · 4k · log</div>
         </div>
         <div class="service-overlay"></div>
@@ -2896,9 +2920,11 @@
       </div>
       <div class="service-card">
         <div class="service-bg service-bg-drone">
-          <img loading="lazy"
+          <img loading="lazy" fetchpriority="low"
             src="assets/placeholder_servizi_riprese%20aeree.jpeg"
-            alt="Riprese aeree" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+            alt="Riprese aeree"
+            sizes="(max-width: 768px) 100vw, 33vw"
+            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
           <div class="service-bg-label">drone · aerial · fpv</div>
         </div>
         <div class="service-overlay"></div>
@@ -3747,7 +3773,11 @@
       <div class="section-num">07</div>
     </div>
     <div class="drone-hero">
-      <img loading="lazy" src="assets/placeholder_drone_compressed.jpg" alt="Riprese aeree" style="opacity:0.6;">
+      <img loading="lazy" fetchpriority="low"
+           src="assets/placeholder_drone_compressed.jpg"
+           alt="Riprese aeree"
+           sizes="100vw"
+           style="opacity:0.6;">
       <div class="hud-corner hud-tl"></div>
       <div class="hud-corner hud-tr"></div>
       <div class="hud-corner hud-bl"></div>
@@ -4853,8 +4883,13 @@
       });
     })();
 
+    // ── DEFER UTILITY — schedula lavoro non critico dopo il primo frame ──
+    const _defer = (typeof requestIdleCallback !== 'undefined')
+      ? function(cb) { requestIdleCallback(cb, { timeout: 2000 }); }
+      : function(cb) { setTimeout(cb, 150); };
+
     // ── SECTION BACKGROUND TRANSITIONS ──
-    (function() {
+    _defer(function() { (function() {
       const BG_MAP = {
         'hero':          '#0a0a0a',
         'servizi':       '#0a0a0b',
@@ -4879,10 +4914,10 @@
         const el = document.getElementById(id);
         if (el) bgObs.observe(el);
       });
-    })();
+    })(); });
 
     // ── SCROLL PROGRESS LINE ──
-    (function() {
+    _defer(function() { (function() {
       const fill = document.getElementById('scroll-progress-fill');
       const sdot = document.getElementById('scroll-section-dot');
       if (!fill) return;
@@ -4912,10 +4947,10 @@
 
       window.addEventListener('scroll', () => { if (!rafId) rafId = requestAnimationFrame(update); }, { passive: true });
       update();
-    })();
+    })(); });
 
     // ── SCROLL PROGRESS — visibile solo in #workflow su mobile ──
-    (function() {
+    _defer(function() { (function() {
       if (!window.matchMedia('(max-width: 768px)').matches) return; // solo mobile
 
       const progressLine   = document.getElementById('scroll-progress-line');
@@ -4933,7 +4968,7 @@
       }, { threshold: 0.05 }); // si attiva appena il 5% della sezione è visibile
 
       obs.observe(workflowSection);
-    })();
+    })(); });
 
     // ── WORKFLOW ANIMATED PIPELINE ──
     (function() {
@@ -4985,7 +5020,7 @@
     })();
 
     // ── SOCIAL PIPELINE WHEEL ──
-    (function() {
+    _defer(function() { (function() {
       const wheel = document.getElementById('spWheel');
       if (!wheel) return;
       const nodes = Array.from(wheel.querySelectorAll('.sp-node'));
@@ -5015,7 +5050,7 @@
         requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
-    })();
+    })(); });
 
     // ── SECTION SMOOTH REVEAL ──
     (function() {
@@ -5165,7 +5200,7 @@
     })();
 
     // ── INSTAGRAM LIKE COUNT-UP ──
-    (function() {
+    _defer(function() { (function() {
       const els = [0,1,2,3].map(i => document.getElementById('likes' + i));
       if (!els[0]) return;
       const DURATION = 1500;
@@ -5195,7 +5230,7 @@
       }, { threshold: 0.4 });
       const grid = document.querySelector('.collab-grid');
       if (grid) likeObs.observe(grid);
-    })();
+    })(); });
 
     // ── FORM MAILTO ──
     (function() {
@@ -5519,10 +5554,30 @@
     obs.observe(card);
   })();
 
-  /* ── LAZY VIDEO LOADING — IntersectionObserver ── */
+  /* ── LAZY VIDEO LOADING — IntersectionObserver + placeholder ── */
   (function() {
     const lazyVideos = document.querySelectorAll('video[preload="none"]');
     if (!lazyVideos.length) return;
+
+    // Inietta placeholder visivo su ogni video lazy
+    const playIcon = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>';
+    lazyVideos.forEach(function(video) {
+      const parent = video.parentElement;
+      if (!parent) return;
+      const style = getComputedStyle(parent);
+      if (style.position === 'static') parent.style.position = 'relative';
+      const ph = document.createElement('div');
+      ph.className = 'video-lazy-ph';
+      ph.innerHTML = playIcon;
+      parent.appendChild(ph);
+      // Rimuovi placeholder quando il primo frame è pronto
+      video.addEventListener('loadeddata', function() {
+        ph.style.opacity = '0';
+        setTimeout(function() { if (ph.parentNode) ph.parentNode.removeChild(ph); }, 420);
+      }, { once: true });
+    });
+
+    // Observer con 300px di anticipo per pre-scaricare prima che arrivi in viewport
     const observer = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
@@ -5532,7 +5587,7 @@
           observer.unobserve(video);
         }
       });
-    }, { rootMargin: '200px', threshold: 0 });
+    }, { rootMargin: '300px', threshold: 0 });
     lazyVideos.forEach(function(video) { observer.observe(video); });
   })();
   </script>
