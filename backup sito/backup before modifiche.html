@@ -1106,117 +1106,9 @@
     .social-arrow { font-size: 11px; color: rgba(255,255,255,0.15); }
 
     /* ── FOOTER ── */
-    footer {
-      padding: 22px 48px;
-      border-top: 0.5px solid rgba(255,255,255,0.06);
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    }
-    .footer-left   { display: flex; align-items: center; gap: 10px; }
-    .footer-logo   { height: 18px; width: auto; object-fit: contain; opacity: 0.4; }
-    .footer-brand  { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; }
-    .footer-center { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; }
-    .footer-right  { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; }
-
-    /* ── BIO / CHI SONO ── */
-    #bio {
-      background: #0a0a0a;
-      padding: 80px 48px;
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 80px; align-items: center;
-    }
-    .bio-left, .bio-right {
-      opacity: 0;
-      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
-                  transform 0.8s cubic-bezier(0.16,1,0.3,1);
-    }
-    .bio-left  { transform: translateX(-20px); }
-    .bio-right { transform: translateX(20px); }
-    .bio-left.is-visible, .bio-right.is-visible { opacity: 1; transform: translateX(0); }
-    .bio-eyebrow {
-      font-size: 13px; font-weight: 300; letter-spacing: 0.2em;
-      color: rgba(255,255,255,0.25); text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-    .bio-text {
-      font-size: 22px; font-weight: 300;
-      color: rgba(255,255,255,0.85);
-      line-height: 1.6; letter-spacing: -0.01em;
-    }
-    .bio-row {
-      display: flex; justify-content: space-between;
-      border-top: 0.5px solid rgba(255,255,255,0.06);
-      padding: 14px 0;
-    }
-    .bio-row-label { font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.3); }
-    .bio-row-value { font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.6); }
-
-    /* ── RECENSIONI ── */
-    #recensioni { background: #0a0a0a; padding-bottom: 80px; overflow: hidden; }
-    .rec-ticker-outer {
-      width: 100vw; margin-left: 50%;
-      transform: translateX(-50%);
-      overflow: hidden;
-    }
-    .rec-ticker-track {
-      display: flex; gap: 16px; padding: 0 8px;
-      animation: recScroll 40s linear infinite;
-      width: max-content;
-    }
-    .rec-ticker-track:hover { animation-play-state: paused; }
-    @keyframes recScroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-    .rec-card {
-      width: 320px; flex-shrink: 0;
-      border: 0.5px solid rgba(255,255,255,0.08);
-      border-radius: 8px; padding: 24px;
-      background: rgba(255,255,255,0.02);
-    }
-    .rec-quote-mark {
-      font-size: 32px; font-weight: 300;
-      color: rgba(255,255,255,0.1); line-height: 1;
-    }
-    .rec-text {
-      font-size: 13px; font-weight: 300;
-      color: rgba(255,255,255,0.6);
-      line-height: 1.7; margin-top: 8px;
-    }
-    .rec-author {
-      font-size: 11px; font-weight: 400;
-      color: rgba(255,255,255,0.35);
-      margin-top: 16px; letter-spacing: 0.06em;
-      text-transform: uppercase;
-      border-top: 0.5px solid rgba(255,255,255,0.06);
-      padding-top: 12px;
-    }
-
-    /* ── WHATSAPP BUTTON ── */
-    .wa-btn {
-      position: fixed; bottom: 24px; right: 24px; z-index: 9997;
-      width: 52px; height: 52px; border-radius: 50%;
-      background: #25D366;
-      box-shadow: 0 4px 16px rgba(37,211,102,0.3);
-      display: flex; align-items: center; justify-content: center;
-      text-decoration: none;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .wa-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 24px rgba(37,211,102,0.45);
-    }
-    .wa-tooltip {
-      position: absolute; right: 64px; top: 50%;
-      transform: translateY(-50%);
-      background: rgba(10,10,10,0.92); color: rgba(255,255,255,0.8);
-      font-size: 11px; font-weight: 300; letter-spacing: 0.04em;
-      padding: 6px 12px; border-radius: 4px;
-      white-space: nowrap;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.2s ease;
-      border: 0.5px solid rgba(255,255,255,0.08);
-    }
-    .wa-btn:hover .wa-tooltip { opacity: 1; }
+    footer { padding: 22px 48px; border-top: 0.5px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; }
+    .footer-name { font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.2); letter-spacing: 0.04em; }
+    .footer-copy { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.12); letter-spacing: 0.06em; }
 
     /* ── 09 PACCHETTI ── */
     #pacchetti { background: #0a0a0a; }
@@ -1546,10 +1438,6 @@
 
     /* ── MOBILE RESPONSIVE ── */
     @media (max-width: 768px) {
-      #bio { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px; }
-      .rec-card { width: 260px; }
-      footer { flex-direction: column; gap: 6px; text-align: center; padding: 24px 20px; }
-      .footer-left { justify-content: center; }
 
       /* ── NAV — completamente nascosta su mobile ── */
       nav { display: none !important; }
@@ -2697,32 +2585,6 @@
     </div>
   </section>
 
-  <!-- BIO / CHI SONO -->
-  <section id="bio">
-    <div class="bio-left" id="bioLeft">
-      <div class="bio-eyebrow">Chi sono</div>
-      <div class="bio-text">Mi chiamo Alessio, ho 26 anni e sono fotografo, videomaker e operatore drone certificato ENAC nel Triveneto. Trasformo momenti in immagini che durano — dal drone alla sala montaggio, ogni progetto è fatto con cura e una visione cinematografica.</div>
-    </div>
-    <div class="bio-right" id="bioRight">
-      <div class="bio-row">
-        <span class="bio-row-label">Esperienza</span>
-        <span class="bio-row-value">Dal 2020</span>
-      </div>
-      <div class="bio-row">
-        <span class="bio-row-label">Certificazione</span>
-        <span class="bio-row-value">ENAC A1/A3</span>
-      </div>
-      <div class="bio-row">
-        <span class="bio-row-label">Zona</span>
-        <span class="bio-row-value">Triveneto — disponibile ovunque</span>
-      </div>
-      <div class="bio-row">
-        <span class="bio-row-label">P.IVA</span>
-        <span class="bio-row-value">02763540222</span>
-      </div>
-    </div>
-  </section>
-
   <!-- TICKER 1 — dopo hero -->
   <div class="cine-ticker cine-ticker--slow" aria-hidden="true">
     <div class="cine-ticker-track" id="cineTicker1"></div>
@@ -3210,7 +3072,7 @@
           <source src="assets/placeholder_sequenza_calcio2_web.mp4">
         </video>
         <div class="seq-video-overlay"></div>
-
+        <div class="seq-video-badge">Hover per audio</div>
         <div class="seq-video-text">Sequenza dinamica — frame da partita</div>
       </div>
     </div>
@@ -4099,41 +3961,6 @@
     <div class="siri-subtext" id="siriSubtext">Prenota la tua giornata di riprese</div>
   </section>
 
-  <!-- 10 RECENSIONI -->
-  <section id="recensioni">
-    <div class="section-header reveal">
-      <div class="section-label">Dicono di me</div>
-      <div class="section-num">10</div>
-    </div>
-    <div class="section-intro">
-      <div class="section-title reveal">Le parole dei clienti</div>
-      <div class="section-subtitle" style="margin-bottom:48px;">Feedback reali da chi ha scelto di lavorare con me</div>
-    </div>
-
-    <div class="rec-ticker-outer">
-      <div class="rec-ticker-track" id="recTrack">
-        <!-- Set 1 -->
-        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bellazzeee! Bravo Alessio proprio belle. Grazie ancora</div><div class="rec-author">Comano Mountain Runners</div></div>
-        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Grazie a te del tuo splendido lavoro e per la disponibilità. A presto e buon proseguimento!</div><div class="rec-author">Sara</div></div>
-        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bellissime foto Alessio!</div><div class="rec-author">Marco</div></div>
-        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Sei una macchina! Super bravo e complimenti da tutta la proloco</div><div class="rec-author">Martin</div></div>
-        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bellissimo video grande</div><div class="rec-author">Vassilly</div></div>
-        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Molto belle le foto!</div><div class="rec-author">Enrico — Pro Loco Lardaro</div></div>
-        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bello il reel, grazie!</div><div class="rec-author">Gabriele — Garda Dolomiti</div></div>
-        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Volevamo ringraziarti, siamo stati molto contenti di te! Avrai un futuro bellissimo in questo campo, sicuro.</div><div class="rec-author">Isabel</div></div>
-        <!-- Set 2 — duplicato per loop senza stacco -->
-        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bellazzeee! Bravo Alessio proprio belle. Grazie ancora</div><div class="rec-author">Comano Mountain Runners</div></div>
-        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Grazie a te del tuo splendido lavoro e per la disponibilità. A presto e buon proseguimento!</div><div class="rec-author">Sara</div></div>
-        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bellissime foto Alessio!</div><div class="rec-author">Marco</div></div>
-        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Sei una macchina! Super bravo e complimenti da tutta la proloco</div><div class="rec-author">Martin</div></div>
-        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bellissimo video grande</div><div class="rec-author">Vassilly</div></div>
-        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Molto belle le foto!</div><div class="rec-author">Enrico — Pro Loco Lardaro</div></div>
-        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bello il reel, grazie!</div><div class="rec-author">Gabriele — Garda Dolomiti</div></div>
-        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Volevamo ringraziarti, siamo stati molto contenti di te! Avrai un futuro bellissimo in questo campo, sicuro.</div><div class="rec-author">Isabel</div></div>
-      </div>
-    </div>
-  </section>
-
   <!-- 13 CTA -->
   <section id="cta">
     <div class="cta-bg-text">Lavoriamo</div>
@@ -4191,7 +4018,7 @@
     <div class="contact-right reveal" style="--reveal-delay:120ms">
       <div class="contact-info-block">
         <div class="contact-info-item"><div class="info-label">Email</div><div class="info-value"><a href="mailto:alessio.lazzarini99@gmail.com" style="color:inherit;text-decoration:none;">alessio.lazzarini99@gmail.com</a></div></div>
-        <div class="contact-info-item"><div class="info-label">Telefono</div><div class="info-value"><a href="tel:+393462772270" style="color:inherit;text-decoration:none;">+39 346 277 2270</a></div></div>
+        <div class="contact-info-item"><div class="info-label">Telefono</div><div class="info-value"><a href="tel:+393462772270" style="color:inherit;text-decoration:none;">+39 346 207 7270</a></div></div>
         <div class="contact-info-item"><div class="info-label">Sede</div><div class="info-value">Italia — disponibile ovunque</div></div>
         <div class="contact-info-item"><div class="info-label">Risposta</div><div class="info-value">Entro 24 ore</div></div>
       </div>
@@ -4212,23 +4039,10 @@
     </div>
   </section>
 
-  <!-- WHATSAPP BUTTON -->
-  <a href="https://wa.me/393462772270" target="_blank" rel="noopener noreferrer" class="wa-btn" aria-label="Scrivimi su WhatsApp">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.525 5.845L.057 23.488a.5.5 0 0 0 .604.634l5.809-1.522A11.946 11.946 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.518-5.228-1.42l-.374-.222-3.896 1.02 1.04-3.794-.243-.386A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
-    </svg>
-    <span class="wa-tooltip">Scrivimi su WhatsApp</span>
-  </a>
-
   <!-- FOOTER -->
   <footer>
-    <div class="footer-left">
-      <img loading="lazy" src="assets/logo ph white.png" alt="AL" class="footer-logo">
-      <span class="footer-brand">Alessio Lazzarini — Fotografo &amp; Videomaker</span>
-    </div>
-    <div class="footer-center">P.IVA 02763540222</div>
-    <div class="footer-right">© 2025 Developed by Alessio Lazzarini</div>
+    <div class="footer-name">Alessio Lazzarini — Fotografo & Videomaker</div>
+    <div class="footer-copy">© 2026 — All rights reserved</div>
   </footer>
 
   <!-- ── AUDIO NOTICE ── -->
@@ -5208,22 +5022,6 @@
         applyChoice(next);
       });
     })();
-
-  /* ── BIO — fade-in colonne con direzione opposta ── */
-  (function() {
-    const left  = document.getElementById('bioLeft');
-    const right = document.getElementById('bioRight');
-    if (!left || !right) return;
-    const obs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (!entry.isIntersecting) return;
-        left.classList.add('is-visible');
-        right.classList.add('is-visible');
-        obs.disconnect();
-      });
-    }, { threshold: 0.25 });
-    obs.observe(left);
-  })();
 
   /* ── VIDFLOW PLATFORM — stagger animazione device cards + pills ── */
   (function() {
