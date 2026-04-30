@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Alessio Lazzarini</title>
+  <meta name="robots" content="noindex">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      background: #000;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ── CUSTOM CURSOR ── */
+    #cursor-dot {
+      position: fixed;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+    }
+    #cursor-ring {
+      position: fixed;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 0.5px solid rgba(255,255,255,0.4);
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease;
+    }
+    #cursor-ring.large {
+      width: 44px; height: 44px;
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    /* ── CANVAS FISSI — particelle e linee geometriche ── */
+    #particlesCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 8;            /* sopra le sezioni, sotto cursor/overlay */
+    }
+    #linesCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 7;
+    }
+
+    /* ── SEZIONI ── */
+    .section {
+      height: 100vh;
+      height: 100dvh;
+      scroll-snap-align: start;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── FOTO DI SFONDO ── */
+    .sec-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: blur(2px);
+      transform-origin: center center;
+      animation: kenBurns 8s ease-in-out infinite alternate;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      z-index: 0;
+    }
+    .sec-bg.bg-visible { opacity: 1; }
+
+    @keyframes kenBurns {
+      from { transform: scale(1.0); }
+      to   { transform: scale(1.05); }
+    }
+
+    /* Overlay gradient scuro sopra la foto */
+    .sec-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.72);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Fade-to-black in fondo ad ogni sezione — transizione morbida */
+    .sec-bottom-fade {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 40px;
+      background: linear-gradient(to bottom, transparent, #000);
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    /* Contenuto sezioni sopra overlay */
+    .s1-center, .s1-scroll, .s1-skip { position: relative; z-index: 2; }
+    .s2-block  { position: relative; z-index: 2; }
+    .s3-block  { position: relative; z-index: 2; }
+    .s4-block  { position: relative; z-index: 2; }
+
+    /* ════════════════════════════════════
+       SEZIONE 1 — Apertura cinematografica
+       ════════════════════════════════════ */
+    .s1-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .s1-name {
+      font-size: clamp(28px, 6vw, 52px);
+      font-weight: 200;
+      letter-spacing: 0.25em;
+      color: #fff;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      opacity: 0;
+      transform: translateY(-12px);
+      animation: s1FadeDown 0.8s cubic-bezier(0.16,1,0.3,1) 1.2s forwards;
+    }
+
+    .s1-line {
+      width: 0;
+      height: 0.5px;
+      background: rgba(255,255,255,0.25);
+      animation: s1LineExpand 0.8s cubic-bezier(0.16,1,0.3,1) 0.5s forwards;
+    }
+    @keyframes s1LineExpand {
+      from { width: 0; }
+      to   { width: 80px; }
+    }
+
+    .s1-role {
+      font-size: clamp(11px, 1.5vw, 14px);
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.4);
+      margin-top: 18px;
+      opacity: 0;
+      transform: translateY(-12px);
+      animation: s1FadeDown 0.8s cubic-bezier(0.16,1,0.3,1) 2s forwards;
+    }
+
+    @keyframes s1FadeDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .s1-scroll {
+      position: absolute;
+      bottom: 48px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      animation: s1FadeIn 0.8s ease 3.5s forwards;
+    }
+    .s1-scroll-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.2);
+      text-transform: uppercase;
+    }
+    .s1-scroll-arrow {
+      width: 1px;
+      height: 24px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.3));
+      animation: s1Bounce 1.6s ease-in-out infinite;
+    }
+    @keyframes s1Bounce {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(8px); }
+    }
+    @keyframes s1FadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .s1-skip {
+      position: absolute;
+      top: 32px; right: 40px;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.2);
+      text-decoration: none;
+      opacity: 0;
+      animation: s1FadeIn 0.6s ease 4s forwards;
+      transition: color 0.2s;
+    }
+    .s1-skip:hover { color: rgba(255,255,255,0.55); }
+
+    /* ════════════════════════════════════
+       SEZIONE 2 — Chi sono
+       ════════════════════════════════════ */
+    .s2-block {
+      max-width: 640px;
+      width: 100%;
+      padding: 0 48px;
+    }
+
+    .s2-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.2);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .s2-label.visible { opacity: 1; transform: translateY(0); }
+
+    .s2-text {
+      font-size: clamp(22px, 4vw, 38px);
+      font-weight: 200;
+      color: #fff;
+      line-height: 1.45;
+      letter-spacing: -0.01em;
+      margin-bottom: 44px;
+    }
+
+    .s2-word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .s2-word.visible { opacity: 1; transform: translateY(0); }
+
+    .s2-details {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .s2-details.visible { opacity: 1; transform: translateY(0); }
+
+    .s2-detail {
+      font-size: 11px; font-weight: 300;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.1em;
+    }
+    .s2-separator { font-size: 10px; color: rgba(255,255,255,0.15); }
+
+    /* ── NIKON BADGE ── */
+    .nikon-badge {
+      position: absolute;
+      bottom: 52px; right: 32px;
+      border: 0.5px solid rgba(255,255,255,0.1);
+      padding: 10px 14px;
+      border-radius: 2px;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 3;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .nikon-badge.visible { opacity: 1; }
+
+    .nikon-rec-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .nikon-rec-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #E40012;
+      animation: nikonPulse 2.2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes nikonPulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 4px rgba(228,0,18,0.6); }
+      50%       { opacity: 0.15; box-shadow: none; }
+    }
+    .nikon-rec-label {
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.28);
+    }
+
+    .nikon-brand {
+      display: flex;
+      align-items: flex-start;
+      gap: 1px;
+    }
+    .nikon-name {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.06em;
+      line-height: 1;
+    }
+    .nikon-z-sup {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: #E40012;
+      line-height: 1;
+      margin-top: 1px;
+    }
+
+    .nikon-spec {
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.3);
+      margin-top: 5px;
+    }
+
+    /* ════════════════════════════════════
+       SEZIONE 3 — La filosofia
+       ════════════════════════════════════ */
+    .s3-block {
+      max-width: 700px;
+      width: 100%;
+      padding: 0 48px;
+      text-align: center;
+    }
+
+    .s3-quote-line {
+      display: block;
+      font-size: clamp(24px, 5vw, 48px);
+      font-weight: 200;
+      color: #fff;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 0.9s cubic-bezier(0.16,1,0.3,1);
+    }
+    .s3-quote-line:nth-child(2) { transition-delay: 0.2s; }
+    .s3-quote-line.visible { clip-path: inset(0 0% 0 0); }
+
+    .s3-divider {
+      width: 60px; height: 0.5px;
+      background: rgba(255,255,255,0.1);
+      margin: 28px auto;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .s3-divider.visible { opacity: 1; }
+
+    .s3-clients {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.2);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .s3-clients.visible { opacity: 1; transform: translateY(0); }
+
+    /* ════════════════════════════════════
+       SEZIONE 4 — Call to action
+       ════════════════════════════════════ */
+    .s4-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 40px;
+      text-align: center;
+    }
+
+    .s4-question {
+      font-size: clamp(16px, 2.5vw, 22px);
+      font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.05em;
+      margin-bottom: 32px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .s4-question.visible { opacity: 1; transform: translateY(0); }
+
+    /* Loghi collaborazioni */
+    .s4-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      margin-bottom: 36px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+    }
+    .s4-logos.visible { opacity: 1; transform: translateY(0); }
+    .s4-logos img {
+      height: 18px;
+      width: auto;
+      object-fit: contain;
+      filter: brightness(0) invert(1) opacity(0.22);
+    }
+
+    /* CTA button cinematografico */
+    .s4-btn {
+      border: 0.5px solid rgba(255,255,255,0.3);
+      padding: 18px 48px;
+      border-radius: 2px;
+      background: transparent;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.8);
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease,
+                  box-shadow 0.3s ease, opacity 0.7s ease 0.3s, transform 0.7s ease 0.3s;
+    }
+    .s4-btn.visible { opacity: 1; transform: translateY(0); }
+    .s4-btn:hover {
+      border-color: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      box-shadow: 0 0 30px rgba(255,255,255,0.1);
+    }
+
+    .s4-btn-text {
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+    .s4-btn-arrow {
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+    .s4-btn:hover .s4-btn-text  { transform: translateX(4px); }
+    .s4-btn:hover .s4-btn-arrow { transform: translateX(4px); }
+
+    .s4-url {
+      margin-top: 28px;
+      font-size: 10px;
+      color: rgba(255,255,255,0.15);
+      letter-spacing: 0.15em;
+      opacity: 0;
+      transition: opacity 0.6s ease 0.8s;
+    }
+    .s4-url.visible { opacity: 1; }
+
+    /* ── FADE OUT OVERLAY ── */
+    #fade-overlay {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9000;
+      transition: opacity 0.6s ease;
+    }
+    #fade-overlay.active { opacity: 1; pointer-events: all; }
+
+    /* ── MOBILE ── */
+    @media (pointer: coarse) {
+      #cursor-dot, #cursor-ring { display: none; }
+      .s1-skip { top: 20px; right: 20px; }
+      .nikon-badge { bottom: 56px; right: 16px; }
+    }
+    @media (max-width: 600px) {
+      .s2-block, .s3-block { padding: 0 28px; }
+      .s4-block { padding: 0 28px; }
+      .s4-btn { padding: 16px 32px; font-size: 12px; }
+      .s2-details { flex-wrap: wrap; gap: 10px; }
+      .s4-logos img { height: 14px; }
+      .s4-logos { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── CANVAS: particelle di luce ── -->
+  <canvas id="particlesCanvas"></canvas>
+
+  <!-- ── CANVAS: linee geometriche ── -->
+  <canvas id="linesCanvas"></canvas>
+
+  <!-- Custom cursor -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Fade to black overlay -->
+  <div id="fade-overlay"></div>
+
+  <!-- ══════════════════════════════
+       SEZIONE 1 — Apertura
+       ══════════════════════════════ -->
+  <section class="section" id="s1">
+    <img class="sec-bg" id="s1Bg"
+         src="assets/placeholder_header_002.jpg"
+         alt="">
+    <div class="sec-overlay"></div>
+    <div class="sec-bottom-fade"></div>
+
+    <a class="s1-skip" href="index.html"
+       onclick="sessionStorage.setItem('skipSplash','true')">Salta →</a>
+
+    <div class="s1-center">
+      <div class="s1-name">Alessio Lazzarini</div>
+      <div class="s1-line"></div>
+      <div class="s1-role">Fotografo · Videomaker · Drone Operator</div>
+    </div>
+
+    <div class="s1-scroll">
+      <span class="s1-scroll-label">scorri</span>
+      <div class="s1-scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       SEZIONE 2 — Chi sono
+       ══════════════════════════════ -->
+  <section class="section" id="s2">
+    <img class="sec-bg" id="s2Bg"
+         src="assets/placeholder_drone_compressed.jpg"
+         alt="">
+    <div class="sec-overlay"></div>
+    <div class="sec-bottom-fade"></div>
+
+    <div class="s2-block">
+      <div class="s2-label"   id="s2Label">Chi sono</div>
+      <div class="s2-text"    id="s2Text"></div>
+      <div class="s2-details" id="s2Details">
+        <span class="s2-detail">Dal 2020</span>
+        <span class="s2-separator">·</span>
+        <span class="s2-detail">ENAC A1/A3</span>
+        <span class="s2-separator">·</span>
+        <span class="s2-detail">Triveneto</span>
+      </div>
+    </div>
+
+    <!-- Nikon Red badge -->
+    <div class="nikon-badge" id="nikonBadge">
+      <div class="nikon-rec-row">
+        <div class="nikon-rec-dot"></div>
+        <span class="nikon-rec-label">REC</span>
+      </div>
+      <div class="nikon-brand">
+        <span class="nikon-name">NIKON</span>
+        <span class="nikon-z-sup">Z</span>
+      </div>
+      <div class="nikon-spec">Z9 · RAW · 4K120</div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       SEZIONE 3 — La filosofia
+       ══════════════════════════════ -->
+  <section class="section" id="s3">
+    <img class="sec-bg" id="s3Bg"
+         src="assets/placeholder_servizi_videomaking.jpeg"
+         alt="">
+    <div class="sec-overlay"></div>
+    <div class="sec-bottom-fade"></div>
+
+    <div class="s3-block">
+      <div class="s3-quote">
+        <span class="s3-quote-line" id="s3Line1">Ogni storia merita</span>
+        <span class="s3-quote-line" id="s3Line2">di essere raccontata bene.</span>
+      </div>
+      <div class="s3-divider"  id="s3Divider"></div>
+      <div class="s3-clients"  id="s3Clients">
+        Garda Trentino · Bike Festival · Comano Auto · Nordic Camper
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       SEZIONE 4 — CTA finale
+       ══════════════════════════════ -->
+  <section class="section" id="s4">
+    <img class="sec-bg" id="s4Bg"
+         src="assets/placeholder_servizi_riprese%20aeree.jpeg"
+         alt="">
+    <div class="sec-overlay"></div>
+    <div class="sec-bottom-fade"></div>
+
+    <div class="s4-block">
+      <div class="s4-question" id="s4Question">Pronto a vedere il lavoro?</div>
+
+      <!-- Loghi collaborazioni: molto piccoli, monocromatici -->
+      <div class="s4-logos" id="s4Logos">
+        <img src="assets/loghi%20ig/logo%20garda%20trentino.jpg"  alt="Garda Trentino">
+        <img src="assets/loghi%20ig/logo%20bike%20festival.png"   alt="Bike Festival">
+        <img src="assets/loghi%20ig/logo%20nordic%20camper.jpg"   alt="Nordic Camper">
+      </div>
+
+      <button class="s4-btn" id="s4Btn">
+        <span class="s4-btn-text">Entra nel sito</span>
+        <span class="s4-btn-arrow">→</span>
+      </button>
+      <div class="s4-url" id="s4Url">alessiolazzarini.com</div>
+    </div>
+  </section>
+
+  <script>
+    /* ════════════════════════════════════════════════════
+       MODIFICA 1 — PARTICELLE DI LUCE (canvas fisso)
+       ════════════════════════════════════════════════════ */
+    (function() {
+      var canvas = document.getElementById('particlesCanvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var W, H;
+      var COUNT = 80;
+      var particles = [];
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+
+      function rand(a, b) { return a + Math.random() * (b - a); }
+
+      function mkParticle(randomPos) {
+        return {
+          x:  randomPos ? rand(0, W) : (Math.random() < 0.5 ? rand(-5, 0) : rand(W, W + 5)),
+          y:  rand(0, H),
+          r:  rand(0.4, 1.4),
+          vx: rand(-0.25, 0.25),
+          vy: rand(-0.25, 0.25),
+          op: rand(0.05, 0.25),
+        };
+      }
+
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      for (var i = 0; i < COUNT; i++) particles.push(mkParticle(true));
+
+      function drawParticles() {
+        ctx.clearRect(0, 0, W, H);
+        for (var j = 0; j < particles.length; j++) {
+          var p = particles[j];
+          p.x += p.vx;
+          p.y += p.vy;
+
+          // Rigenera se esce dal viewport
+          if (p.x < -10 || p.x > W + 10 || p.y < -10 || p.y > H + 10) {
+            particles[j] = mkParticle(false);
+            continue;
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255,255,255,' + p.op + ')';
+          ctx.fill();
+        }
+        requestAnimationFrame(drawParticles);
+      }
+      drawParticles();
+    })();
+
+    /* ════════════════════════════════════════════════════
+       MODIFICA 3 — LINEE GEOMETRICHE (secondo canvas fisso)
+       ════════════════════════════════════════════════════ */
+    (function() {
+      var canvas = document.getElementById('linesCanvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var W, H;
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      // 8 linee diagonali definite come frazioni di W/H
+      var LINES = [
+        [0,    0,    1,    1   ],
+        [1,    0,    0,    1   ],
+        [0,    0.25, 1,    0.75],
+        [0.25, 0,    0.75, 1   ],
+        [0,    0.6,  1,    0.3 ],
+        [0.6,  0,    0.3,  1   ],
+        [0,    0.8,  1,    0.15],
+        [0.15, 1,    0.9,  0   ],
+      ];
+
+      var CYCLE         = 12000;  // ms — ciclo totale
+      var DRAW_DURATION = 1200;   // ms per disegnare una linea
+      var LINE_OFFSET   = 900;    // ms di offset tra linee successive
+      var FADE_START    = 9500;   // ms → inizio fade-out di tutto
+      var FADE_DURATION = 2000;   // ms fade-out
+
+      var startTime = null;
+
+      function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+      function lerp(a, b, t)    { return a + (b - a) * t; }
+      function easeOut(t)       { return 1 - Math.pow(1 - t, 2); }
+
+      function drawLines(ts) {
+        if (!startTime) startTime = ts;
+        var elapsed = (ts - startTime) % CYCLE;
+
+        // Opacità globale (fade-out verso fine ciclo)
+        var globalAlpha = elapsed > FADE_START
+          ? clamp(1 - (elapsed - FADE_START) / FADE_DURATION, 0, 1)
+          : 1;
+
+        ctx.clearRect(0, 0, W, H);
+
+        for (var i = 0; i < LINES.length; i++) {
+          var lineStart = i * LINE_OFFSET;
+          if (elapsed < lineStart) continue;
+
+          var rawProg = clamp((elapsed - lineStart) / DRAW_DURATION, 0, 1);
+          var prog    = easeOut(rawProg);
+
+          var x1 = LINES[i][0] * W;
+          var y1 = LINES[i][1] * H;
+          var x2 = LINES[i][2] * W;
+          var y2 = LINES[i][3] * H;
+
+          var cx = lerp(x1, x2, prog);
+          var cy = lerp(y1, y2, prog);
+
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(cx, cy);
+          ctx.strokeStyle = 'rgba(255,255,255,' + (0.045 * globalAlpha) + ')';
+          ctx.lineWidth   = 0.5;
+          ctx.stroke();
+        }
+
+        requestAnimationFrame(drawLines);
+      }
+      requestAnimationFrame(drawLines);
+    })();
+
+    /* ════════════════════════════════════════════════════
+       CUSTOM CURSOR (identico a index.html)
+       ════════════════════════════════════════════════════ */
+    (function() {
+      var dot  = document.getElementById('cursor-dot');
+      var ring = document.getElementById('cursor-ring');
+      if (!dot || !ring) return;
+
+      var mx = -200, my = -200, rx = -200, ry = -200;
+
+      document.addEventListener('mousemove', function(e) {
+        mx = e.clientX; my = e.clientY;
+      }, { passive: true });
+
+      document.addEventListener('mouseover', function(e) {
+        if (e.target.closest('a, button')) ring.classList.add('large');
+        else                               ring.classList.remove('large');
+      });
+
+      function lerp(a, b, t) { return a + (b - a) * t; }
+
+      (function tick() {
+        rx = lerp(rx, mx, 0.12);
+        ry = lerp(ry, my, 0.12);
+        dot.style.left  = mx + 'px'; dot.style.top  = my + 'px';
+        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+        requestAnimationFrame(tick);
+      })();
+    })();
+
+    /* ════════════════════════════════════════════════════
+       MODIFICA 5 — FOTO SFONDO FADE-IN PER SEZIONE
+       ════════════════════════════════════════════════════ */
+    (function() {
+      var bgs = document.querySelectorAll('.sec-bg');
+      bgs.forEach(function(img) {
+        var section = img.closest('.section');
+        if (!section) return;
+        var triggered = false;
+        var obs = new IntersectionObserver(function(entries) {
+          entries.forEach(function(e) {
+            if (!e.isIntersecting || triggered) return;
+            triggered = true;
+            obs.disconnect();
+            img.classList.add('bg-visible');
+          });
+        }, { threshold: 0.15 });
+        obs.observe(section);
+      });
+    })();
+
+    /* ════════════════════════════════════════════════════
+       SEZIONE 2 — Typewriter parola per parola + Nikon badge
+       ════════════════════════════════════════════════════ */
+    (function() {
+      var section  = document.getElementById('s2');
+      var label    = document.getElementById('s2Label');
+      var textEl   = document.getElementById('s2Text');
+      var details  = document.getElementById('s2Details');
+      var nikon    = document.getElementById('nikonBadge');
+      if (!section || !textEl) return;
+
+      var sentence = 'Mi chiamo Alessio. Ho 26 anni e racconto storie attraverso immagini in movimento.';
+      var words    = sentence.split(' ');
+
+      words.forEach(function(word, i) {
+        var span = document.createElement('span');
+        span.className   = 's2-word';
+        span.textContent = word + (i < words.length - 1 ? ' ' : '');
+        textEl.appendChild(span);
+      });
+
+      var triggered = false;
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (!e.isIntersecting || triggered) return;
+          triggered = true;
+          obs.disconnect();
+
+          label.classList.add('visible');
+
+          var wordEls = textEl.querySelectorAll('.s2-word');
+          wordEls.forEach(function(w, i) {
+            setTimeout(function() { w.classList.add('visible'); }, 300 + i * 80);
+          });
+
+          var detailDelay = 300 + words.length * 80 + 200;
+          setTimeout(function() { details.classList.add('visible'); }, detailDelay);
+
+          // Nikon badge — delay 2s
+          if (nikon) setTimeout(function() { nikon.classList.add('visible'); }, 2000);
+        });
+      }, { threshold: 0.4 });
+      obs.observe(section);
+    })();
+
+    /* ════════════════════════════════════════════════════
+       SEZIONE 3 — Clip-path reveal
+       ════════════════════════════════════════════════════ */
+    (function() {
+      var section = document.getElementById('s3');
+      var line1   = document.getElementById('s3Line1');
+      var line2   = document.getElementById('s3Line2');
+      var divider = document.getElementById('s3Divider');
+      var clients = document.getElementById('s3Clients');
+      if (!section) return;
+
+      var triggered = false;
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (!e.isIntersecting || triggered) return;
+          triggered = true;
+          obs.disconnect();
+
+          if (line1)   line1.classList.add('visible');
+          if (line2)   setTimeout(function() { line2.classList.add('visible'); }, 0);
+          if (divider) setTimeout(function() { divider.classList.add('visible'); }, 900);
+          if (clients) setTimeout(function() { clients.classList.add('visible'); }, 1100);
+        });
+      }, { threshold: 0.4 });
+      obs.observe(section);
+    })();
+
+    /* ════════════════════════════════════════════════════
+       SEZIONE 4 — CTA reveal + fade-out verso index.html
+       ════════════════════════════════════════════════════ */
+    (function() {
+      var section  = document.getElementById('s4');
+      var question = document.getElementById('s4Question');
+      var logos    = document.getElementById('s4Logos');
+      var btn      = document.getElementById('s4Btn');
+      var url      = document.getElementById('s4Url');
+      var overlay  = document.getElementById('fade-overlay');
+      if (!section) return;
+
+      var triggered = false;
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (!e.isIntersecting || triggered) return;
+          triggered = true;
+          obs.disconnect();
+
+          if (question) question.classList.add('visible');
+          if (logos)    logos.classList.add('visible');   // delay 0.2s via CSS
+          if (btn)      btn.classList.add('visible');     // delay 0.3s via CSS
+          if (url)      setTimeout(function() { url.classList.add('visible'); }, 800);
+        });
+      }, { threshold: 0.4 });
+      obs.observe(section);
+
+      // Click: sessionStorage → fade to black → naviga
+      if (btn && overlay) {
+        btn.addEventListener('click', function() {
+          sessionStorage.setItem('skipSplash', 'true');
+          overlay.classList.add('active');
+          setTimeout(function() { window.location.href = 'index.html'; }, 650);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

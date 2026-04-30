@@ -4340,15 +4340,6 @@
   <button id="audio-toggle" aria-label="Toggle audio"></button>
 
   <script>
-    // ── SPLASH REDIRECT — prima visita → splash.html ──
-    // Se l'utente non ha ancora visto la splash screen, reindirizziamo.
-    // Il bottone "Entra nel sito" in splash.html imposta skipSplash=true.
-    (function() {
-      if (!sessionStorage.getItem('skipSplash')) {
-        window.location.replace('splash.html');
-      }
-    })();
-
     // Menu hamburger
     const hamburger = document.getElementById('nav-hamburger');
     const navLinks  = document.getElementById('nav-links');
