@@ -161,7 +161,7 @@ section {
   align-items: center; position: relative; z-index: 2;
 }
 #s1-logo {
-  height: clamp(80px,14vw,140px); width: auto;
+  height: clamp(90px,15vw,140px); width: auto;
   object-fit: contain;
   filter: brightness(0) invert(1);
   display: block;
@@ -189,6 +189,19 @@ section {
   display: flex; flex-direction: column;
   align-items: center; position: relative; z-index: 2;
 }
+/* Radar effect */
+#s2-radar {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none; z-index: 1;
+}
+.radar-ring {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 0.5px solid rgba(255,255,255,0.15);
+  width: 0; height: 0; opacity: 0;
+}
 #s2-logo {
   height: clamp(80px,14vw,140px); width: auto;
   object-fit: contain;
@@ -196,9 +209,9 @@ section {
   display: block;
 }
 #s2-sub {
-  font-size: clamp(20px,4vw,40px); font-weight: 200;
-  color: rgba(255,255,255,0.5); letter-spacing: 0.3em;
-  margin-top: 12px;
+  font-size: clamp(14px,2.5vw,26px); font-weight: 200;
+  color: rgba(255,255,255,0.5); letter-spacing: 0.22em;
+  margin-top: 12px; text-align: center;
 }
 #s2-line {
   width: 0; height: 0.5px;
@@ -212,29 +225,7 @@ section {
 }
 
 /* =====================================================
-   S4 — MACBOOK PRO (ex-S3, senza icone app)
-===================================================== */
-.s3-inner {
-  display: flex; flex-direction: column;
-  align-items: center; position: relative; z-index: 2;
-}
-#s3-title {
-  font-size: clamp(36px,7vw,80px); font-weight: 200;
-  color: #fff; letter-spacing: 0.05em; text-align: center;
-}
-#s3-line {
-  width: 0; height: 0.5px;
-  background: rgba(255,255,255,0.2);
-  margin: 20px auto;
-}
-#s3-caption {
-  font-size: clamp(12px,1.8vw,16px); font-weight: 300;
-  color: rgba(255,255,255,0.4); letter-spacing: 0.2em;
-  text-transform: uppercase; text-align: center;
-}
-
-/* =====================================================
-   S5 — SOFTWARE SEQUENCE (ex-S4, loghi più grandi)
+   S4 — SOFTWARE SEQUENCE (loghi più grandi)
 ===================================================== */
 .s4-inner {
   display: flex; flex-direction: column;
@@ -254,7 +245,7 @@ section {
   opacity: 0;
 }
 .sw-logo {
-  height: clamp(90px,14vw,130px);
+  height: clamp(100px,16vw,150px);
   width: auto; object-fit: contain;
 }
 .sw-label {
@@ -397,6 +388,81 @@ section {
   #s7-img { height: 200px; max-width: 100%; width: 100%; }
   #s7-left { align-items: center; text-align: center; }
 }
+
+/* ── Rainbow borders (S7 CTA) ── */
+@keyframes rainbowFlow {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+.rb {
+  position: fixed;
+  z-index: 9998; pointer-events: none;
+  background: linear-gradient(90deg,
+    rgba(255,100,100,0.8), rgba(255,180,50,0.8), rgba(100,255,100,0.8),
+    rgba(50,180,255,0.8),  rgba(180,50,255,0.8), rgba(255,100,180,0.8),
+    rgba(255,100,100,0.8));
+  background-size: 300% 300%;
+  animation: rainbowFlow 3s ease infinite;
+  opacity: 0;
+}
+.rb-top    { top: 0;    left: 0; width: 100%; height: 3px; }
+.rb-bottom { bottom: 0; left: 0; width: 100%; height: 3px; }
+.rb-left   { top: 0;    left: 0; width: 3px;  height: 100%; }
+.rb-right  { top: 0;   right: 0; width: 3px;  height: 100%; }
+
+/* ── Button rainbow glow pulse ── */
+@keyframes btnRainbowGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(180,50,255,0.15), 0 0 0px rgba(100,255,180,0); }
+  33%       { box-shadow: 0 0 22px rgba(255,100,180,0.4), 0 0 40px rgba(100,255,180,0.1); }
+  66%       { box-shadow: 0 0 22px rgba(50,180,255,0.4),  0 0 40px rgba(255,180,50,0.1); }
+}
+#s7-btn.btn-glow { animation: btnRainbowGlow 4s ease-in-out infinite; }
+
+/* ── M5: 3D mouse tracking S1 ── */
+.s5-inner { perspective: 800px; }
+
+/* ── M6: Glitch overlay ── */
+#glitch-ov {
+  position: fixed; inset: 0;
+  z-index: 9997; pointer-events: none; opacity: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.03) 2px,
+    rgba(255,255,255,0.03) 4px
+  );
+}
+
+/* ── M7: Nav dots ── */
+#nav-dots {
+  position: fixed; left: 24px; top: 50%;
+  transform: translateY(-50%);
+  z-index: 9999;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 8px;
+  pointer-events: none;
+}
+.nav-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  transition: background 0.3s, transform 0.3s;
+}
+.nav-dot.nd-active {
+  background: rgba(255,255,255,0.6);
+  transform: scale(1.4);
+}
+@media (max-width: 768px) { #nav-dots { display: none; } }
+
+/* ── M9: Particelle logo burst ── */
+.particle {
+  position: fixed;
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  background: #fff; opacity: 0.6;
+  pointer-events: none; z-index: 9998;
+}
 </style>
 </head>
 <body>
@@ -414,11 +480,30 @@ section {
 <!-- Fade overlay -->
 <div id="fov"></div>
 
+<!-- Glitch overlay (M6) -->
+<div id="glitch-ov"></div>
+
+<!-- Rainbow borders S7 -->
+<div class="rb rb-top"    id="rb-top"></div>
+<div class="rb rb-bottom" id="rb-bottom"></div>
+<div class="rb rb-left"   id="rb-left"></div>
+<div class="rb rb-right"  id="rb-right"></div>
+
 <!-- Scroll progress (M5) -->
 <div id="scroll-progress-bg"><div id="scroll-progress-bar"></div></div>
 
-<!-- Section counter (M6) -->
-<div id="sec-counter">01 / 07</div>
+<!-- Section counter -->
+<div id="sec-counter">01 / 06</div>
+
+<!-- Nav dots (M7) -->
+<div id="nav-dots">
+  <div class="nav-dot nd-active"></div>
+  <div class="nav-dot"></div>
+  <div class="nav-dot"></div>
+  <div class="nav-dot"></div>
+  <div class="nav-dot"></div>
+  <div class="nav-dot"></div>
+</div>
 
 <!-- ═══════════════════════════════════════════
      S1 — CHI SONO (prima sezione)
@@ -452,8 +537,13 @@ section {
 ════════════════════════════════════════════ -->
 <section id="s3">
   <div class="s2-inner">
+    <div id="s2-radar">
+      <div class="radar-ring" id="rr1"></div>
+      <div class="radar-ring" id="rr2"></div>
+      <div class="radar-ring" id="rr3"></div>
+    </div>
     <img id="s2-logo" src="assets/dji-1.png" alt="DJI">
-    <div id="s2-sub">Per riprese aeree</div>
+    <div id="s2-sub">Prospettive che cambiano tutto</div>
     <div id="s2-line"></div>
     <div id="s2-caption">Dal drone al set</div>
   </div>
@@ -461,19 +551,7 @@ section {
 </section>
 
 <!-- ═══════════════════════════════════════════
-     S4 — MACBOOK PRO
-════════════════════════════════════════════ -->
-<section id="s4">
-  <div class="s3-inner">
-    <div id="s3-title">MacBook Pro</div>
-    <div id="s3-line"></div>
-    <div id="s3-caption">Per editare tutto</div>
-  </div>
-  <div class="scroll-arrow">↓</div>
-</section>
-
-<!-- ═══════════════════════════════════════════
-     S5 — SOFTWARE SEQUENCE
+     S4 — SOFTWARE SEQUENCE
 ════════════════════════════════════════════ -->
 <section id="s5">
   <div class="s4-inner">
@@ -596,6 +674,30 @@ gsap.registerPlugin(ScrollTrigger);
 /* ================================================================
    HELPERS
 ================================================================ */
+/* M9 — Particle burst al momento dell'apparizione del logo */
+function particleBurst(logoEl) {
+  if (!logoEl) return;
+  var rect = logoEl.getBoundingClientRect();
+  var cx = rect.left + rect.width  / 2;
+  var cy = rect.top  + rect.height / 2;
+  for (var i = 0; i < 12; i++) {
+    (function (idx) {
+      var p = document.createElement('div');
+      p.className = 'particle';
+      document.body.appendChild(p);
+      gsap.set(p, { x: cx, y: cy, xPercent: -50, yPercent: -50 });
+      gsap.to(p, {
+        x: cx + gsap.utils.random(-80, 80),
+        y: cy + gsap.utils.random(-80, 80),
+        opacity: 0, scale: 0,
+        duration: 0.8, ease: 'power2.out',
+        delay: idx * 0.03,
+        onComplete: function () { if (p.parentNode) p.parentNode.removeChild(p); }
+      });
+    })(i);
+  }
+}
+
 function onceVisible(id, fn) {
   var el = document.getElementById(id);
   if (!el) return;
@@ -615,21 +717,49 @@ document.documentElement.addEventListener('scroll', function () {
 });
 
 /* ================================================================
-   SECTION COUNTER (M6)
+   SECTION COUNTER + M6 GLITCH + M7 NAV-DOTS
 ================================================================ */
 (function () {
   var counter  = document.getElementById('sec-counter');
   var sections = document.querySelectorAll('section');
+  var glitchOv = document.getElementById('glitch-ov');
+  var dots     = document.querySelectorAll('.nav-dot');
+  var prevIdx  = 0;
+
+  /* M6 — flash glitch subliminale al cambio sezione */
+  function triggerGlitch() {
+    var tl = gsap.timeline();
+    tl.to(glitchOv, { opacity: 0.8, duration: 0.05 })
+      .to(glitchOv, { skewX: 2,     duration: 0.05 })
+      .to(glitchOv, { skewX: 0, opacity: 0, duration: 0.1 });
+  }
+
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
         var idx = Array.prototype.indexOf.call(sections, entry.target) + 1;
         var n   = (idx < 10 ? '0' : '') + idx;
+
+        /* counter */
         gsap.to(counter, {
           opacity: 0, duration: 0.15,
           onComplete: function () {
-            counter.textContent = n + ' / 07';
+            counter.textContent = n + ' / 06';
             gsap.to(counter, { opacity: 1, duration: 0.3 });
+          }
+        });
+
+        /* glitch solo al cambio sezione */
+        if (idx !== prevIdx) { triggerGlitch(); prevIdx = idx; }
+
+        /* M7 — nav-dots */
+        dots.forEach(function (d, di) {
+          if (di === idx - 1) {
+            d.classList.add('nd-active');
+            gsap.to(d, { scale: 1.4, background: 'rgba(255,255,255,0.6)', duration: 0.3 });
+          } else {
+            d.classList.remove('nd-active');
+            gsap.to(d, { scale: 1, background: 'rgba(255,255,255,0.15)', duration: 0.3 });
           }
         });
       }
@@ -725,17 +855,34 @@ function animateS5() {
       stagger: 0.06, ease: 'power2.out',
       duration: 0.5, delay: 1.8 }
   );
+
+  /* M5 — 3D mouse tracking sul titolo (solo pointer fine) */
+  if (!window.matchMedia('(pointer: coarse)').matches) {
+    document.addEventListener('mousemove', function (e) {
+      var dx = e.clientX - window.innerWidth  / 2;
+      var dy = e.clientY - window.innerHeight / 2;
+      gsap.to('.s5-inner', {
+        rotateX: dy / window.innerHeight * -8,
+        rotateY: dx / window.innerWidth  *  8,
+        transformPerspective: 800,
+        duration: 0.6, ease: 'power2.out'
+      });
+    });
+    document.addEventListener('mouseleave', function () {
+      gsap.to('.s5-inner', { rotateX: 0, rotateY: 0, duration: 0.8, ease: 'power2.out' });
+    });
+  }
 }
 
 /* ================================================================
-   S2 — NIKON ZR (glow pulsante)
+   S2 — NIKON ZR (glow pulsante, entry 0.7s, delay -30%)
 ================================================================ */
 function animateS1() {
-  gsap.set('#s1-sub',     { y: 20, opacity: 0 });
-  gsap.set('#s1-caption', { y: 16, opacity: 0 });
+  gsap.set('#s1-sub',     { y: 20, opacity: 0, clipPath: 'inset(0 100% 0 0)' });
+  gsap.set('#s1-caption', { y: 16, opacity: 0, clipPath: 'inset(0 100% 0 0)' });
 
   var tl = gsap.timeline();
-  tl.from('#s1-logo', { scale: 0.6, opacity: 0, duration: 1.2, ease: 'power3.out' }, 0)
+  tl.from('#s1-logo', { scale: 0.6, opacity: 0, duration: 0.7, ease: 'power3.out' }, 0)
     /* glow appare */
     .to('#s1-logo', {
         filter: 'brightness(0) invert(1) drop-shadow(0 0 30px rgba(255,255,255,0.6))',
@@ -745,23 +892,25 @@ function animateS1() {
             filter: 'brightness(0) invert(1) drop-shadow(0 0 10px rgba(255,255,255,0.15))',
             duration: 1.8, ease: 'power1.inOut', repeat: -1, yoyo: true
           });
+          /* burst particelle dopo logo in posizione */
+          particleBurst(document.getElementById('s1-logo'));
         }
-      }, 1.1)
-    .to('#s1-sub',     { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 1.0)
-    .to('#s1-line',    { width: 60,  duration: 0.6, ease: 'power2.out' }, 1.6)
-    .to('#s1-caption', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 2.0);
+      }, 0.77)
+    .to('#s1-sub',     { opacity: 1, y: 0, clipPath: 'inset(0 0% 0 0)', duration: 0.7, ease: 'power3.out' }, 0.7)
+    .to('#s1-line',    { width: 60,  duration: 0.5, ease: 'power2.out' }, 1.12)
+    .to('#s1-caption', { opacity: 1, y: 0, clipPath: 'inset(0 0% 0 0)', duration: 0.7, ease: 'power3.out' }, 1.4);
 }
 
 /* ================================================================
-   S3 — DJI (glow pulsante)
+   S3 — DJI (glow pulsante + radar sonar, entry 0.7s, delay -30%)
 ================================================================ */
 function animateS2() {
   gsap.set('#s2-logo',    { scale: 0.6, opacity: 0 });
-  gsap.set('#s2-sub',     { y: 20, opacity: 0 });
-  gsap.set('#s2-caption', { y: 16, opacity: 0 });
+  gsap.set('#s2-sub',     { y: 20, opacity: 0, clipPath: 'inset(0 100% 0 0)' });
+  gsap.set('#s2-caption', { y: 16, opacity: 0, clipPath: 'inset(0 100% 0 0)' });
 
   var tl = gsap.timeline();
-  tl.to('#s2-logo', { scale: 1, opacity: 1, duration: 1.2, ease: 'power3.out' }, 0)
+  tl.to('#s2-logo', { scale: 1, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0)
     /* glow appare */
     .to('#s2-logo', {
         filter: 'brightness(0) invert(1) drop-shadow(0 0 30px rgba(255,255,255,0.6))',
@@ -771,41 +920,38 @@ function animateS2() {
             filter: 'brightness(0) invert(1) drop-shadow(0 0 10px rgba(255,255,255,0.15))',
             duration: 1.8, ease: 'power1.inOut', repeat: -1, yoyo: true
           });
+          /* burst particelle dopo logo in posizione */
+          particleBurst(document.getElementById('s2-logo'));
         }
-      }, 1.1)
-    .to('#s2-sub',     { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 1.0)
-    .to('#s2-line',    { width: 60,  duration: 0.6, ease: 'power2.out' }, 1.6)
-    .to('#s2-caption', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 2.0);
-}
+      }, 0.77)
+    .to('#s2-sub',     { opacity: 1, y: 0, clipPath: 'inset(0 0% 0 0)', duration: 0.7, ease: 'power3.out' }, 0.7)
+    .to('#s2-line',    { width: 60,  duration: 0.5, ease: 'power2.out' }, 1.12)
+    .to('#s2-caption', { opacity: 1, y: 0, clipPath: 'inset(0 0% 0 0)', duration: 0.7, ease: 'power3.out' }, 1.4);
 
-/* ================================================================
-   S4 — MACBOOK PRO (M4: glitch su testo titolo)
-================================================================ */
-function animateS3() {
-  gsap.set('#s3-title',   { y: 60, opacity: 0 });
-  gsap.set('#s3-caption', { y: 16, opacity: 0 });
-
-  var tl = gsap.timeline();
-  tl.to('#s3-title',   { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out' }, 0)
-    /* glitch testo ×2 */
-    .to('#s3-title', { filter: 'hue-rotate(90deg) brightness(2.5)', duration: 0.06 }, 1.1)
-    .to('#s3-title', { filter: 'none',                               duration: 0.06 }, 1.16)
-    .to('#s3-title', { filter: 'hue-rotate(90deg) brightness(2.5)', duration: 0.06 }, 1.22)
-    .to('#s3-title', { filter: 'none',                               duration: 0.15 }, 1.28)
-    .to('#s3-line',    { width: 60, duration: 0.6, ease: 'power2.out' }, 1.2)
-    .to('#s3-caption', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 1.6);
+  /* Radar sonar — parte dopo che il logo è in posizione */
+  gsap.delayedCall(1.05, function () {
+    [0, 0.5, 1.0].forEach(function (delay, i) {
+      gsap.fromTo('#rr' + (i + 1),
+        { width: 0, height: 0, opacity: 0.4 },
+        { width: 300, height: 300, opacity: 0,
+          duration: 1.5, ease: 'power2.out',
+          repeat: -1, delay: delay }
+      );
+    });
+  });
 }
 
 /* ================================================================
    S5 — SOFTWARE SEQUENCE (loghi grandi, glow brandizzato pulsante)
+   Timing: entry 0.5s, slot per logo 1.6s (0.5 entry + 1.1 display)
 ================================================================ */
 function animateS4() {
   var tl = gsap.timeline();
 
-  /* ── DaVinci entra al centro ── */
+  /* ── DaVinci entra al centro (t=0) ── */
   tl.fromTo('#sw-davinci',
     { scale: 0.5, opacity: 0 },
-    { scale: 1,   opacity: 1, duration: 0.8, ease: 'back.out(1.4)' }, 0)
+    { scale: 1,   opacity: 1, duration: 0.7, ease: 'power3.out' }, 0)
     /* glow DaVinci appare poi pulsa */
     .to('#sw-davinci img', {
         filter: 'drop-shadow(0 0 30px rgba(255,107,53,0.5))',
@@ -816,16 +962,16 @@ function animateS4() {
             duration: 1.8, ease: 'power1.inOut', repeat: -1, yoyo: true
           });
         }
-      }, 0.9)
-    .to('#sw-davinci-lbl', { opacity: 1, duration: 0.4 }, 1.08)
+      }, 0.75)
+    .to('#sw-davinci-lbl', { opacity: 1, duration: 0.4 }, 0.85)
 
-  /* ── DaVinci esce a sinistra, Premiere entra ── */
-    .to('#sw-davinci',     { x: '-35vw', scale: 0.4, opacity: 0.3, duration: 0.6, ease: 'power2.inOut' }, 2.4)
-    .to('#sw-davinci img', { filter: 'none', duration: 0.3, overwrite: true }, 2.4)
-    .to('#sw-davinci-lbl', { opacity: 0, duration: 0.3 }, 2.4)
+  /* ── DaVinci esce a sinistra, Premiere entra (t=1.6) ── */
+    .to('#sw-davinci',     { x: '-35vw', scale: 0.4, opacity: 0.3, duration: 0.5, ease: 'power2.inOut' }, 1.6)
+    .to('#sw-davinci img', { filter: 'none', duration: 0.3, overwrite: true }, 1.6)
+    .to('#sw-davinci-lbl', { opacity: 0, duration: 0.3 }, 1.6)
     .fromTo('#sw-premiere',
       { scale: 0.5, opacity: 0 },
-      { scale: 1,   opacity: 1, duration: 0.8, ease: 'back.out(1.4)' }, 2.4)
+      { scale: 1,   opacity: 1, duration: 0.7, ease: 'power3.out' }, 1.6)
     /* glow Premiere appare poi pulsa */
     .to('#sw-premiere img', {
         filter: 'drop-shadow(0 0 30px rgba(153,153,255,0.5))',
@@ -836,16 +982,16 @@ function animateS4() {
             duration: 1.8, ease: 'power1.inOut', repeat: -1, yoyo: true
           });
         }
-      }, 3.3)
-    .to('#sw-premiere-lbl', { opacity: 1, duration: 0.4 }, 3.48)
+      }, 2.35)
+    .to('#sw-premiere-lbl', { opacity: 1, duration: 0.4 }, 2.45)
 
-  /* ── Premiere esce a destra, AE entra ── */
-    .to('#sw-premiere',     { x: '35vw', scale: 0.4, opacity: 0.3, duration: 0.6, ease: 'power2.inOut' }, 4.8)
-    .to('#sw-premiere img', { filter: 'none', duration: 0.3, overwrite: true }, 4.8)
-    .to('#sw-premiere-lbl', { opacity: 0, duration: 0.3 }, 4.8)
+  /* ── Premiere esce a destra, AE entra (t=3.2) ── */
+    .to('#sw-premiere',     { x: '35vw', scale: 0.4, opacity: 0.3, duration: 0.5, ease: 'power2.inOut' }, 3.2)
+    .to('#sw-premiere img', { filter: 'none', duration: 0.3, overwrite: true }, 3.2)
+    .to('#sw-premiere-lbl', { opacity: 0, duration: 0.3 }, 3.2)
     .fromTo('#sw-ae',
       { scale: 0.5, opacity: 0 },
-      { scale: 1,   opacity: 1, duration: 0.8, ease: 'back.out(1.4)' }, 4.8)
+      { scale: 1,   opacity: 1, duration: 0.7, ease: 'power3.out' }, 3.2)
     /* glow AE appare poi pulsa */
     .to('#sw-ae img', {
         filter: 'drop-shadow(0 0 30px rgba(210,145,255,0.5))',
@@ -856,20 +1002,20 @@ function animateS4() {
             duration: 1.8, ease: 'power1.inOut', repeat: -1, yoyo: true
           });
         }
-      }, 5.7)
-    .to('#sw-ae-lbl', { opacity: 1, duration: 0.4 }, 5.88)
+      }, 3.95)
+    .to('#sw-ae-lbl', { opacity: 1, duration: 0.4 }, 4.05)
 
-  /* ── Tutti e tre convergono in riga ──
-       scala finale ≈ clamp(40px,6vw,60px) da clamp(90px,14vw,130px) → scale 0.46 */
-    .to('#sw-davinci',  { x: '-120px', scale: 0.46, opacity: 0.5, duration: 0.7, ease: 'power2.inOut' }, 7.2)
-    .to('#sw-premiere', { x:        0, scale: 0.46, opacity: 0.5, duration: 0.7, ease: 'power2.inOut' }, 7.2)
-    .to('#sw-ae',       { x:  '120px', scale: 0.46, opacity: 0.5, duration: 0.7, ease: 'power2.inOut' }, 7.2)
-    .to('#sw-ae img',   { filter: 'none', duration: 0.3, overwrite: true }, 7.2)
-    .to('#sw-ae-lbl',   { opacity: 0, duration: 0.3 }, 7.2)
+  /* ── Tutti e tre convergono in riga (t=4.8) ──
+       scala finale: 60px / 150px max → scale 0.40 */
+    .to('#sw-davinci',  { x: '-120px', scale: 0.40, opacity: 0.5, duration: 0.7, ease: 'power2.inOut' }, 4.8)
+    .to('#sw-premiere', { x:        0, scale: 0.40, opacity: 0.5, duration: 0.7, ease: 'power2.inOut' }, 4.8)
+    .to('#sw-ae',       { x:  '120px', scale: 0.40, opacity: 0.5, duration: 0.7, ease: 'power2.inOut' }, 4.8)
+    .to('#sw-ae img',   { filter: 'none', duration: 0.3, overwrite: true }, 4.8)
+    .to('#sw-ae-lbl',   { opacity: 0, duration: 0.3 }, 4.8)
     /* linea SVG di connessione */
-    .to('#s4-connection',      { opacity: 1, duration: 0.4 }, 7.8)
-    .to('#s4-connection line', { attr: { strokeDashoffset: 0 }, duration: 0.6, ease: 'power2.out' }, 7.8)
-    .to('#s4-tagline',         { opacity: 1, duration: 0.6, ease: 'power2.out' }, 8.1);
+    .to('#s4-connection',      { opacity: 1, duration: 0.4 }, 5.4)
+    .to('#s4-connection line', { attr: { strokeDashoffset: 0 }, duration: 0.6, ease: 'power2.out' }, 5.4)
+    .to('#s4-tagline',         { opacity: 1, duration: 0.6, ease: 'power2.out' }, 5.7);
 }
 
 /* ================================================================
@@ -935,7 +1081,7 @@ function animateS6() {
 }
 
 /* ================================================================
-   S7 — CTA
+   S7 — CTA (con rainbow borders + button glow)
 ================================================================ */
 function animateS7() {
   gsap.fromTo('#s7-left',
@@ -948,7 +1094,11 @@ function animateS7() {
   var btn   = document.getElementById('s7-btn');
   var arrow = document.getElementById('s7-btn-arrow');
 
+  /* Button rainbow glow — attivo dopo che la sezione appare */
+  gsap.delayedCall(1.0, function () { btn.classList.add('btn-glow'); });
+
   btn.addEventListener('mouseenter', function () {
+    btn.classList.remove('btn-glow');
     gsap.to(btn, {
       borderColor: 'rgba(255,255,255,0.7)',
       backgroundColor: 'rgba(255,255,255,0.03)',
@@ -962,11 +1112,25 @@ function animateS7() {
       borderColor: 'rgba(255,255,255,0.25)',
       backgroundColor: 'transparent',
       boxShadow: 'none',
-      duration: 0.3, ease: 'power2.out'
+      duration: 0.3, ease: 'power2.out',
+      onComplete: function () { btn.classList.add('btn-glow'); }
     });
     gsap.to(arrow, { x: 0, duration: 0.3, ease: 'power2.out' });
   });
   btn.addEventListener('click', goMain);
+
+  /* Rainbow borders — IntersectionObserver persistente su #s7 */
+  var rbEls = document.querySelectorAll('.rb');
+  var rbObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        gsap.to(rbEls, { opacity: 1, duration: 0.8, ease: 'power2.out' });
+      } else {
+        gsap.to(rbEls, { opacity: 0, duration: 0.5, ease: 'power2.in' });
+      }
+    });
+  }, { threshold: 0.3 });
+  rbObs.observe(document.getElementById('s7'));
 
   var img = document.getElementById('s7-img');
   img.addEventListener('mouseenter', function () {
@@ -978,16 +1142,14 @@ function animateS7() {
 }
 
 /* ================================================================
-   TRIGGERS
-   Nuovo ordine: S1=Chi Sono, S2=Nikon, S3=DJI, S4=MacBook, S5=Software
+   TRIGGERS — 6 sezioni: Chi Sono, Nikon, DJI, Software, Numeri, CTA
 ================================================================ */
-gsap.delayedCall(0.15, animateS5);   /* S1: Chi Sono — prima sezione, si anima subito */
+gsap.delayedCall(0.15, animateS5);   /* S1: Chi Sono */
 onceVisible('s2', animateS1);        /* S2: Nikon ZR */
 onceVisible('s3', animateS2);        /* S3: DJI */
-onceVisible('s4', animateS3);        /* S4: MacBook Pro */
-onceVisible('s5', animateS4);        /* S5: Software sequence */
-onceVisible('s6', animateS6);        /* S6: Numeri + Filosofia */
-onceVisible('s7', animateS7);        /* S7: CTA */
+onceVisible('s5', animateS4);        /* S4: Software sequence */
+onceVisible('s6', animateS6);        /* S5: Numeri + Filosofia */
+onceVisible('s7', animateS7);        /* S6: CTA */
 </script>
 </body>
 </html>
