@@ -1,929 +1,993 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Alessio Lazzarini</title>
-  <meta name="robots" content="noindex">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alessio Lazzarini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+html {
+  scroll-snap-type: y mandatory;
+  height: 100dvh;
+  overflow-y: scroll;
+}
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #0a0a0a;
+  color: #fff;
+  height: 100dvh;
+}
 
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── Fixed background ── */
+#bg-img {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  z-index: -1;
+}
+#bg-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.82);
+  z-index: 0;
+}
 
-    html {
-      scroll-snap-type: y mandatory;
-      scroll-behavior: smooth;
-      overflow-x: hidden;
-      background: #000;
-    }
+/* ── Canvas ── */
+#ptc {
+  position: fixed; inset: 0;
+  z-index: 2; pointer-events: none;
+}
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #000;
-      color: #fff;
-      overflow-x: hidden;
-    }
+/* ── Skip button ── */
+#skip-btn {
+  position: fixed; top: 24px; right: 24px;
+  z-index: 9999;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px; color: rgba(255,255,255,0.2);
+  letter-spacing: 0.15em; cursor: pointer;
+  background: none; border: none;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+#skip-btn:hover { color: rgba(255,255,255,0.5); }
 
-    /* ── CUSTOM CURSOR ── */
-    #cursor-dot {
-      position: fixed;
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.9);
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-    }
-    #cursor-ring {
-      position: fixed;
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      border: 0.5px solid rgba(255,255,255,0.4);
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease;
-    }
-    #cursor-ring.large {
-      width: 44px; height: 44px;
-      border-color: rgba(255,255,255,0.25);
-    }
+/* ── Fade overlay ── */
+#fov {
+  position: fixed; inset: 0;
+  background: #000; opacity: 0;
+  z-index: 99999; pointer-events: none;
+}
 
-    /* ── CANVAS FISSI — particelle e linee geometriche ── */
-    #particlesCanvas {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 8;            /* sopra le sezioni, sotto cursor/overlay */
-    }
-    #linesCanvas {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 7;
-    }
+/* ── Scroll progress bar (M5) ── */
+#scroll-progress-bg {
+  position: fixed; bottom: 0; left: 0;
+  z-index: 9999; width: 100%; height: 1px;
+  background: rgba(255,255,255,0.08);
+}
+#scroll-progress-bar {
+  width: 0%; height: 100%;
+  background: rgba(255,255,255,0.4);
+  transition: width 0.3s ease;
+}
 
-    /* ── SEZIONI ── */
-    .section {
-      height: 100vh;
-      height: 100dvh;
-      scroll-snap-align: start;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
+/* ── Section counter (M6) ── */
+#sec-counter {
+  position: fixed; bottom: 24px; right: 24px;
+  z-index: 9999;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px; font-weight: 300;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.1em;
+}
 
-    /* ── FOTO DI SFONDO ── */
-    .sec-bg {
-      position: absolute;
-      inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      filter: blur(2px);
-      transform-origin: center center;
-      animation: kenBurns 8s ease-in-out infinite alternate;
-      opacity: 0;
-      transition: opacity 0.8s ease;
-      z-index: 0;
-    }
-    .sec-bg.bg-visible { opacity: 1; }
+/* ── Sections ── */
+section {
+  scroll-snap-align: start;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
 
-    @keyframes kenBurns {
-      from { transform: scale(1.0); }
-      to   { transform: scale(1.05); }
-    }
+/* ── Scroll arrow ── */
+.scroll-arrow {
+  position: absolute;
+  bottom: 32px; left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.18);
+  font-size: 18px;
+  animation: bounce 2s ease-in-out infinite;
+  z-index: 2;
+}
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(8px); }
+}
 
-    /* Overlay gradient scuro sopra la foto */
-    .sec-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.72);
-      z-index: 1;
-      pointer-events: none;
-    }
+/* =====================================================
+   S1 — CHI SONO (prima sezione, ex-S5)
+===================================================== */
+.s5-inner {
+  max-width: 680px; text-align: center;
+  padding: 0 32px;
+  position: relative; z-index: 2;
+}
+#s5-name {
+  font-size: clamp(22px,4.5vw,52px);
+  font-weight: 200; letter-spacing: 0.18em;
+  color: #fff; text-transform: uppercase;
+  white-space: nowrap;
+  display: flex; flex-wrap: nowrap;
+  justify-content: center; align-items: baseline;
+  line-height: 1; margin-bottom: 0;
+}
+#s5-name .letter { display: inline-block; opacity: 0; }
+#s5-name .ns     { display: inline-block; width: 0.35em; }
+@media (max-width: 480px) {
+  #s5-name { font-size: 18px; white-space: normal; flex-wrap: wrap; }
+}
+#s5-ticker-wrap {
+  overflow: hidden; width: 100%; margin: 20px 0;
+  opacity: 0;
+}
+#s5-ticker {
+  white-space: nowrap;
+  font-size: 11px; font-weight: 300;
+  color: rgba(255,255,255,0.22);
+  letter-spacing: 0.15em;
+  will-change: transform;
+}
+#s5-bio {
+  font-size: clamp(13px,1.6vw,16px); font-weight: 300;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.8; text-align: center;
+}
+#s5-bio .word { display: inline-block; opacity: 0; }
+.bio-sp       { display: inline-block; width: 0.28em; }
 
-    /* Fade-to-black in fondo ad ogni sezione — transizione morbida */
-    .sec-bottom-fade {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 40px;
-      background: linear-gradient(to bottom, transparent, #000);
-      z-index: 4;
-      pointer-events: none;
-    }
+/* =====================================================
+   S2 — NIKON ZR (ex-S1)
+===================================================== */
+.s1-inner {
+  display: flex; flex-direction: column;
+  align-items: center; position: relative; z-index: 2;
+}
+#s1-logo {
+  height: clamp(80px,14vw,140px); width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  display: block;
+}
+#s1-sub {
+  font-size: clamp(20px,4vw,40px); font-weight: 200;
+  color: rgba(255,255,255,0.5); letter-spacing: 0.3em;
+  margin-top: 12px;
+}
+#s1-line {
+  width: 0; height: 0.5px;
+  background: rgba(255,255,255,0.2);
+  margin: 20px auto;
+}
+#s1-caption {
+  font-size: clamp(12px,1.8vw,16px); font-weight: 300;
+  color: rgba(255,255,255,0.4); letter-spacing: 0.2em;
+  text-transform: uppercase; text-align: center;
+}
 
-    /* Contenuto sezioni sopra overlay */
-    .s1-center, .s1-scroll, .s1-skip { position: relative; z-index: 2; }
-    .s2-block  { position: relative; z-index: 2; }
-    .s3-block  { position: relative; z-index: 2; }
-    .s4-block  { position: relative; z-index: 2; }
+/* =====================================================
+   S3 — DJI (ex-S2)
+===================================================== */
+.s2-inner {
+  display: flex; flex-direction: column;
+  align-items: center; position: relative; z-index: 2;
+}
+#s2-logo {
+  height: clamp(80px,14vw,140px); width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  display: block;
+}
+#s2-sub {
+  font-size: clamp(20px,4vw,40px); font-weight: 200;
+  color: rgba(255,255,255,0.5); letter-spacing: 0.3em;
+  margin-top: 12px;
+}
+#s2-line {
+  width: 0; height: 0.5px;
+  background: rgba(255,255,255,0.2);
+  margin: 20px auto;
+}
+#s2-caption {
+  font-size: clamp(12px,1.8vw,16px); font-weight: 300;
+  color: rgba(255,255,255,0.4); letter-spacing: 0.2em;
+  text-transform: uppercase; text-align: center;
+}
 
-    /* ════════════════════════════════════
-       SEZIONE 1 — Apertura cinematografica
-       ════════════════════════════════════ */
-    .s1-center {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+/* =====================================================
+   S4 — MACBOOK PRO (ex-S3, senza icone app)
+===================================================== */
+.s3-inner {
+  display: flex; flex-direction: column;
+  align-items: center; position: relative; z-index: 2;
+}
+#s3-title {
+  font-size: clamp(36px,7vw,80px); font-weight: 200;
+  color: #fff; letter-spacing: 0.05em; text-align: center;
+}
+#s3-line {
+  width: 0; height: 0.5px;
+  background: rgba(255,255,255,0.2);
+  margin: 20px auto;
+}
+#s3-caption {
+  font-size: clamp(12px,1.8vw,16px); font-weight: 300;
+  color: rgba(255,255,255,0.4); letter-spacing: 0.2em;
+  text-transform: uppercase; text-align: center;
+}
 
-    .s1-name {
-      font-size: clamp(28px, 6vw, 52px);
-      font-weight: 200;
-      letter-spacing: 0.25em;
-      color: #fff;
-      text-transform: uppercase;
-      margin-bottom: 18px;
-      opacity: 0;
-      transform: translateY(-12px);
-      animation: s1FadeDown 0.8s cubic-bezier(0.16,1,0.3,1) 1.2s forwards;
-    }
+/* =====================================================
+   S5 — SOFTWARE SEQUENCE (ex-S4, loghi più grandi)
+===================================================== */
+.s4-inner {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  position: relative; z-index: 2;
+  width: 100%; height: 100%;
+}
+#s4-stage {
+  position: relative;
+  width: 100%; height: 280px;
+  display: flex; align-items: center; justify-content: center;
+}
+.sw-item {
+  position: absolute;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 16px;
+  opacity: 0;
+}
+.sw-logo {
+  height: clamp(90px,14vw,130px);
+  width: auto; object-fit: contain;
+}
+.sw-label {
+  font-size: 12px; font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase; opacity: 0;
+}
+#s4-connection {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 260px; height: 2px;
+  pointer-events: none;
+  overflow: visible;
+}
+#s4-tagline {
+  font-size: 11px; font-weight: 300;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.2em; text-transform: uppercase;
+  text-align: center; opacity: 0;
+  margin-top: 20px;
+}
 
-    .s1-line {
-      width: 0;
-      height: 0.5px;
-      background: rgba(255,255,255,0.25);
-      animation: s1LineExpand 0.8s cubic-bezier(0.16,1,0.3,1) 0.5s forwards;
-    }
-    @keyframes s1LineExpand {
-      from { width: 0; }
-      to   { width: 80px; }
-    }
+/* =====================================================
+   S6 — NUMERI + FILOSOFIA (senza loghi partner)
+===================================================== */
+.s6-inner {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  position: relative; z-index: 2;
+}
+#s6-numbers {
+  flex: 0 0 50%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 28px;
+}
+#s6-nums-row {
+  display: flex; align-items: flex-end;
+  gap: clamp(32px,6vw,80px);
+}
+.num-item {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 8px; opacity: 0;
+}
+.num-value {
+  font-size: clamp(52px,10vw,100px);
+  font-weight: 200; color: #fff; line-height: 1;
+}
+.num-label {
+  font-size: 10px; font-weight: 300;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  text-align: center;
+}
+#s6-philosophy {
+  flex: 0 0 50%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 0 32px;
+}
+#s6-quote {
+  font-size: clamp(18px,3.5vw,38px);
+  font-weight: 200; color: #fff;
+  line-height: 1.3; text-align: center;
+  max-width: 560px; margin: 0 auto;
+}
+#s6-quote .word {
+  display: inline-block;
+  margin-right: 0.28em; opacity: 0;
+}
+#s6-tags {
+  display: flex; align-items: center;
+  justify-content: center; flex-wrap: wrap;
+  margin-top: 24px; gap: 8px;
+}
+.s6-tag {
+  border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 20px; padding: 4px 12px;
+  font-size: 9px; font-weight: 300;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.1em; display: inline-block;
+  opacity: 0;
+}
 
-    .s1-role {
-      font-size: clamp(11px, 1.5vw, 14px);
-      font-weight: 300;
-      letter-spacing: 0.15em;
-      color: rgba(255,255,255,0.4);
-      margin-top: 18px;
-      opacity: 0;
-      transform: translateY(-12px);
-      animation: s1FadeDown 0.8s cubic-bezier(0.16,1,0.3,1) 2s forwards;
-    }
-
-    @keyframes s1FadeDown {
-      from { opacity: 0; transform: translateY(-12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .s1-scroll {
-      position: absolute;
-      bottom: 48px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      opacity: 0;
-      animation: s1FadeIn 0.8s ease 3.5s forwards;
-    }
-    .s1-scroll-label {
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      color: rgba(255,255,255,0.2);
-      text-transform: uppercase;
-    }
-    .s1-scroll-arrow {
-      width: 1px;
-      height: 24px;
-      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.3));
-      animation: s1Bounce 1.6s ease-in-out infinite;
-    }
-    @keyframes s1Bounce {
-      0%, 100% { transform: translateY(0); }
-      50%      { transform: translateY(8px); }
-    }
-    @keyframes s1FadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    .s1-skip {
-      position: absolute;
-      top: 32px; right: 40px;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.2);
-      text-decoration: none;
-      opacity: 0;
-      animation: s1FadeIn 0.6s ease 4s forwards;
-      transition: color 0.2s;
-    }
-    .s1-skip:hover { color: rgba(255,255,255,0.55); }
-
-    /* ════════════════════════════════════
-       SEZIONE 2 — Chi sono
-       ════════════════════════════════════ */
-    .s2-block {
-      max-width: 640px;
-      width: 100%;
-      padding: 0 48px;
-    }
-
-    .s2-label {
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      color: rgba(255,255,255,0.2);
-      text-transform: uppercase;
-      margin-bottom: 28px;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .s2-label.visible { opacity: 1; transform: translateY(0); }
-
-    .s2-text {
-      font-size: clamp(22px, 4vw, 38px);
-      font-weight: 200;
-      color: #fff;
-      line-height: 1.45;
-      letter-spacing: -0.01em;
-      margin-bottom: 44px;
-    }
-
-    .s2-word {
-      display: inline-block;
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-    .s2-word.visible { opacity: 1; transform: translateY(0); }
-
-    .s2-details {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .s2-details.visible { opacity: 1; transform: translateY(0); }
-
-    .s2-detail {
-      font-size: 11px; font-weight: 300;
-      color: rgba(255,255,255,0.3);
-      letter-spacing: 0.1em;
-    }
-    .s2-separator { font-size: 10px; color: rgba(255,255,255,0.15); }
-
-    /* ── NIKON BADGE ── */
-    .nikon-badge {
-      position: absolute;
-      bottom: 52px; right: 32px;
-      border: 0.5px solid rgba(255,255,255,0.1);
-      padding: 10px 14px;
-      border-radius: 2px;
-      background: rgba(0,0,0,0.45);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 3;
-      opacity: 0;
-      transition: opacity 0.6s ease;
-    }
-    .nikon-badge.visible { opacity: 1; }
-
-    .nikon-rec-row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 6px;
-    }
-    .nikon-rec-dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: #E40012;
-      animation: nikonPulse 2.2s ease-in-out infinite;
-      flex-shrink: 0;
-    }
-    @keyframes nikonPulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 4px rgba(228,0,18,0.6); }
-      50%       { opacity: 0.15; box-shadow: none; }
-    }
-    .nikon-rec-label {
-      font-size: 8px;
-      letter-spacing: 0.15em;
-      color: rgba(255,255,255,0.28);
-    }
-
-    .nikon-brand {
-      display: flex;
-      align-items: flex-start;
-      gap: 1px;
-    }
-    .nikon-name {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 18px;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: 0.06em;
-      line-height: 1;
-    }
-    .nikon-z-sup {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 11px;
-      font-weight: 700;
-      color: #E40012;
-      line-height: 1;
-      margin-top: 1px;
-    }
-
-    .nikon-spec {
-      font-size: 9px;
-      letter-spacing: 0.15em;
-      color: rgba(255,255,255,0.3);
-      margin-top: 5px;
-    }
-
-    /* ════════════════════════════════════
-       SEZIONE 3 — La filosofia
-       ════════════════════════════════════ */
-    .s3-block {
-      max-width: 700px;
-      width: 100%;
-      padding: 0 48px;
-      text-align: center;
-    }
-
-    .s3-quote-line {
-      display: block;
-      font-size: clamp(24px, 5vw, 48px);
-      font-weight: 200;
-      color: #fff;
-      line-height: 1.3;
-      letter-spacing: -0.02em;
-      clip-path: inset(0 100% 0 0);
-      transition: clip-path 0.9s cubic-bezier(0.16,1,0.3,1);
-    }
-    .s3-quote-line:nth-child(2) { transition-delay: 0.2s; }
-    .s3-quote-line.visible { clip-path: inset(0 0% 0 0); }
-
-    .s3-divider {
-      width: 60px; height: 0.5px;
-      background: rgba(255,255,255,0.1);
-      margin: 28px auto;
-      opacity: 0;
-      transition: opacity 0.6s ease;
-    }
-    .s3-divider.visible { opacity: 1; }
-
-    .s3-clients {
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      color: rgba(255,255,255,0.2);
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .s3-clients.visible { opacity: 1; transform: translateY(0); }
-
-    /* ════════════════════════════════════
-       SEZIONE 4 — Call to action
-       ════════════════════════════════════ */
-    .s4-block {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0 40px;
-      text-align: center;
-    }
-
-    .s4-question {
-      font-size: clamp(16px, 2.5vw, 22px);
-      font-weight: 300;
-      color: rgba(255,255,255,0.5);
-      letter-spacing: 0.05em;
-      margin-bottom: 32px;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .s4-question.visible { opacity: 1; transform: translateY(0); }
-
-    /* Loghi collaborazioni */
-    .s4-logos {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 28px;
-      margin-bottom: 36px;
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
-    }
-    .s4-logos.visible { opacity: 1; transform: translateY(0); }
-    .s4-logos img {
-      height: 18px;
-      width: auto;
-      object-fit: contain;
-      filter: brightness(0) invert(1) opacity(0.22);
-    }
-
-    /* CTA button cinematografico */
-    .s4-btn {
-      border: 0.5px solid rgba(255,255,255,0.3);
-      padding: 18px 48px;
-      border-radius: 2px;
-      background: transparent;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 300;
-      letter-spacing: 0.12em;
-      color: rgba(255,255,255,0.8);
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease,
-                  box-shadow 0.3s ease, opacity 0.7s ease 0.3s, transform 0.7s ease 0.3s;
-    }
-    .s4-btn.visible { opacity: 1; transform: translateY(0); }
-    .s4-btn:hover {
-      border-color: rgba(255,255,255,0.8);
-      background: rgba(255,255,255,0.05);
-      color: #fff;
-      box-shadow: 0 0 30px rgba(255,255,255,0.1);
-    }
-
-    .s4-btn-text {
-      display: inline-block;
-      transition: transform 0.3s ease;
-    }
-    .s4-btn-arrow {
-      display: inline-block;
-      transition: transform 0.3s ease;
-    }
-    .s4-btn:hover .s4-btn-text  { transform: translateX(4px); }
-    .s4-btn:hover .s4-btn-arrow { transform: translateX(4px); }
-
-    .s4-url {
-      margin-top: 28px;
-      font-size: 10px;
-      color: rgba(255,255,255,0.15);
-      letter-spacing: 0.15em;
-      opacity: 0;
-      transition: opacity 0.6s ease 0.8s;
-    }
-    .s4-url.visible { opacity: 1; }
-
-    /* ── FADE OUT OVERLAY ── */
-    #fade-overlay {
-      position: fixed;
-      inset: 0;
-      background: #000;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 9000;
-      transition: opacity 0.6s ease;
-    }
-    #fade-overlay.active { opacity: 1; pointer-events: all; }
-
-    /* ── MOBILE ── */
-    @media (pointer: coarse) {
-      #cursor-dot, #cursor-ring { display: none; }
-      .s1-skip { top: 20px; right: 20px; }
-      .nikon-badge { bottom: 56px; right: 16px; }
-    }
-    @media (max-width: 600px) {
-      .s2-block, .s3-block { padding: 0 28px; }
-      .s4-block { padding: 0 28px; }
-      .s4-btn { padding: 16px 32px; font-size: 12px; }
-      .s2-details { flex-wrap: wrap; gap: 10px; }
-      .s4-logos img { height: 14px; }
-      .s4-logos { gap: 20px; }
-    }
-  </style>
+/* =====================================================
+   S7 — CTA
+===================================================== */
+.s7-inner {
+  display: flex; align-items: center;
+  justify-content: center;
+  gap: clamp(40px,8vw,100px);
+  width: 100%; max-width: 1100px;
+  padding: 0 clamp(24px,6vw,80px);
+  position: relative; z-index: 2;
+}
+#s7-left {
+  display: flex; flex-direction: column;
+  gap: 28px; align-items: flex-start;
+  flex: 1; opacity: 0;
+}
+#s7-pretitle {
+  font-size: clamp(14px,2.5vw,24px); font-weight: 300;
+  color: rgba(255,255,255,0.35); letter-spacing: 0.06em;
+}
+#s7-btn {
+  border: 0.5px solid rgba(255,255,255,0.25);
+  padding: 20px 56px; border-radius: 2px;
+  background: transparent; cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px; font-weight: 300;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.8);
+  text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px;
+  white-space: nowrap;
+}
+#s7-btn-arrow { display: inline-block; }
+#s7-url {
+  font-size: 10px; font-weight: 300;
+  color: rgba(255,255,255,0.12); letter-spacing: 0.22em;
+}
+#s7-right { flex: 0 0 auto; opacity: 0; }
+#s7-img {
+  width: 100%; max-width: 380px;
+  height: clamp(300px,50vh,500px);
+  object-fit: cover; object-position: center;
+  border-radius: 4px;
+  border: 0.5px solid rgba(255,255,255,0.1);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  display: block;
+}
+@media (max-width: 768px) {
+  .s7-inner {
+    flex-direction: column-reverse;
+    gap: 24px; align-items: center;
+    justify-content: center; padding: 24px;
+  }
+  #s7-right { flex: none; }
+  #s7-img { height: 200px; max-width: 100%; width: 100%; }
+  #s7-left { align-items: center; text-align: center; }
+}
+</style>
 </head>
 <body>
 
-  <!-- ── CANVAS: particelle di luce ── -->
-  <canvas id="particlesCanvas"></canvas>
+<!-- Fixed background -->
+<img id="bg-img" src="assets/placeholder_pilota_compressed.jpg" alt="">
+<div id="bg-overlay"></div>
 
-  <!-- ── CANVAS: linee geometriche ── -->
-  <canvas id="linesCanvas"></canvas>
+<!-- Particles -->
+<canvas id="ptc"></canvas>
 
-  <!-- Custom cursor -->
-  <div id="cursor-dot"></div>
-  <div id="cursor-ring"></div>
+<!-- Skip -->
+<button id="skip-btn">Salta →</button>
 
-  <!-- Fade to black overlay -->
-  <div id="fade-overlay"></div>
+<!-- Fade overlay -->
+<div id="fov"></div>
 
-  <!-- ══════════════════════════════
-       SEZIONE 1 — Apertura
-       ══════════════════════════════ -->
-  <section class="section" id="s1">
-    <img class="sec-bg" id="s1Bg"
-         src="assets/placeholder_header_002.jpg"
-         alt="">
-    <div class="sec-overlay"></div>
-    <div class="sec-bottom-fade"></div>
+<!-- Scroll progress (M5) -->
+<div id="scroll-progress-bg"><div id="scroll-progress-bar"></div></div>
 
-    <a class="s1-skip" href="index.html"
-       onclick="sessionStorage.setItem('skipSplash','true')">Salta →</a>
+<!-- Section counter (M6) -->
+<div id="sec-counter">01 / 07</div>
 
-    <div class="s1-center">
-      <div class="s1-name">Alessio Lazzarini</div>
-      <div class="s1-line"></div>
-      <div class="s1-role">Fotografo · Videomaker · Drone Operator</div>
+<!-- ═══════════════════════════════════════════
+     S1 — CHI SONO (prima sezione)
+════════════════════════════════════════════ -->
+<section id="s1">
+  <div class="s5-inner">
+    <div id="s5-name"></div>
+    <div id="s5-ticker-wrap">
+      <div id="s5-ticker">Fotografo · Videomaker · Drone Operator · Color Grading · Motion Graphics · Fotografo · Videomaker · Drone Operator · Color Grading · Motion Graphics · Fotografo · Videomaker · Drone Operator · Color Grading · Motion Graphics · </div>
     </div>
+    <div id="s5-bio"></div>
+  </div>
+  <div class="scroll-arrow">↓</div>
+</section>
 
-    <div class="s1-scroll">
-      <span class="s1-scroll-label">scorri</span>
-      <div class="s1-scroll-arrow"></div>
+<!-- ═══════════════════════════════════════════
+     S2 — NIKON ZR
+════════════════════════════════════════════ -->
+<section id="s2">
+  <div class="s1-inner">
+    <img id="s1-logo" src="assets/Nikon_RED_Logo%20trasp.png" alt="Nikon">
+    <div id="s1-sub">ZR</div>
+    <div id="s1-line"></div>
+    <div id="s1-caption">Per riprese cinematografiche</div>
+  </div>
+  <div class="scroll-arrow">↓</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     S3 — DJI
+════════════════════════════════════════════ -->
+<section id="s3">
+  <div class="s2-inner">
+    <img id="s2-logo" src="assets/dji-1.png" alt="DJI">
+    <div id="s2-sub">Per riprese aeree</div>
+    <div id="s2-line"></div>
+    <div id="s2-caption">Dal drone al set</div>
+  </div>
+  <div class="scroll-arrow">↓</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     S4 — MACBOOK PRO
+════════════════════════════════════════════ -->
+<section id="s4">
+  <div class="s3-inner">
+    <div id="s3-title">MacBook Pro</div>
+    <div id="s3-line"></div>
+    <div id="s3-caption">Per editare tutto</div>
+  </div>
+  <div class="scroll-arrow">↓</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     S5 — SOFTWARE SEQUENCE
+════════════════════════════════════════════ -->
+<section id="s5">
+  <div class="s4-inner">
+    <div id="s4-stage">
+      <div class="sw-item" id="sw-davinci">
+        <img class="sw-logo" src="assets/davinci_resolve_macos_bigsur_icon_190261%202.png" alt="DaVinci Resolve">
+        <div class="sw-label" id="sw-davinci-lbl" style="color:rgba(255,107,53,0.6)">Color correction</div>
+      </div>
+      <div class="sw-item" id="sw-premiere">
+        <img class="sw-logo" src="assets/adobe_premiere_pro_macos_bigsur_icon_189485.png" alt="Premiere Pro">
+        <div class="sw-label" id="sw-premiere-lbl" style="color:rgba(153,153,255,0.6)">Montaggio video</div>
+      </div>
+      <div class="sw-item" id="sw-ae">
+        <img class="sw-logo" src="assets/adobe_after_effects_macos_bigsur_icon_190464.png" alt="After Effects">
+        <div class="sw-label" id="sw-ae-lbl" style="color:rgba(210,145,255,0.6)">Animazioni e titoli</div>
+      </div>
+      <svg id="s4-connection" viewBox="0 0 260 2" preserveAspectRatio="none"
+           xmlns="http://www.w3.org/2000/svg" style="opacity:0">
+        <line x1="0" y1="1" x2="260" y2="1"
+              stroke="rgba(255,255,255,0.08)" stroke-width="1"
+              pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
+      </svg>
     </div>
-  </section>
+    <div id="s4-tagline">La suite completa</div>
+  </div>
+</section>
 
-  <!-- ══════════════════════════════
-       SEZIONE 2 — Chi sono
-       ══════════════════════════════ -->
-  <section class="section" id="s2">
-    <img class="sec-bg" id="s2Bg"
-         src="assets/placeholder_drone_compressed.jpg"
-         alt="">
-    <div class="sec-overlay"></div>
-    <div class="sec-bottom-fade"></div>
-
-    <div class="s2-block">
-      <div class="s2-label"   id="s2Label">Chi sono</div>
-      <div class="s2-text"    id="s2Text"></div>
-      <div class="s2-details" id="s2Details">
-        <span class="s2-detail">Dal 2020</span>
-        <span class="s2-separator">·</span>
-        <span class="s2-detail">ENAC A1/A3</span>
-        <span class="s2-separator">·</span>
-        <span class="s2-detail">Triveneto</span>
+<!-- ═══════════════════════════════════════════
+     S6 — NUMERI + FILOSOFIA
+════════════════════════════════════════════ -->
+<section id="s6">
+  <div class="s6-inner">
+    <div id="s6-numbers">
+      <div id="s6-nums-row">
+        <div class="num-item" id="ni-proj">
+          <div class="num-value" id="nv-proj">0</div>
+          <div class="num-label">Progetti realizzati</div>
+        </div>
+        <div class="num-item" id="ni-matr">
+          <div class="num-value" id="nv-matr">0</div>
+          <div class="num-label">Matrimoni 2025</div>
+        </div>
+        <div class="num-item" id="ni-anni">
+          <div class="num-value" id="nv-anni">0</div>
+          <div class="num-label">Anni di esperienza</div>
+        </div>
       </div>
     </div>
-
-    <!-- Nikon Red badge -->
-    <div class="nikon-badge" id="nikonBadge">
-      <div class="nikon-rec-row">
-        <div class="nikon-rec-dot"></div>
-        <span class="nikon-rec-label">REC</span>
-      </div>
-      <div class="nikon-brand">
-        <span class="nikon-name">NIKON</span>
-        <span class="nikon-z-sup">Z</span>
-      </div>
-      <div class="nikon-spec">Z9 · RAW · 4K120</div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════
-       SEZIONE 3 — La filosofia
-       ══════════════════════════════ -->
-  <section class="section" id="s3">
-    <img class="sec-bg" id="s3Bg"
-         src="assets/placeholder_servizi_videomaking.jpeg"
-         alt="">
-    <div class="sec-overlay"></div>
-    <div class="sec-bottom-fade"></div>
-
-    <div class="s3-block">
-      <div class="s3-quote">
-        <span class="s3-quote-line" id="s3Line1">Ogni storia merita</span>
-        <span class="s3-quote-line" id="s3Line2">di essere raccontata bene.</span>
-      </div>
-      <div class="s3-divider"  id="s3Divider"></div>
-      <div class="s3-clients"  id="s3Clients">
-        Garda Trentino · Bike Festival · Comano Auto · Nordic Camper
+    <div id="s6-philosophy">
+      <div id="s6-quote"></div>
+      <div id="s6-tags">
+        <span class="s6-tag">Triveneto</span>
+        <span class="s6-tag">ENAC A1/A3</span>
+        <span class="s6-tag">Dal 2020</span>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ══════════════════════════════
-       SEZIONE 4 — CTA finale
-       ══════════════════════════════ -->
-  <section class="section" id="s4">
-    <img class="sec-bg" id="s4Bg"
-         src="assets/placeholder_servizi_riprese%20aeree.jpeg"
-         alt="">
-    <div class="sec-overlay"></div>
-    <div class="sec-bottom-fade"></div>
-
-    <div class="s4-block">
-      <div class="s4-question" id="s4Question">Pronto a vedere il lavoro?</div>
-
-      <!-- Loghi collaborazioni: molto piccoli, monocromatici -->
-      <div class="s4-logos" id="s4Logos">
-        <img src="assets/loghi%20ig/logo%20garda%20trentino.jpg"  alt="Garda Trentino">
-        <img src="assets/loghi%20ig/logo%20bike%20festival.png"   alt="Bike Festival">
-        <img src="assets/loghi%20ig/logo%20nordic%20camper.jpg"   alt="Nordic Camper">
-      </div>
-
-      <button class="s4-btn" id="s4Btn">
-        <span class="s4-btn-text">Entra nel sito</span>
-        <span class="s4-btn-arrow">→</span>
+<!-- ═══════════════════════════════════════════
+     S7 — CTA
+════════════════════════════════════════════ -->
+<section id="s7">
+  <div class="s7-inner">
+    <div id="s7-left">
+      <div id="s7-pretitle">Pronto a scoprire il lavoro?</div>
+      <button id="s7-btn">
+        <span>Entra nel sito</span>
+        <span id="s7-btn-arrow">→</span>
       </button>
-      <div class="s4-url" id="s4Url">alessiolazzarini.com</div>
+      <div id="s7-url">alessiolazzarini.com</div>
     </div>
-  </section>
+    <div id="s7-right">
+      <img id="s7-img" src="assets/placeholder_pilota_compressed.jpg" alt="Alessio Lazzarini">
+    </div>
+  </div>
+</section>
 
-  <script>
-    /* ════════════════════════════════════════════════════
-       MODIFICA 1 — PARTICELLE DI LUCE (canvas fisso)
-       ════════════════════════════════════════════════════ */
-    (function() {
-      var canvas = document.getElementById('particlesCanvas');
-      if (!canvas) return;
-      var ctx = canvas.getContext('2d');
-      var W, H;
-      var COUNT = 80;
-      var particles = [];
+<script>
+gsap.registerPlugin(ScrollTrigger);
 
-      function resize() {
-        W = canvas.width  = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-      }
+/* ================================================================
+   PARTICLES
+================================================================ */
+(function () {
+  var canvas = document.getElementById('ptc');
+  var ctx    = canvas.getContext('2d');
+  var W, H, pts = [];
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  for (var i = 0; i < 50; i++) {
+    pts.push({
+      x:  Math.random() * window.innerWidth,
+      y:  Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      op: 0.04 + Math.random() * 0.06
+    });
+  }
+  (function loop() {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < pts.length; i++) {
+      var p = pts[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W;  if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H;  if (p.y > H) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 1, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,' + p.op + ')';
+      ctx.fill();
+    }
+    requestAnimationFrame(loop);
+  })();
+})();
 
-      function rand(a, b) { return a + Math.random() * (b - a); }
+/* ================================================================
+   HELPERS
+================================================================ */
+function onceVisible(id, fn) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var io = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) { fn(); io.disconnect(); }
+  }, { threshold: 0.5 });
+  io.observe(el);
+}
 
-      function mkParticle(randomPos) {
-        return {
-          x:  randomPos ? rand(0, W) : (Math.random() < 0.5 ? rand(-5, 0) : rand(W, W + 5)),
-          y:  rand(0, H),
-          r:  rand(0.4, 1.4),
-          vx: rand(-0.25, 0.25),
-          vy: rand(-0.25, 0.25),
-          op: rand(0.05, 0.25),
-        };
-      }
+/* ================================================================
+   SCROLL PROGRESS (M5)
+================================================================ */
+document.documentElement.addEventListener('scroll', function () {
+  var el  = document.documentElement;
+  var pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('scroll-progress-bar').style.width = pct + '%';
+});
 
-      resize();
-      window.addEventListener('resize', resize, { passive: true });
-
-      for (var i = 0; i < COUNT; i++) particles.push(mkParticle(true));
-
-      function drawParticles() {
-        ctx.clearRect(0, 0, W, H);
-        for (var j = 0; j < particles.length; j++) {
-          var p = particles[j];
-          p.x += p.vx;
-          p.y += p.vy;
-
-          // Rigenera se esce dal viewport
-          if (p.x < -10 || p.x > W + 10 || p.y < -10 || p.y > H + 10) {
-            particles[j] = mkParticle(false);
-            continue;
+/* ================================================================
+   SECTION COUNTER (M6)
+================================================================ */
+(function () {
+  var counter  = document.getElementById('sec-counter');
+  var sections = document.querySelectorAll('section');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        var idx = Array.prototype.indexOf.call(sections, entry.target) + 1;
+        var n   = (idx < 10 ? '0' : '') + idx;
+        gsap.to(counter, {
+          opacity: 0, duration: 0.15,
+          onComplete: function () {
+            counter.textContent = n + ' / 07';
+            gsap.to(counter, { opacity: 1, duration: 0.3 });
           }
-
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(255,255,255,' + p.op + ')';
-          ctx.fill();
-        }
-        requestAnimationFrame(drawParticles);
+        });
       }
-      drawParticles();
-    })();
+    });
+  }, { threshold: 0.5 });
+  sections.forEach(function (s) { io.observe(s); });
+})();
 
-    /* ════════════════════════════════════════════════════
-       MODIFICA 3 — LINEE GEOMETRICHE (secondo canvas fisso)
-       ════════════════════════════════════════════════════ */
-    (function() {
-      var canvas = document.getElementById('linesCanvas');
-      if (!canvas) return;
-      var ctx = canvas.getContext('2d');
-      var W, H;
+/* ================================================================
+   SKIP / GO MAIN
+================================================================ */
+document.getElementById('skip-btn').addEventListener('click', function () {
+  gsap.to('body', { opacity: 0, duration: 0.4, onComplete: function () {
+    sessionStorage.setItem('skipSplash', 'true');
+    window.location.href = 'index.html';
+  }});
+});
 
-      function resize() {
-        W = canvas.width  = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-      }
-      resize();
-      window.addEventListener('resize', resize, { passive: true });
+function goMain() {
+  sessionStorage.setItem('skipSplash', 'true');
+  gsap.to('#fov', { opacity: 1, duration: 0.6, ease: 'power2.inOut', onComplete: function () {
+    window.location.href = 'index.html';
+  }});
+}
 
-      // 8 linee diagonali definite come frazioni di W/H
-      var LINES = [
-        [0,    0,    1,    1   ],
-        [1,    0,    0,    1   ],
-        [0,    0.25, 1,    0.75],
-        [0.25, 0,    0.75, 1   ],
-        [0,    0.6,  1,    0.3 ],
-        [0.6,  0,    0.3,  1   ],
-        [0,    0.8,  1,    0.15],
-        [0.15, 1,    0.9,  0   ],
-      ];
+/* ================================================================
+   S1 — CHI SONO (prima sezione, usa animateS5)
+================================================================ */
+function buildName() {
+  var str = 'ALESSIOLAZZARINI.COM';
+  var el  = document.getElementById('s5-name');
+  el.innerHTML = '';
+  for (var i = 0; i < str.length; i++) {
+    var s = document.createElement('span');
+    if (str[i] === ' ') {
+      s.className = 'ns';
+    } else {
+      s.className   = 'letter';
+      s.textContent = str[i];
+    }
+    el.appendChild(s);
+  }
+}
 
-      var CYCLE         = 12000;  // ms — ciclo totale
-      var DRAW_DURATION = 1200;   // ms per disegnare una linea
-      var LINE_OFFSET   = 900;    // ms di offset tra linee successive
-      var FADE_START    = 9500;   // ms → inizio fade-out di tutto
-      var FADE_DURATION = 2000;   // ms fade-out
+function buildBio() {
+  var text  = 'Mi chiamo Alessio. Ho 26 anni e racconto storie attraverso immagini in movimento. Dal drone alla sala montaggio ogni progetto è fatto con cura e una visione cinematografica.';
+  var el    = document.getElementById('s5-bio');
+  el.innerHTML = '';
+  var words = text.split(' ');
+  words.forEach(function (w, i) {
+    var s = document.createElement('span');
+    s.className   = 'word';
+    s.textContent = w;
+    el.appendChild(s);
+    if (i < words.length - 1) {
+      var sp = document.createElement('span');
+      sp.className = 'bio-sp';
+      el.appendChild(sp);
+    }
+  });
+}
 
-      var startTime = null;
+function animateS5() {
+  buildName();
+  buildBio();
 
-      function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
-      function lerp(a, b, t)    { return a + (b - a) * t; }
-      function easeOut(t)       { return 1 - Math.pow(1 - t, 2); }
+  /* Lettere dall'alto con glitch colore */
+  gsap.fromTo('#s5-name .letter',
+    { y: -40, opacity: 0, rotation: -6 },
+    { y:  0,  opacity: 1, rotation:  0,
+      stagger: 0.04, ease: 'back.out(1.7)',
+      duration: 0.6, delay: 0.3 }
+  );
 
-      function drawLines(ts) {
-        if (!startTime) startTime = ts;
-        var elapsed = (ts - startTime) % CYCLE;
-
-        // Opacità globale (fade-out verso fine ciclo)
-        var globalAlpha = elapsed > FADE_START
-          ? clamp(1 - (elapsed - FADE_START) / FADE_DURATION, 0, 1)
-          : 1;
-
-        ctx.clearRect(0, 0, W, H);
-
-        for (var i = 0; i < LINES.length; i++) {
-          var lineStart = i * LINE_OFFSET;
-          if (elapsed < lineStart) continue;
-
-          var rawProg = clamp((elapsed - lineStart) / DRAW_DURATION, 0, 1);
-          var prog    = easeOut(rawProg);
-
-          var x1 = LINES[i][0] * W;
-          var y1 = LINES[i][1] * H;
-          var x2 = LINES[i][2] * W;
-          var y2 = LINES[i][3] * H;
-
-          var cx = lerp(x1, x2, prog);
-          var cy = lerp(y1, y2, prog);
-
-          ctx.beginPath();
-          ctx.moveTo(x1, y1);
-          ctx.lineTo(cx, cy);
-          ctx.strokeStyle = 'rgba(255,255,255,' + (0.045 * globalAlpha) + ')';
-          ctx.lineWidth   = 0.5;
-          ctx.stroke();
-        }
-
-        requestAnimationFrame(drawLines);
-      }
-      requestAnimationFrame(drawLines);
-    })();
-
-    /* ════════════════════════════════════════════════════
-       CUSTOM CURSOR (identico a index.html)
-       ════════════════════════════════════════════════════ */
-    (function() {
-      var dot  = document.getElementById('cursor-dot');
-      var ring = document.getElementById('cursor-ring');
-      if (!dot || !ring) return;
-
-      var mx = -200, my = -200, rx = -200, ry = -200;
-
-      document.addEventListener('mousemove', function(e) {
-        mx = e.clientX; my = e.clientY;
-      }, { passive: true });
-
-      document.addEventListener('mouseover', function(e) {
-        if (e.target.closest('a, button')) ring.classList.add('large');
-        else                               ring.classList.remove('large');
+  /* Micro-glitch arancione per ogni lettera */
+  document.querySelectorAll('#s5-name .letter').forEach(function (el, i) {
+    gsap.delayedCall(0.3 + i * 0.04 + 0.45, function () {
+      gsap.to(el, {
+        color: 'rgba(255,107,53,1)', duration: 0.08,
+        onComplete: function () { gsap.to(el, { color: '#ffffff', duration: 0.08 }); }
       });
+    });
+  });
 
-      function lerp(a, b, t) { return a + (b - a) * t; }
+  /* Ticker */
+  gsap.to('#s5-ticker-wrap', { opacity: 1, duration: 0.5, delay: 0.8, ease: 'power2.out' });
+  gsap.to('#s5-ticker', { x: '-33.33%', duration: 10, ease: 'none', repeat: -1, delay: 0.8 });
 
-      (function tick() {
-        rx = lerp(rx, mx, 0.12);
-        ry = lerp(ry, my, 0.12);
-        dot.style.left  = mx + 'px'; dot.style.top  = my + 'px';
-        ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-        requestAnimationFrame(tick);
-      })();
-    })();
+  /* Bio parola per parola */
+  gsap.fromTo('#s5-bio .word',
+    { y: 16, opacity: 0 },
+    { y:  0, opacity: 1,
+      stagger: 0.06, ease: 'power2.out',
+      duration: 0.5, delay: 1.8 }
+  );
+}
 
-    /* ════════════════════════════════════════════════════
-       MODIFICA 5 — FOTO SFONDO FADE-IN PER SEZIONE
-       ════════════════════════════════════════════════════ */
-    (function() {
-      var bgs = document.querySelectorAll('.sec-bg');
-      bgs.forEach(function(img) {
-        var section = img.closest('.section');
-        if (!section) return;
-        var triggered = false;
-        var obs = new IntersectionObserver(function(entries) {
-          entries.forEach(function(e) {
-            if (!e.isIntersecting || triggered) return;
-            triggered = true;
-            obs.disconnect();
-            img.classList.add('bg-visible');
+/* ================================================================
+   S2 — NIKON ZR (glow pulsante)
+================================================================ */
+function animateS1() {
+  gsap.set('#s1-sub',     { y: 20, opacity: 0 });
+  gsap.set('#s1-caption', { y: 16, opacity: 0 });
+
+  var tl = gsap.timeline();
+  tl.from('#s1-logo', { scale: 0.6, opacity: 0, duration: 1.2, ease: 'power3.out' }, 0)
+    /* glow appare */
+    .to('#s1-logo', {
+        filter: 'brightness(0) invert(1) drop-shadow(0 0 30px rgba(255,255,255,0.6))',
+        duration: 0.4, ease: 'power2.out',
+        onComplete: function () {
+          gsap.to('#s1-logo', {
+            filter: 'brightness(0) invert(1) drop-shadow(0 0 10px rgba(255,255,255,0.15))',
+            duration: 1.8, ease: 'power1.inOut', repeat: -1, yoyo: true
           });
-        }, { threshold: 0.15 });
-        obs.observe(section);
-      });
-    })();
+        }
+      }, 1.1)
+    .to('#s1-sub',     { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 1.0)
+    .to('#s1-line',    { width: 60,  duration: 0.6, ease: 'power2.out' }, 1.6)
+    .to('#s1-caption', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 2.0);
+}
 
-    /* ════════════════════════════════════════════════════
-       SEZIONE 2 — Typewriter parola per parola + Nikon badge
-       ════════════════════════════════════════════════════ */
-    (function() {
-      var section  = document.getElementById('s2');
-      var label    = document.getElementById('s2Label');
-      var textEl   = document.getElementById('s2Text');
-      var details  = document.getElementById('s2Details');
-      var nikon    = document.getElementById('nikonBadge');
-      if (!section || !textEl) return;
+/* ================================================================
+   S3 — DJI (glow pulsante)
+================================================================ */
+function animateS2() {
+  gsap.set('#s2-logo',    { scale: 0.6, opacity: 0 });
+  gsap.set('#s2-sub',     { y: 20, opacity: 0 });
+  gsap.set('#s2-caption', { y: 16, opacity: 0 });
 
-      var sentence = 'Mi chiamo Alessio. Ho 26 anni e racconto storie attraverso immagini in movimento.';
-      var words    = sentence.split(' ');
-
-      words.forEach(function(word, i) {
-        var span = document.createElement('span');
-        span.className   = 's2-word';
-        span.textContent = word + (i < words.length - 1 ? ' ' : '');
-        textEl.appendChild(span);
-      });
-
-      var triggered = false;
-      var obs = new IntersectionObserver(function(entries) {
-        entries.forEach(function(e) {
-          if (!e.isIntersecting || triggered) return;
-          triggered = true;
-          obs.disconnect();
-
-          label.classList.add('visible');
-
-          var wordEls = textEl.querySelectorAll('.s2-word');
-          wordEls.forEach(function(w, i) {
-            setTimeout(function() { w.classList.add('visible'); }, 300 + i * 80);
+  var tl = gsap.timeline();
+  tl.to('#s2-logo', { scale: 1, opacity: 1, duration: 1.2, ease: 'power3.out' }, 0)
+    /* glow appare */
+    .to('#s2-logo', {
+        filter: 'brightness(0) invert(1) drop-shadow(0 0 30px rgba(255,255,255,0.6))',
+        duration: 0.4, ease: 'power2.out',
+        onComplete: function () {
+          gsap.to('#s2-logo', {
+            filter: 'brightness(0) invert(1) drop-shadow(0 0 10px rgba(255,255,255,0.15))',
+            duration: 1.8, ease: 'power1.inOut', repeat: -1, yoyo: true
           });
+        }
+      }, 1.1)
+    .to('#s2-sub',     { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 1.0)
+    .to('#s2-line',    { width: 60,  duration: 0.6, ease: 'power2.out' }, 1.6)
+    .to('#s2-caption', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 2.0);
+}
 
-          var detailDelay = 300 + words.length * 80 + 200;
-          setTimeout(function() { details.classList.add('visible'); }, detailDelay);
+/* ================================================================
+   S4 — MACBOOK PRO (M4: glitch su testo titolo)
+================================================================ */
+function animateS3() {
+  gsap.set('#s3-title',   { y: 60, opacity: 0 });
+  gsap.set('#s3-caption', { y: 16, opacity: 0 });
 
-          // Nikon badge — delay 2s
-          if (nikon) setTimeout(function() { nikon.classList.add('visible'); }, 2000);
-        });
-      }, { threshold: 0.4 });
-      obs.observe(section);
-    })();
+  var tl = gsap.timeline();
+  tl.to('#s3-title',   { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out' }, 0)
+    /* glitch testo ×2 */
+    .to('#s3-title', { filter: 'hue-rotate(90deg) brightness(2.5)', duration: 0.06 }, 1.1)
+    .to('#s3-title', { filter: 'none',                               duration: 0.06 }, 1.16)
+    .to('#s3-title', { filter: 'hue-rotate(90deg) brightness(2.5)', duration: 0.06 }, 1.22)
+    .to('#s3-title', { filter: 'none',                               duration: 0.15 }, 1.28)
+    .to('#s3-line',    { width: 60, duration: 0.6, ease: 'power2.out' }, 1.2)
+    .to('#s3-caption', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 1.6);
+}
 
-    /* ════════════════════════════════════════════════════
-       SEZIONE 3 — Clip-path reveal
-       ════════════════════════════════════════════════════ */
-    (function() {
-      var section = document.getElementById('s3');
-      var line1   = document.getElementById('s3Line1');
-      var line2   = document.getElementById('s3Line2');
-      var divider = document.getElementById('s3Divider');
-      var clients = document.getElementById('s3Clients');
-      if (!section) return;
+/* ================================================================
+   S5 — SOFTWARE SEQUENCE (loghi grandi, glow brandizzato pulsante)
+================================================================ */
+function animateS4() {
+  var tl = gsap.timeline();
 
-      var triggered = false;
-      var obs = new IntersectionObserver(function(entries) {
-        entries.forEach(function(e) {
-          if (!e.isIntersecting || triggered) return;
-          triggered = true;
-          obs.disconnect();
+  /* ── DaVinci entra al centro ── */
+  tl.fromTo('#sw-davinci',
+    { scale: 0.5, opacity: 0 },
+    { scale: 1,   opacity: 1, duration: 0.8, ease: 'back.out(1.4)' }, 0)
+    /* glow DaVinci appare poi pulsa */
+    .to('#sw-davinci img', {
+        filter: 'drop-shadow(0 0 30px rgba(255,107,53,0.5))',
+        duration: 0.4, ease: 'power2.out',
+        onComplete: function () {
+          gsap.to('#sw-davinci img', {
+            filter: 'drop-shadow(0 0 10px rgba(255,107,53,0.15))',
+            duration: 1.8, ease: 'power1.inOut', repeat: -1, yoyo: true
+          });
+        }
+      }, 0.9)
+    .to('#sw-davinci-lbl', { opacity: 1, duration: 0.4 }, 1.08)
 
-          if (line1)   line1.classList.add('visible');
-          if (line2)   setTimeout(function() { line2.classList.add('visible'); }, 0);
-          if (divider) setTimeout(function() { divider.classList.add('visible'); }, 900);
-          if (clients) setTimeout(function() { clients.classList.add('visible'); }, 1100);
-        });
-      }, { threshold: 0.4 });
-      obs.observe(section);
-    })();
+  /* ── DaVinci esce a sinistra, Premiere entra ── */
+    .to('#sw-davinci',     { x: '-35vw', scale: 0.4, opacity: 0.3, duration: 0.6, ease: 'power2.inOut' }, 2.4)
+    .to('#sw-davinci img', { filter: 'none', duration: 0.3, overwrite: true }, 2.4)
+    .to('#sw-davinci-lbl', { opacity: 0, duration: 0.3 }, 2.4)
+    .fromTo('#sw-premiere',
+      { scale: 0.5, opacity: 0 },
+      { scale: 1,   opacity: 1, duration: 0.8, ease: 'back.out(1.4)' }, 2.4)
+    /* glow Premiere appare poi pulsa */
+    .to('#sw-premiere img', {
+        filter: 'drop-shadow(0 0 30px rgba(153,153,255,0.5))',
+        duration: 0.4, ease: 'power2.out',
+        onComplete: function () {
+          gsap.to('#sw-premiere img', {
+            filter: 'drop-shadow(0 0 10px rgba(153,153,255,0.15))',
+            duration: 1.8, ease: 'power1.inOut', repeat: -1, yoyo: true
+          });
+        }
+      }, 3.3)
+    .to('#sw-premiere-lbl', { opacity: 1, duration: 0.4 }, 3.48)
 
-    /* ════════════════════════════════════════════════════
-       SEZIONE 4 — CTA reveal + fade-out verso index.html
-       ════════════════════════════════════════════════════ */
-    (function() {
-      var section  = document.getElementById('s4');
-      var question = document.getElementById('s4Question');
-      var logos    = document.getElementById('s4Logos');
-      var btn      = document.getElementById('s4Btn');
-      var url      = document.getElementById('s4Url');
-      var overlay  = document.getElementById('fade-overlay');
-      if (!section) return;
+  /* ── Premiere esce a destra, AE entra ── */
+    .to('#sw-premiere',     { x: '35vw', scale: 0.4, opacity: 0.3, duration: 0.6, ease: 'power2.inOut' }, 4.8)
+    .to('#sw-premiere img', { filter: 'none', duration: 0.3, overwrite: true }, 4.8)
+    .to('#sw-premiere-lbl', { opacity: 0, duration: 0.3 }, 4.8)
+    .fromTo('#sw-ae',
+      { scale: 0.5, opacity: 0 },
+      { scale: 1,   opacity: 1, duration: 0.8, ease: 'back.out(1.4)' }, 4.8)
+    /* glow AE appare poi pulsa */
+    .to('#sw-ae img', {
+        filter: 'drop-shadow(0 0 30px rgba(210,145,255,0.5))',
+        duration: 0.4, ease: 'power2.out',
+        onComplete: function () {
+          gsap.to('#sw-ae img', {
+            filter: 'drop-shadow(0 0 10px rgba(210,145,255,0.15))',
+            duration: 1.8, ease: 'power1.inOut', repeat: -1, yoyo: true
+          });
+        }
+      }, 5.7)
+    .to('#sw-ae-lbl', { opacity: 1, duration: 0.4 }, 5.88)
 
-      var triggered = false;
-      var obs = new IntersectionObserver(function(entries) {
-        entries.forEach(function(e) {
-          if (!e.isIntersecting || triggered) return;
-          triggered = true;
-          obs.disconnect();
+  /* ── Tutti e tre convergono in riga ──
+       scala finale ≈ clamp(40px,6vw,60px) da clamp(90px,14vw,130px) → scale 0.46 */
+    .to('#sw-davinci',  { x: '-120px', scale: 0.46, opacity: 0.5, duration: 0.7, ease: 'power2.inOut' }, 7.2)
+    .to('#sw-premiere', { x:        0, scale: 0.46, opacity: 0.5, duration: 0.7, ease: 'power2.inOut' }, 7.2)
+    .to('#sw-ae',       { x:  '120px', scale: 0.46, opacity: 0.5, duration: 0.7, ease: 'power2.inOut' }, 7.2)
+    .to('#sw-ae img',   { filter: 'none', duration: 0.3, overwrite: true }, 7.2)
+    .to('#sw-ae-lbl',   { opacity: 0, duration: 0.3 }, 7.2)
+    /* linea SVG di connessione */
+    .to('#s4-connection',      { opacity: 1, duration: 0.4 }, 7.8)
+    .to('#s4-connection line', { attr: { strokeDashoffset: 0 }, duration: 0.6, ease: 'power2.out' }, 7.8)
+    .to('#s4-tagline',         { opacity: 1, duration: 0.6, ease: 'power2.out' }, 8.1);
+}
 
-          if (question) question.classList.add('visible');
-          if (logos)    logos.classList.add('visible');   // delay 0.2s via CSS
-          if (btn)      btn.classList.add('visible');     // delay 0.3s via CSS
-          if (url)      setTimeout(function() { url.classList.add('visible'); }, 800);
-        });
-      }, { threshold: 0.4 });
-      obs.observe(section);
+/* ================================================================
+   S6 — NUMERI + FILOSOFIA (M7: quote con delay 2s)
+================================================================ */
+function buildQuote() {
+  var text = 'Ogni storia merita di essere raccontata bene.';
+  var el   = document.getElementById('s6-quote');
+  el.innerHTML = '';
+  text.split(' ').forEach(function (w) {
+    var s = document.createElement('span');
+    s.className   = 'word';
+    s.textContent = w;
+    el.appendChild(s);
+  });
+}
 
-      // Click: sessionStorage → fade to black → naviga
-      if (btn && overlay) {
-        btn.addEventListener('click', function() {
-          sessionStorage.setItem('skipSplash', 'true');
-          overlay.classList.add('active');
-          setTimeout(function() { window.location.href = 'index.html'; }, 650);
-        });
-      }
-    })();
-  </script>
+function animateS6() {
+  buildQuote();
+
+  /* Numeri compaiono */
+  gsap.fromTo('.num-item',
+    { y: 50, opacity: 0 },
+    { y:  0, opacity: 1, stagger: 0.2, ease: 'back.out(1.4)', duration: 0.8 }
+  );
+
+  /* Count-up */
+  var c1 = { val: 0 };
+  gsap.to(c1, {
+    val: 30, duration: 2, ease: 'power2.out', snap: { val: 1 },
+    onUpdate: function () { document.getElementById('nv-proj').textContent = Math.round(c1.val) + '+'; }
+  });
+  var c2 = { val: 0 };
+  gsap.to(c2, {
+    val: 6, duration: 2, ease: 'power2.out', snap: { val: 1 }, delay: 0.2,
+    onUpdate: function () { document.getElementById('nv-matr').textContent = Math.round(c2.val); }
+  });
+  var c3 = { val: 0 };
+  gsap.to(c3, {
+    val: 5, duration: 2, ease: 'power2.out', snap: { val: 1 }, delay: 0.4,
+    onUpdate: function () { document.getElementById('nv-anni').textContent = Math.round(c3.val) + '+'; }
+  });
+
+  /* Quote — appare 2s dopo i numeri, parole da direzioni casuali (M7) */
+  gsap.delayedCall(2.0, function () {
+    gsap.fromTo('#s6-quote .word',
+      {
+        x:        function () { return gsap.utils.random(-60, 60); },
+        y:        function () { return gsap.utils.random(-40, 40); },
+        rotation: function () { return gsap.utils.random(-6, 6); },
+        opacity: 0
+      },
+      { x: 0, y: 0, rotation: 0, opacity: 1,
+        duration: 0.8, ease: 'power3.out', stagger: 0.1 }
+    );
+  });
+
+  /* Tag */
+  gsap.fromTo('.s6-tag',
+    { y: 10, opacity: 0 },
+    { y:  0, opacity: 1, stagger: 0.15, duration: 0.6, ease: 'power2.out', delay: 3.2 }
+  );
+}
+
+/* ================================================================
+   S7 — CTA
+================================================================ */
+function animateS7() {
+  gsap.fromTo('#s7-left',
+    { y: 40, opacity: 0 },
+    { y: 0,  opacity: 1, duration: 1.0, ease: 'power3.out' });
+  gsap.fromTo('#s7-right',
+    { x: 80, opacity: 0 },
+    { x: 0,  opacity: 1, duration: 1.2, ease: 'power3.out', delay: 0.4 });
+
+  var btn   = document.getElementById('s7-btn');
+  var arrow = document.getElementById('s7-btn-arrow');
+
+  btn.addEventListener('mouseenter', function () {
+    gsap.to(btn, {
+      borderColor: 'rgba(255,255,255,0.7)',
+      backgroundColor: 'rgba(255,255,255,0.03)',
+      boxShadow: '0 0 60px rgba(255,255,255,0.08)',
+      duration: 0.3, ease: 'power2.out'
+    });
+    gsap.to(arrow, { x: 8, duration: 0.3, ease: 'power2.out' });
+  });
+  btn.addEventListener('mouseleave', function () {
+    gsap.to(btn, {
+      borderColor: 'rgba(255,255,255,0.25)',
+      backgroundColor: 'transparent',
+      boxShadow: 'none',
+      duration: 0.3, ease: 'power2.out'
+    });
+    gsap.to(arrow, { x: 0, duration: 0.3, ease: 'power2.out' });
+  });
+  btn.addEventListener('click', goMain);
+
+  var img = document.getElementById('s7-img');
+  img.addEventListener('mouseenter', function () {
+    gsap.to(img, { scale: 1.03, duration: 0.4, ease: 'power2.out' });
+  });
+  img.addEventListener('mouseleave', function () {
+    gsap.to(img, { scale: 1, duration: 0.4, ease: 'power2.out' });
+  });
+}
+
+/* ================================================================
+   TRIGGERS
+   Nuovo ordine: S1=Chi Sono, S2=Nikon, S3=DJI, S4=MacBook, S5=Software
+================================================================ */
+gsap.delayedCall(0.15, animateS5);   /* S1: Chi Sono — prima sezione, si anima subito */
+onceVisible('s2', animateS1);        /* S2: Nikon ZR */
+onceVisible('s3', animateS2);        /* S3: DJI */
+onceVisible('s4', animateS3);        /* S4: MacBook Pro */
+onceVisible('s5', animateS4);        /* S5: Software sequence */
+onceVisible('s6', animateS6);        /* S6: Numeri + Filosofia */
+onceVisible('s7', animateS7);        /* S7: CTA */
+</script>
 </body>
 </html>
