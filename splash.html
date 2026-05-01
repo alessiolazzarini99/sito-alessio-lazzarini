@@ -135,7 +135,13 @@ section {
   #s5-name { font-size: 14px; white-space: normal; flex-wrap: wrap; }
 }
 @media (max-width: 768px) {
-  .s5-inner { padding: 0 20px; }
+  /* M1 — padding orizzontale uniforme su tutti i contenitori testo */
+  .s5-inner  { padding: 0 28px; }
+  .s1-inner  { padding-left: 28px; padding-right: 28px; }
+  .s2-inner  { padding-left: 28px; padding-right: 28px; }
+  .s4-inner  { padding-left: 28px; padding-right: 28px; }
+  #s6-philosophy { padding-left: 28px; padding-right: 28px; }
+  /* bio mobile */
   #s5-ticker-wrap { margin: 6px 0; }
   #s5-ticker { font-size: 9px; }
   #s5-bio {
@@ -399,7 +405,7 @@ section {
   .s7-inner {
     flex-direction: column-reverse;
     gap: 24px; align-items: center;
-    justify-content: center; padding: 24px;
+    justify-content: center; padding: 24px 28px;
   }
   #s7-right { flex: none; }
   #s7-img { height: 200px; max-width: 100%; width: 100%; }
@@ -472,6 +478,46 @@ section {
 }
 @media (max-width: 768px) { #nav-dots { display: none; } }
 
+/* ── Vignetta globale ── */
+#vignette {
+  position: fixed; inset: 0; z-index: 3; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);
+  opacity: 0.85;
+}
+
+/* ── Cursore personalizzato ── */
+body { cursor: none; }
+#cursor-dot {
+  position: fixed; width: 6px; height: 6px;
+  background: rgba(255,255,255,0.9); border-radius: 50%;
+  pointer-events: none; z-index: 99999;
+  transform: translate(-50%, -50%);
+}
+#cursor-ring {
+  position: fixed; width: 32px; height: 32px;
+  border: 0.5px solid rgba(255,255,255,0.3); border-radius: 50%;
+  pointer-events: none; z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease;
+}
+#cursor-ring.large { width: 48px; height: 48px; }
+@media (pointer: coarse) {
+  body { cursor: auto; }
+  #cursor-dot, #cursor-ring { display: none; }
+}
+
+/* ── Numero sezione bottom center ── */
+#sec-num {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px; font-weight: 300;
+  color: rgba(255,255,255,0.18);
+  letter-spacing: 0.2em;
+}
+@media (max-width: 768px) { #sec-num { bottom: 12px; } }
+
 /* ── M9: Particelle logo burst ── */
 .particle {
   position: fixed;
@@ -488,8 +534,15 @@ section {
 <img id="bg-img" src="assets/placeholder_pilota_compressed.jpg" alt="">
 <div id="bg-overlay"></div>
 
+<!-- Vignetta globale -->
+<div id="vignette"></div>
+
 <!-- Particles -->
 <canvas id="ptc"></canvas>
+
+<!-- Custom cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
 
 <!-- Skip -->
 <button id="skip-btn">Salta →</button>
@@ -509,8 +562,11 @@ section {
 <!-- Scroll progress (M5) -->
 <div id="scroll-progress-bg"><div id="scroll-progress-bar"></div></div>
 
-<!-- Section counter -->
+<!-- Section counter (bottom right) -->
 <div id="sec-counter">01 / 06</div>
+
+<!-- Section number (bottom center, con flip) -->
+<div id="sec-num">01</div>
 
 <!-- Nav dots (M7) -->
 <div id="nav-dots">
@@ -735,12 +791,14 @@ document.documentElement.addEventListener('scroll', function () {
 });
 
 /* ================================================================
-   SECTION COUNTER + M6 GLITCH + M7 NAV-DOTS
+   SECTION COUNTER + M6 GLITCH + M7 NAV-DOTS + VIGNETTE + SEC-NUM
 ================================================================ */
 (function () {
   var counter  = document.getElementById('sec-counter');
   var sections = document.querySelectorAll('section');
   var glitchOv = document.getElementById('glitch-ov');
+  var vignette = document.getElementById('vignette');
+  var secNum   = document.getElementById('sec-num');
   var dots     = document.querySelectorAll('.nav-dot');
   var prevIdx  = 0;
 
@@ -752,13 +810,22 @@ document.documentElement.addEventListener('scroll', function () {
       .to(glitchOv, { skewX: 0, opacity: 0, duration: 0.1 });
   }
 
+  /* M2 — vignetta pulse al cambio sezione */
+  function triggerVignette() {
+    gsap.to(vignette, { opacity: 1, duration: 0.15, ease: 'power2.out',
+      onComplete: function () {
+        gsap.to(vignette, { opacity: 0.85, duration: 0.3, ease: 'power2.in' });
+      }
+    });
+  }
+
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
         var idx = Array.prototype.indexOf.call(sections, entry.target) + 1;
         var n   = (idx < 10 ? '0' : '') + idx;
 
-        /* counter */
+        /* counter bottom right */
         gsap.to(counter, {
           opacity: 0, duration: 0.15,
           onComplete: function () {
@@ -767,8 +834,23 @@ document.documentElement.addEventListener('scroll', function () {
           }
         });
 
-        /* glitch solo al cambio sezione */
-        if (idx !== prevIdx) { triggerGlitch(); prevIdx = idx; }
+        /* M4 — numero sezione bottom center con flip verticale */
+        gsap.to(secNum, {
+          y: -10, opacity: 0, duration: 0.2, ease: 'power2.in',
+          onComplete: function () {
+            secNum.textContent = n;
+            gsap.fromTo(secNum,
+              { y: 10, opacity: 0 },
+              { y: 0,  opacity: 1, duration: 0.2, ease: 'power2.out' });
+          }
+        });
+
+        /* glitch + vignetta solo al cambio sezione */
+        if (idx !== prevIdx) {
+          triggerGlitch();
+          triggerVignette();
+          prevIdx = idx;
+        }
 
         /* M7 — nav-dots */
         dots.forEach(function (d, di) {
@@ -1159,6 +1241,42 @@ function animateS7() {
   img.addEventListener('mouseleave', function () {
     gsap.to(img, { scale: 1, duration: 0.4, ease: 'power2.out' });
   });
+}
+
+/* ================================================================
+   M3 — CURSORE PERSONALIZZATO (solo pointer fine)
+================================================================ */
+if (!window.matchMedia('(pointer: coarse)').matches) {
+  (function () {
+    var dot  = document.getElementById('cursor-dot');
+    var ring = document.getElementById('cursor-ring');
+    if (!dot || !ring) return;
+    var mx = -200, my = -200;
+    var rx = -200, ry = -200;
+
+    document.addEventListener('mousemove', function (e) {
+      mx = e.clientX; my = e.clientY;
+    }, { passive: true });
+
+    document.addEventListener('mouseover', function (e) {
+      var isHoverable = e.target.closest('a, button, [role="button"]');
+      if (isHoverable) { ring.classList.add('large'); }
+      else             { ring.classList.remove('large'); }
+    });
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function tick() {
+      rx = lerp(rx, mx, 0.12);
+      ry = lerp(ry, my, 0.12);
+      dot.style.left  = mx + 'px';
+      dot.style.top   = my + 'px';
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(tick);
+    }
+    tick();
+  })();
 }
 
 /* ================================================================
