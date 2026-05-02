@@ -1111,98 +1111,6 @@
     .port-load { margin: 20px 48px 0; border: 0.5px solid rgba(255,255,255,0.07); border-radius: 3px; padding: 16px; text-align: center; cursor: pointer; }
     .port-load-text { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.25); letter-spacing: 0.1em; text-transform: uppercase; }
 
-    /* ── SVILUPPO WEB ── */
-    #sviluppo-web {
-      padding: 80px 48px;
-      background: #0a0a0a;
-      border-top: 0.5px solid rgba(255,255,255,0.06);
-      text-align: center;
-    }
-    .sw-label {
-      font-size: 10px; font-weight: 300;
-      letter-spacing: 0.2em; color: rgba(255,255,255,0.25);
-      text-transform: uppercase; margin-bottom: 16px;
-    }
-    .sw-title {
-      font-size: clamp(24px,4vw,42px); font-weight: 200;
-      color: #fff; letter-spacing: -0.02em; margin-bottom: 12px;
-    }
-    .sw-subtitle {
-      font-size: 12px; font-weight: 300;
-      color: rgba(255,255,255,0.3); margin-bottom: 48px;
-    }
-    .sw-grid {
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 12px; text-align: left;
-    }
-    .sw-card {
-      border: 0.5px solid rgba(255,255,255,0.08);
-      border-radius: 4px; padding: 28px;
-      background: rgba(255,255,255,0.02);
-      display: flex; flex-direction: column; gap: 16px;
-      cursor: pointer;
-      transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
-    }
-    .sw-card:hover {
-      border-color: rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.04);
-      transform: translateY(-4px);
-    }
-    .sw-badge {
-      font-size: 9px; font-weight: 300; letter-spacing: 0.12em;
-      color: rgba(255,255,255,0.3); text-transform: uppercase;
-      border: 0.5px solid rgba(255,255,255,0.1);
-      padding: 3px 10px; border-radius: 20px;
-      display: inline-block; align-self: flex-start;
-    }
-    .sw-badge-advanced {
-      border-color: rgba(255,255,255,0.2);
-      color: rgba(255,255,255,0.5);
-    }
-    .sw-card-title {
-      font-size: 20px; font-weight: 300;
-      color: rgba(255,255,255,0.8); letter-spacing: -0.01em;
-    }
-    .sw-card-title-bright { color: #fff; }
-    .sw-card-desc {
-      font-size: 11px; font-weight: 300;
-      color: rgba(255,255,255,0.35); line-height: 1.6; flex: 1;
-    }
-    .sw-features { display: flex; flex-direction: column; gap: 8px; }
-    .sw-feat {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.3);
-    }
-    .sw-feat-dot {
-      width: 4px; height: 4px; border-radius: 50%;
-      background: rgba(255,255,255,0.2); flex-shrink: 0;
-    }
-    .sw-card-link {
-      font-size: 10px; font-weight: 300;
-      color: rgba(255,255,255,0.3); letter-spacing: 0.1em;
-      text-decoration: none; margin-top: auto;
-      transition: color 0.2s;
-    }
-    .sw-card:hover .sw-card-link { color: rgba(255,255,255,0.65); }
-    .sw-tech-badges {
-      display: flex; gap: 8px; flex-wrap: wrap;
-    }
-    .sw-tech-badge {
-      font-size: 8px; font-weight: 300; letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.2); text-transform: uppercase;
-      border: 0.5px solid rgba(255,255,255,0.08);
-      padding: 2px 8px; border-radius: 2px;
-    }
-    .sw-footer-note {
-      margin-top: 32px;
-      font-size: 11px; font-weight: 300;
-      color: rgba(255,255,255,0.2); letter-spacing: 0.04em;
-    }
-    @media (max-width: 768px) {
-      #sviluppo-web { padding: 60px 20px; }
-      .sw-grid { grid-template-columns: 1fr; }
-    }
-
     /* ── PORTFOLIO TEASER ── */
     #portfolio-teaser {
       padding: 80px 48px;
@@ -2940,7 +2848,6 @@
     </div>
     <div class="nav-links" id="nav-links">
       <a href="portfolio.html">Lavori</a>
-      <a href="sviluppo-web.html">Sviluppo web</a>
       <a href="#servizi">Servizi</a>
       <a href="#pacchetti">Pacchetti</a>
       <a href="#contatti">Contatti</a>
@@ -4235,65 +4142,6 @@
     <div class="pkg-note reveal">
       <div class="pkg-note-icon">↗</div>
       <div class="pkg-note-text">Tutti i pacchetti prevedono contratto annuale con prezzo mensile bloccato. Ogni piano è personalizzabile sulle esigenze specifiche della tua azienda. <a href="#contatti" class="pkg-note-link">Contattami per un preventivo su misura &#x2192;</a></div>
-    </div>
-  </section>
-
-  <!-- SVILUPPO WEB -->
-  <section id="sviluppo-web">
-    <div class="sw-label reveal">Sviluppo web</div>
-    <h2 class="sw-title reveal" style="--reveal-delay:80ms">Il tuo sito, come vuoi tu</h2>
-    <div class="sw-subtitle reveal" style="--reveal-delay:160ms">Tre approcci diversi per ogni esigenza e budget — richiedi un preventivo personalizzato</div>
-
-    <div class="sw-grid">
-
-      <!-- Card 1 — Wix -->
-      <div class="sw-card reveal" style="--reveal-delay:0ms" onclick="location.href='sviluppo-web.html#wix'">
-        <span class="sw-badge">Base</span>
-        <div class="sw-card-title">Wix</div>
-        <div class="sw-card-desc">Soluzione veloce e gestibile in autonomia, ideale per attività locali e professionisti.</div>
-        <div class="sw-features">
-          <div class="sw-feat"><span class="sw-feat-dot"></span>Gestione autonoma dei contenuti</div>
-          <div class="sw-feat"><span class="sw-feat-dot"></span>Dominio e hosting inclusi</div>
-          <div class="sw-feat"><span class="sw-feat-dot"></span>Pronto in pochi giorni</div>
-        </div>
-        <a href="sviluppo-web.html#wix" class="sw-card-link">Richiedi preventivo →</a>
-      </div>
-
-      <!-- Card 2 — WordPress · Shopify -->
-      <div class="sw-card reveal" style="--reveal-delay:100ms" onclick="location.href='sviluppo-web.html#wordpress-shopify'">
-        <span class="sw-badge">Medio</span>
-        <div class="sw-card-title">WordPress · Shopify</div>
-        <div class="sw-card-desc">Flessibile e scalabile, ideale per blog, portfolio e e-commerce.</div>
-        <div class="sw-features">
-          <div class="sw-feat"><span class="sw-feat-dot"></span>CMS completo e personalizzabile</div>
-          <div class="sw-feat"><span class="sw-feat-dot"></span>E-commerce integrato</div>
-          <div class="sw-feat"><span class="sw-feat-dot"></span>Plugin e integrazioni illimitate</div>
-        </div>
-        <a href="sviluppo-web.html#wordpress-shopify" class="sw-card-link">Richiedi preventivo →</a>
-      </div>
-
-      <!-- Card 3 — HTML · CSS · JS -->
-      <div class="sw-card reveal" style="--reveal-delay:200ms" onclick="location.href='sviluppo-web.html#html-css-js'">
-        <span class="sw-badge sw-badge-advanced">Avanzato</span>
-        <div class="sw-card-title sw-card-title-bright">HTML · CSS · JS</div>
-        <div class="sw-card-desc">Performance superiori, design unico e animazioni custom — il massimo della personalizzazione.</div>
-        <div class="sw-features">
-          <div class="sw-feat"><span class="sw-feat-dot"></span>Animazioni GSAP cinematografiche</div>
-          <div class="sw-feat"><span class="sw-feat-dot"></span>Deploy su Cloudflare — velocità globale</div>
-          <div class="sw-feat"><span class="sw-feat-dot"></span>Design completamente su misura</div>
-        </div>
-        <div class="sw-tech-badges">
-          <span class="sw-tech-badge">Cloudflare</span>
-          <span class="sw-tech-badge">Namecheap</span>
-          <span class="sw-tech-badge">Claude Code</span>
-        </div>
-        <a href="sviluppo-web.html#html-css-js" class="sw-card-link">Richiedi preventivo →</a>
-      </div>
-
-    </div><!-- /.sw-grid -->
-
-    <div class="sw-footer-note reveal" style="--reveal-delay:300ms">
-      Ogni progetto è diverso — contattami per discutere la soluzione più adatta a te
     </div>
   </section>
 

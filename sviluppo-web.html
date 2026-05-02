@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sviluppo web — Alessio Lazzarini</title>
+  <meta name="description" content="Sviluppo siti web professionali con Wix, WordPress, Shopify e HTML CSS JS. Deploy su Cloudflare, gestione dominio e animazioni custom." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px;
+      border-bottom: 0.5px solid rgba(255,255,255,0.08);
+      background: rgba(10,10,10,0.88);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo-wrap {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo-img { height: 22px; width: auto; object-fit: contain; opacity: 0.5; }
+    .nav-logo-name {
+      font-size: 11px; font-weight: 300;
+      color: rgba(255,255,255,0.35); letter-spacing: 0.06em;
+    }
+    .nav-right { display: flex; align-items: center; gap: 28px; }
+    .nav-link {
+      font-size: 12px; font-weight: 400;
+      color: rgba(255,255,255,0.4); letter-spacing: 0.04em;
+      text-decoration: none; position: relative;
+      transition: color 0.2s;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 0.5px;
+      background: rgba(255,255,255,0.6);
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover { color: rgba(255,255,255,0.85); }
+    .nav-link:hover::after { width: 100%; }
+    .nav-back {
+      font-size: 11px; font-weight: 300;
+      color: rgba(255,255,255,0.3); text-decoration: none;
+      letter-spacing: 0.04em; transition: color 0.2s;
+    }
+    .nav-back:hover { color: rgba(255,255,255,0.75); }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.75s cubic-bezier(0.16,1,0.3,1);
+      transition-delay: var(--reveal-delay, 0ms);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── HERO ── */
+    #hero {
+      padding: 120px 48px 80px;
+      text-align: center;
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .hero-title {
+      font-size: clamp(36px,7vw,72px); font-weight: 200;
+      color: #fff; letter-spacing: -0.02em; line-height: 1.0;
+      margin-bottom: 20px;
+      opacity: 0; transform: translateY(-16px);
+      transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.9s cubic-bezier(0.16,1,0.3,1);
+    }
+    .hero-title.visible { opacity: 1; transform: translateY(0); }
+    .hero-sub {
+      font-size: 13px; font-weight: 300;
+      color: rgba(255,255,255,0.3); letter-spacing: 0.12em;
+      margin-top: 16px;
+      opacity: 0; transform: translateY(-16px);
+      transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1) 0.15s,
+                  transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.15s;
+    }
+    .hero-sub.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── SEZIONI APPROCCIO ── */
+    .approach-section {
+      padding: 80px 48px;
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .section-label {
+      font-size: 10px; font-weight: 300;
+      letter-spacing: 0.2em; color: rgba(255,255,255,0.22);
+      text-transform: uppercase; margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: clamp(24px,4vw,40px); font-weight: 200;
+      color: #fff; letter-spacing: -0.02em; line-height: 1.1;
+      margin-bottom: 48px;
+    }
+
+    /* Layout due colonne */
+    .approach-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 48px; align-items: start;
+    }
+    .approach-desc {
+      font-size: 14px; font-weight: 300;
+      color: rgba(255,255,255,0.5); line-height: 1.8;
+      margin-bottom: 32px;
+    }
+    .approach-features { display: flex; flex-direction: column; gap: 10px; }
+    .approach-feat {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.4);
+      padding: 10px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05);
+    }
+    .approach-feat:first-child { border-top: 0.5px solid rgba(255,255,255,0.05); }
+    .approach-feat-dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: rgba(255,255,255,0.2); flex-shrink: 0;
+    }
+
+    /* Card dettagli destra */
+    .detail-card {
+      border: 0.5px solid rgba(255,255,255,0.08);
+      border-radius: 4px; padding: 24px;
+      background: rgba(255,255,255,0.02);
+    }
+    .detail-card-label {
+      font-size: 11px; font-weight: 300;
+      letter-spacing: 0.12em; color: rgba(255,255,255,0.25);
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+    .detail-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 0;
+      border-bottom: 0.5px solid rgba(255,255,255,0.05);
+      font-size: 12px; font-weight: 300;
+    }
+    .detail-row:last-of-type { border-bottom: none; }
+    .detail-row-key { color: rgba(255,255,255,0.3); }
+    .detail-row-val { color: rgba(255,255,255,0.7); }
+    .detail-btn {
+      display: inline-block; margin-top: 24px;
+      font-size: 11px; font-weight: 400;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: #0a0a0a; background: rgba(255,255,255,0.85);
+      padding: 13px 28px; border-radius: 2px;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .detail-btn:hover { background: #fff; }
+
+    /* ── STRUMENTI (sezione HTML) ── */
+    #tools-section {
+      margin-top: 56px; padding-top: 48px;
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .tools-label {
+      font-size: 10px; font-weight: 300;
+      letter-spacing: 0.2em; color: rgba(255,255,255,0.2);
+      text-transform: uppercase; text-align: center;
+      margin-bottom: 40px;
+    }
+    .tools-row {
+      display: flex; justify-content: center; align-items: flex-start;
+      gap: 32px; flex-wrap: wrap;
+    }
+    .tool-item {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      cursor: default;
+      transition: transform 0.2s ease;
+    }
+    .tool-item:hover { transform: scale(1.05); }
+    .tool-icon {
+      width: 28px; height: 28px; color: rgba(255,255,255,0.4);
+      transition: color 0.2s ease, opacity 0.2s ease;
+    }
+    .tool-item:hover .tool-icon { color: rgba(255,255,255,0.75); }
+    .tool-name {
+      font-size: 10px; font-weight: 300;
+      letter-spacing: 0.1em; color: rgba(255,255,255,0.25);
+      text-transform: uppercase; text-align: center;
+    }
+    .tool-desc {
+      font-size: 9px; font-weight: 300;
+      color: rgba(255,255,255,0.15); line-height: 1.4;
+      text-align: center; max-width: 80px;
+    }
+    .tools-tagline {
+      font-size: 11px; font-weight: 300;
+      color: rgba(255,255,255,0.2); text-align: center;
+      margin-top: 32px; font-style: italic; letter-spacing: 0.02em;
+    }
+
+    /* ── CTA FINALE ── */
+    #cta-section {
+      padding: 80px 48px;
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+      text-align: center;
+    }
+    .cta-title {
+      font-size: clamp(28px,5vw,48px); font-weight: 200;
+      color: #fff; letter-spacing: -0.02em; margin-bottom: 12px;
+    }
+    .cta-sub {
+      font-size: 12px; font-weight: 300;
+      color: rgba(255,255,255,0.3); margin-bottom: 32px;
+    }
+    .cta-btn {
+      display: inline-block;
+      font-size: 11px; font-weight: 400;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: #0a0a0a; background: rgba(255,255,255,0.85);
+      padding: 13px 36px; border-radius: 2px;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .cta-btn:hover { background: #fff; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 22px 48px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .footer-left   { display: flex; align-items: center; gap: 10px; }
+    .footer-logo   { height: 18px; width: auto; object-fit: contain; opacity: 0.4; }
+    .footer-brand  { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; }
+    .footer-center { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; }
+    .footer-right  { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-logo-name { display: none; }
+      .nav-right { gap: 16px; }
+      #hero { padding: 100px 20px 60px; }
+      .approach-section { padding: 60px 20px; }
+      .approach-grid { grid-template-columns: 1fr; gap: 32px; }
+      .tools-row { gap: 24px; }
+      #cta-section { padding: 60px 20px; }
+      footer { flex-direction: column; gap: 6px; text-align: center; padding: 20px; }
+      .footer-left { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo-wrap">
+      <img src="assets/logo ph white.png" alt="AL" class="nav-logo-img">
+      <span class="nav-logo-name">Alessio Lazzarini</span>
+    </a>
+    <div class="nav-right">
+      <a href="portfolio.html" class="nav-link">Portfolio</a>
+      <a href="portfolio.html" class="nav-link">Lavori</a>
+      <a href="index.html" class="nav-back">← Torna al sito</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <h1 class="hero-title">Sviluppo web professionale</h1>
+    <div class="hero-sub">Tre approcci, un obiettivo — il tuo sito che converte</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       01 — WIX
+  ═══════════════════════════════════════ -->
+  <section id="wix" class="approach-section">
+    <div class="section-label reveal">01 — Base</div>
+    <h2 class="section-title reveal" style="--reveal-delay:80ms">Wix — veloce e autonomo</h2>
+
+    <div class="approach-grid">
+      <!-- Sinistra -->
+      <div class="reveal" style="--reveal-delay:160ms">
+        <p class="approach-desc">Wix è la soluzione ideale per chi vuole un sito professionale senza gestire aspetti tecnici. Perfetto per attività locali, professionisti e piccole imprese.</p>
+        <div class="approach-features">
+          <div class="approach-feat"><span class="approach-feat-dot"></span>Design professionale e responsive</div>
+          <div class="approach-feat"><span class="approach-feat-dot"></span>Gestione autonoma dei contenuti</div>
+          <div class="approach-feat"><span class="approach-feat-dot"></span>Dominio e hosting inclusi nel piano</div>
+          <div class="approach-feat"><span class="approach-feat-dot"></span>Pronto in 3–5 giorni lavorativi</div>
+          <div class="approach-feat"><span class="approach-feat-dot"></span>Formazione all'uso inclusa</div>
+        </div>
+      </div>
+      <!-- Destra -->
+      <div class="reveal" style="--reveal-delay:240ms">
+        <div class="detail-card">
+          <div class="detail-card-label">Cosa include</div>
+          <div class="detail-row">
+            <span class="detail-row-key">Pagine</span>
+            <span class="detail-row-val">Fino a 10</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-row-key">Revisioni</span>
+            <span class="detail-row-val">3 incluse</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-row-key">Consegna</span>
+            <span class="detail-row-val">5–7 giorni</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-row-key">Preventivo</span>
+            <span class="detail-row-val">Su richiesta</span>
+          </div>
+          <a href="index.html#contatti" class="detail-btn">Richiedi preventivo →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       02 — WORDPRESS · SHOPIFY
+  ═══════════════════════════════════════ -->
+  <section id="wordpress-shopify" class="approach-section">
+    <div class="section-label reveal">02 — Medio</div>
+    <h2 class="section-title reveal" style="--reveal-delay:80ms">WordPress · Shopify — flessibile e scalabile</h2>
+
+    <div class="approach-grid">
+      <!-- Sinistra -->
+      <div class="reveal" style="--reveal-delay:160ms">
+        <p class="approach-desc">La scelta giusta per chi ha bisogno di un CMS completo, un e-commerce o un blog. WordPress e Shopify offrono infinite possibilità di personalizzazione e crescita.</p>
+        <div class="approach-features">
+          <div class="approach-feat"><span class="approach-feat-dot"></span>CMS completo e personalizzabile</div>
+          <div class="approach-feat"><span class="approach-feat-dot"></span>E-commerce integrato con Shopify</div>
+          <div class="approach-feat"><span class="approach-feat-dot"></span>Plugin e integrazioni illimitate</div>
+          <div class="approach-feat"><span class="approach-feat-dot"></span>SEO avanzato integrato</div>
+          <div class="approach-feat"><span class="approach-feat-dot"></span>Analisi e statistiche incluse</div>
+        </div>
+      </div>
+      <!-- Destra -->
+      <div class="reveal" style="--reveal-delay:240ms">
+        <div class="detail-card">
+          <div class="detail-card-label">Cosa include</div>
+          <div class="detail-row">
+            <span class="detail-row-key">Pagine</span>
+            <span class="detail-row-val">Illimitate</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-row-key">E-commerce</span>
+            <span class="detail-row-val">Disponibile</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-row-key">Consegna</span>
+            <span class="detail-row-val">7–14 giorni</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-row-key">Preventivo</span>
+            <span class="detail-row-val">Su richiesta</span>
+          </div>
+          <a href="index.html#contatti" class="detail-btn">Richiedi preventivo →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       03 — HTML · CSS · JS
+  ═══════════════════════════════════════ -->
+  <section id="html-css-js" class="approach-section">
+    <div class="section-label reveal">03 — Avanzato</div>
+    <h2 class="section-title reveal" style="--reveal-delay:80ms">HTML · CSS · JS — il massimo della personalizzazione</h2>
+
+    <div class="approach-grid">
+      <!-- Sinistra -->
+      <div class="reveal" style="--reveal-delay:160ms">
+        <p class="approach-desc">Per chi vuole un sito unico, performante e cinematografico. Sviluppato con codice puro, animazioni GSAP e deployato su Cloudflare per velocità globale. Ogni dettaglio è pensato su misura.</p>
+        <div class="approach-features">
+          <div class="approach-feat"><span class="approach-feat-dot"></span>Animazioni GSAP cinematografiche</div>
+          <div class="approach-feat"><span class="approach-feat-dot"></span>Deploy su Cloudflare — velocità globale</div>
+          <div class="approach-feat"><span class="approach-feat-dot"></span>Design completamente su misura</div>
+          <div class="approach-feat"><span class="approach-feat-dot"></span>Performance Lighthouse 95+</div>
+          <div class="approach-feat"><span class="approach-feat-dot"></span>Codice pulito e manutenibile</div>
+        </div>
+      </div>
+      <!-- Destra -->
+      <div class="reveal" style="--reveal-delay:240ms">
+        <div class="detail-card">
+          <div class="detail-card-label">Cosa include</div>
+          <div class="detail-row">
+            <span class="detail-row-key">Pagine</span>
+            <span class="detail-row-val">Su misura</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-row-key">Animazioni</span>
+            <span class="detail-row-val">Custom GSAP</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-row-key">Consegna</span>
+            <span class="detail-row-val">14–21 giorni</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-row-key">Preventivo</span>
+            <span class="detail-row-val">Su richiesta</span>
+          </div>
+          <a href="index.html#contatti" class="detail-btn">Richiedi preventivo →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Strumenti -->
+    <div id="tools-section">
+      <div class="tools-label">Gli strumenti che uso</div>
+      <div class="tools-row" id="toolsRow">
+
+        <!-- Claude Code -->
+        <div class="tool-item">
+          <svg class="tool-icon" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="22" height="22" rx="5"/>
+            <path d="M9 10 L7 14 L9 18"/>
+            <path d="M19 10 L21 14 L19 18"/>
+            <line x1="11" y1="19" x2="17" y2="9"/>
+          </svg>
+          <span class="tool-name">Claude Code</span>
+          <span class="tool-desc">Sviluppo AI-assisted</span>
+        </div>
+
+        <!-- GitHub -->
+        <div class="tool-item">
+          <svg class="tool-icon" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 3C8.48 3 4 7.48 4 13c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.69c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.46-1.11-1.46-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0114 8.84c.85 0 1.7.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0024 13c0-5.52-4.48-10-10-10z"/>
+          </svg>
+          <span class="tool-name">GitHub</span>
+          <span class="tool-desc">Version control</span>
+        </div>
+
+        <!-- Cloudflare -->
+        <div class="tool-item">
+          <svg class="tool-icon" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 18H8a5 5 0 010-10c.34 0 .67.03 1 .09A7 7 0 0122 14"/>
+            <path d="M22 14a4 4 0 010 4h-1"/>
+            <path d="M18 18l1.5-3-1.5-1"/>
+          </svg>
+          <span class="tool-name">Cloudflare</span>
+          <span class="tool-desc">Deploy globale</span>
+        </div>
+
+        <!-- Namecheap -->
+        <div class="tool-item">
+          <svg class="tool-icon" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="7" width="22" height="14" rx="2"/>
+            <line x1="3" y1="12" x2="25" y2="12"/>
+            <circle cx="8" cy="17" r="1.5" fill="currentColor" stroke="none"/>
+            <line x1="12" y1="17" x2="20" y2="17"/>
+          </svg>
+          <span class="tool-name">Namecheap</span>
+          <span class="tool-desc">Gestione dominio</span>
+        </div>
+
+      </div><!-- /.tools-row -->
+      <div class="tools-tagline">
+        Questo sito è stato sviluppato esattamente con questi strumenti — è il mio miglior portfolio.
+      </div>
+    </div><!-- /#tools-section -->
+
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       CTA FINALE
+  ═══════════════════════════════════════ -->
+  <section id="cta-section">
+    <h2 class="cta-title reveal">Iniziamo a parlare</h2>
+    <div class="cta-sub reveal" style="--reveal-delay:100ms">
+      Raccontami il tuo progetto — troveremo la soluzione giusta insieme
+    </div>
+    <a href="index.html#contatti" class="cta-btn reveal" style="--reveal-delay:200ms">
+      Contattami →
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      <img src="assets/logo ph white.png" alt="AL" class="footer-logo">
+      <span class="footer-brand">Alessio Lazzarini — Fotografo &amp; Videomaker</span>
+    </div>
+    <div class="footer-center">P.IVA 02763540222</div>
+    <div class="footer-right">© 2025 Developed by Alessio Lazzarini</div>
+  </footer>
+
+  <script>
+    // ── HERO fade-in al load ──
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('.hero-title').classList.add('visible');
+      document.querySelector('.hero-sub').classList.add('visible');
+    });
+
+    // ── SCROLL REVEAL (IntersectionObserver) ──
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    // ── GSAP — tool items stagger quando entrano in viewport ──
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.from('#toolsRow .tool-item', {
+      scrollTrigger: {
+        trigger: '#toolsRow',
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      },
+      y: 20,
+      opacity: 0,
+      stagger: 0.15,
+      duration: 0.7,
+      ease: 'power3.out'
+    });
+  </script>
+
+</body>
+</html>
