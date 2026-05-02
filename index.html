@@ -1228,31 +1228,9 @@
       font-size: 11px; font-weight: 300;
       color: rgba(255,255,255,0.2); letter-spacing: 0.04em;
     }
-    /* ── SW TOOLS ROW ── */
-    .sw-tools-row {
-      display: flex; justify-content: center; align-items: flex-start;
-      gap: 48px; margin-top: 48px; padding-top: 48px;
-      border-top: 0.5px solid rgba(255,255,255,0.06);
-      flex-wrap: wrap;
-    }
-    .sw-tool-item {
-      display: flex; flex-direction: column; align-items: center; gap: 12px;
-      cursor: default; position: relative;
-    }
-    .sw-tool-icon { width: 48px; height: 48px; display: block; opacity: 0.4; }
-    .sw-tool-name {
-      font-size: 10px; font-weight: 300; letter-spacing: 0.14em;
-      color: rgba(255,255,255,0.25); text-transform: uppercase;
-    }
-    .sw-tool-desc {
-      font-size: 9px; font-weight: 300;
-      color: rgba(255,255,255,0.15); line-height: 1.4; text-align: center;
-      max-width: 80px;
-    }
     @media (max-width: 768px) {
       #sviluppo-web { padding: 60px 20px; }
       .sw-grid { grid-template-columns: 1fr; }
-      .sw-tools-row { gap: 32px; }
     }
 
     /* ── PORTFOLIO TEASER ── */
@@ -4363,64 +4341,16 @@
           <div class="sw-feat"><span class="sw-feat-dot"></span>Deploy su Cloudflare — velocità globale</div>
           <div class="sw-feat"><span class="sw-feat-dot"></span>Design completamente su misura</div>
         </div>
-        <div class="sw-tech-badges">
+        <a href="sviluppo-web.html#html-css-js" class="sw-card-link">Richiedi preventivo →</a>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;">
           <span class="sw-tech-badge">Cloudflare</span>
+          <span class="sw-tech-badge">GitHub</span>
           <span class="sw-tech-badge">Namecheap</span>
           <span class="sw-tech-badge">Claude Code</span>
         </div>
-        <a href="sviluppo-web.html#html-css-js" class="sw-card-link">Richiedi preventivo →</a>
       </div>
 
     </div><!-- /.sw-grid -->
-
-    <!-- Strumenti -->
-    <div class="sw-tools-row" id="swToolsRow">
-
-      <!-- Claude Code -->
-      <div class="sw-tool-item">
-        <svg class="sw-tool-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="4" width="40" height="40" rx="10" stroke="rgba(200,150,255,0.7)" stroke-width="1.5"/>
-          <path d="M15 18 L11 24 L15 30" stroke="rgba(200,150,255,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M33 18 L37 24 L33 30" stroke="rgba(200,150,255,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <line x1="20" y1="33" x2="28" y2="15" stroke="rgba(200,150,255,0.7)" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-        <span class="sw-tool-name">Claude Code</span>
-        <span class="sw-tool-desc">AI-assisted dev</span>
-      </div>
-
-      <!-- GitHub -->
-      <div class="sw-tool-item">
-        <svg class="sw-tool-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M24 5C13.51 5 5 13.51 5 24c0 8.42 5.46 15.57 13.04 18.1.95.17 1.3-.41 1.3-.92v-3.22c-5.3 1.15-6.42-2.56-6.42-2.56-.86-2.2-2.11-2.79-2.11-2.79-1.73-1.18.13-1.16.13-1.16 1.91.13 2.92 1.97 2.92 1.97 1.7 2.91 4.46 2.07 5.55 1.58.17-1.23.66-2.07 1.2-2.55-4.23-.48-8.68-2.11-8.68-9.4 0-2.08.74-3.78 1.97-5.12-.2-.48-.86-2.42.19-5.04 0 0 1.6-.51 5.25 1.96A18.27 18.27 0 0124 14.15c1.62.01 3.25.22 4.77.64 3.64-2.47 5.24-1.96 5.24-1.96 1.05 2.62.39 4.56.19 5.04 1.23 1.34 1.97 3.04 1.97 5.12 0 7.3-4.46 8.91-8.71 9.38.69.59 1.3 1.76 1.3 3.54v5.25c0 .51.35 1.1 1.32.92C37.55 39.55 43 32.41 43 24c0-10.49-8.51-19-19-19z" fill="rgba(255,255,255,0.5)"/>
-        </svg>
-        <span class="sw-tool-name">GitHub</span>
-        <span class="sw-tool-desc">Version control</span>
-      </div>
-
-      <!-- Cloudflare -->
-      <div class="sw-tool-item">
-        <svg class="sw-tool-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M34 34H13a9 9 0 010-18c.6 0 1.2.06 1.78.16A12.75 12.75 0 0139 25.5" stroke="rgba(255,140,50,0.7)" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M39 25.5a7.5 7.5 0 010 8.5H34" stroke="rgba(255,140,50,0.7)" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M31 34l2.5-5.5-2.5-2" stroke="rgba(255,140,50,0.5)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span class="sw-tool-name">Cloudflare</span>
-        <span class="sw-tool-desc">Deploy globale</span>
-      </div>
-
-      <!-- Namecheap -->
-      <div class="sw-tool-item">
-        <svg class="sw-tool-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="12" width="40" height="24" rx="3" stroke="rgba(100,180,255,0.7)" stroke-width="1.5"/>
-          <line x1="4" y1="21" x2="44" y2="21" stroke="rgba(100,180,255,0.4)" stroke-width="1.2"/>
-          <circle cx="13" cy="30" r="2.5" fill="rgba(100,180,255,0.4)"/>
-          <line x1="20" y1="30" x2="35" y2="30" stroke="rgba(100,180,255,0.4)" stroke-width="1.8" stroke-linecap="round"/>
-        </svg>
-        <span class="sw-tool-name">Namecheap</span>
-        <span class="sw-tool-desc">Gestione dominio</span>
-      </div>
-
-    </div><!-- /.sw-tools-row -->
 
     <div class="sw-footer-note reveal" style="--reveal-delay:300ms">
       Ogni progetto è diverso — contattami per discutere la soluzione più adatta a te
@@ -6196,65 +6126,6 @@
     }, { threshold: 0 });
 
     visObs.observe(strip);
-  })();
-
-  // ── SW TOOLS ROW — GSAP animations ──
-  (function() {
-    if (!window.gsap) return;
-    gsap.registerPlugin(ScrollTrigger);
-
-    const items = document.querySelectorAll('#swToolsRow .sw-tool-item');
-    if (!items.length) return;
-
-    // Filtri glow iniziali per icon
-    const glowFilters = [
-      'drop-shadow(0 0 8px rgba(200,150,255,0.5))',
-      'drop-shadow(0 0 8px rgba(255,255,255,0.35))',
-      'drop-shadow(0 0 8px rgba(255,140,50,0.5))',
-      'drop-shadow(0 0 8px rgba(100,180,255,0.5))',
-    ];
-    const glowHover = [
-      'drop-shadow(0 0 18px rgba(200,150,255,0.9))',
-      'drop-shadow(0 0 18px rgba(255,255,255,0.75))',
-      'drop-shadow(0 0 18px rgba(255,140,50,0.9))',
-      'drop-shadow(0 0 18px rgba(100,180,255,0.9))',
-    ];
-
-    items.forEach((item, i) => {
-      const icon = item.querySelector('.sw-tool-icon');
-      if (icon) icon.style.filter = glowFilters[i] || '';
-    });
-
-    // Entrance animation via ScrollTrigger
-    gsap.from(items, {
-      y: 30, opacity: 0, stagger: 0.15,
-      duration: 0.8, ease: 'power3.out',
-      scrollTrigger: { trigger: '#swToolsRow', start: 'top 82%', once: true },
-      onComplete: function() {
-        // Avvia il pulse opacity dopo che gli elementi sono visibili
-        items.forEach((item, i) => {
-          const icon = item.querySelector('.sw-tool-icon');
-          if (!icon) return;
-          gsap.fromTo(icon, { opacity: 0.4 }, {
-            opacity: 0.9, duration: 2, ease: 'sine.inOut',
-            yoyo: true, repeat: -1, delay: i * 0.5
-          });
-        });
-      }
-    });
-
-    // Hover interactions
-    items.forEach((item, i) => {
-      const icon = item.querySelector('.sw-tool-icon');
-      item.addEventListener('mouseenter', () => {
-        gsap.to(item, { scale: 1.15, duration: 0.3, ease: 'power2.out' });
-        if (icon) icon.style.filter = glowHover[i] || '';
-      });
-      item.addEventListener('mouseleave', () => {
-        gsap.to(item, { scale: 1, duration: 0.3, ease: 'power2.out' });
-        if (icon) icon.style.filter = glowFilters[i] || '';
-      });
-    });
   })();
   </script>
 
