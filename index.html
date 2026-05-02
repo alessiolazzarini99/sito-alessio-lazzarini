@@ -406,7 +406,7 @@
       text-transform: uppercase; margin-bottom: 32px;
       padding: 0 48px;
     }
-    .lapponia-strip-wrap { width: 100%; overflow: hidden; cursor: grab; }
+    .lapponia-strip-wrap { width: 100%; overflow: hidden; }
     @keyframes lapponiaScroll {
       from { transform: translateX(0); }
       to   { transform: translateX(-33.33%); }
@@ -420,11 +420,10 @@
       height: 420px; width: auto; object-fit: cover;
       border-radius: 4px; flex-shrink: 0;
       display: block;
-      transition: transform 0.4s ease;
-      position: relative;
-      will-change: transform;
+      transition: filter 0.4s ease;
+      will-change: filter;
+      filter: brightness(0.7);
     }
-    .lapponia-strip-track img:hover { transform: scale(1.03); }
     .lapponia-ticker-wrap {
       border-top: 0.5px solid rgba(255,255,255,0.06);
       border-bottom: 0.5px solid rgba(255,255,255,0.06);
@@ -5704,60 +5703,50 @@
     lazyVideos.forEach(function(video) { observer.observe(video); });
   })();
 
-  // ── LAPPONIA STRIP — hover slow + pause su singola foto senza salti ──
-  // Problema: cambiare animationDuration mentre l'animazione gira riavvia
-  // il ciclo e causa un salto visivo. Soluzione: tracciare il tempo trascorso
-  // manualmente e applicare sempre animationDelay negativo + duration insieme,
-  // così la posizione visiva rimane identica.
+  // ── LAPPONIA STRIP — spotlight automatico: foto più vicina al centro → bright ──
   (function() {
     const strip = document.getElementById('lapponiaStrip');
     const track = document.getElementById('lapponiaTrack');
     if (!strip || !track) return;
 
-    const DUR_NORMAL = 25000; // ms
-    const DUR_SLOW   = 60000; // ms
+    const imgs = Array.from(track.querySelectorAll('img'));
+    let rafId = null;
+    let lastActive = -1;
 
-    // animStart: timestamp Date.now() corrispondente alla posizione 0 del nastro
-    let animStart    = Date.now();
-    let animDuration = DUR_NORMAL;
-    let pausedAt     = null; // elapsed ms al momento del pause, null = running
+    function updateSpotlight() {
+      const stripRect = strip.getBoundingClientRect();
+      const centerX   = stripRect.left + stripRect.width / 2;
 
-    /* Cambia durata mantenendo la posizione visiva invariata */
-    function setDuration(dur) {
-      if (pausedAt !== null) { animDuration = dur; return; }
-      const elapsed    = (Date.now() - animStart) % animDuration;
-      const newElapsed = (elapsed / animDuration) * dur;
-      animStart    = Date.now() - newElapsed;
-      animDuration = dur;
-      track.style.animationDuration  = (dur / 1000) + 's';
-      track.style.animationDelay     = '-' + (newElapsed / 1000) + 's';
-      track.style.animationPlayState = 'running';
+      let minDist = Infinity;
+      let closest = -1;
+      imgs.forEach((img, i) => {
+        const r    = img.getBoundingClientRect();
+        const dist = Math.abs((r.left + r.width / 2) - centerX);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+
+      if (closest !== lastActive) {
+        imgs.forEach((img, i) => {
+          img.style.filter = i === closest ? 'brightness(1.1)' : 'brightness(0.7)';
+        });
+        lastActive = closest;
+      }
+
+      rafId = requestAnimationFrame(updateSpotlight);
     }
 
-    /* Congela il nastro esattamente dove si trova in questo momento */
-    function pause() {
-      if (pausedAt !== null) return;
-      const elapsed = (Date.now() - animStart) % animDuration;
-      pausedAt = elapsed;
-      track.style.animationDelay     = '-' + (elapsed / 1000) + 's';
-      track.style.animationPlayState = 'paused';
-    }
+    // Avvia il loop solo quando il nastro è visibile, fermalo quando esce dalla viewport
+    const visObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          if (!rafId) rafId = requestAnimationFrame(updateSpotlight);
+        } else {
+          if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        }
+      });
+    }, { threshold: 0 });
 
-    /* Riprende dalla posizione congelata senza salti */
-    function resume() {
-      if (pausedAt === null) return;
-      animStart = Date.now() - pausedAt;
-      pausedAt  = null;
-      track.style.animationPlayState = 'running';
-    }
-
-    strip.addEventListener('mouseenter', () => setDuration(DUR_SLOW));
-    strip.addEventListener('mouseleave', () => setDuration(DUR_NORMAL));
-
-    track.querySelectorAll('img').forEach(img => {
-      img.addEventListener('mouseenter', pause);
-      img.addEventListener('mouseleave', resume);
-    });
+    visObs.observe(strip);
   })();
   </script>
 
