@@ -397,6 +397,61 @@
     .ctx-name { font-size: 11px; font-weight: 400; color: rgba(255,255,255,0.6); margin-bottom: 5px; }
     .ctx-desc { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.25); line-height: 1.6; }
 
+    /* ── LAPPONIA SEPARATORE ── */
+    #lapponia { background: #0a0a0a; padding: 80px 0 60px; overflow: hidden; }
+    .lapponia-label {
+      text-align: center;
+      font-size: 10px; font-weight: 300;
+      letter-spacing: 0.2em; color: rgba(255,255,255,0.2);
+      text-transform: uppercase; margin-bottom: 32px;
+      padding: 0 48px;
+    }
+    .lapponia-strip-wrap { width: 100%; overflow: hidden; cursor: grab; }
+    @keyframes lapponiaScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-33.33%); }
+    }
+    .lapponia-strip-track {
+      display: flex; gap: 12px; width: max-content;
+      animation: lapponiaScroll 25s linear infinite;
+      will-change: transform;
+    }
+    .lapponia-strip-track img {
+      height: 420px; width: auto; object-fit: cover;
+      border-radius: 4px; flex-shrink: 0;
+      display: block;
+      transition: transform 0.4s ease;
+      position: relative;
+    }
+    .lapponia-strip-track img:hover { transform: scale(1.03); }
+    .lapponia-ticker-wrap {
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+      padding: 14px 0; margin-top: 20px; overflow: hidden;
+    }
+    @keyframes lapTicker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .lapponia-ticker-track {
+      display: flex; white-space: nowrap;
+      animation: lapTicker 20s linear infinite;
+      will-change: transform;
+    }
+    .lapponia-ticker-track span {
+      font-size: 11px; font-weight: 300;
+      letter-spacing: 0.18em; color: rgba(255,255,255,0.2);
+      text-transform: uppercase; padding-right: 0;
+    }
+    .lapponia-link-row { text-align: center; margin-top: 32px; padding: 0 48px; }
+    .lapponia-link {
+      font-size: 11px; font-weight: 300; letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.3); text-decoration: none;
+      border-bottom: 0.5px solid rgba(255,255,255,0.15); padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .lapponia-link:hover { color: rgba(255,255,255,0.6); border-color: rgba(255,255,255,0.4); }
+
     /* ── 04 SPORT ── */
     #sport { background: #0a0a0a; }
     .sport-layout {
@@ -3239,6 +3294,42 @@
     </div>
   </section>
 
+  <!-- LAPPONIA — separatore cinematografico -->
+  <section id="lapponia">
+    <div class="lapponia-label reveal">Progetto personale · Lapponia, Svezia · 2024</div>
+
+    <!-- Nastro fotografico -->
+    <div class="lapponia-strip-wrap" id="lapponiaStrip">
+      <div class="lapponia-strip-track" id="lapponiaTrack">
+        <img loading="lazy" src="assets/lapponia-preview-1.jpg" alt="Lapponia — renna nel bosco artico">
+        <img loading="lazy" src="assets/lapponia-preview-2.jpg" alt="Lapponia — aurora boreale">
+        <img loading="lazy" src="assets/lapponia-preview-3.jpg" alt="Lapponia — grande aurora boreale">
+        <img loading="lazy" src="assets/lapponia-preview-4.jpg" alt="Lapponia — paesaggio drone">
+        <img loading="lazy" src="assets/lapponia-preview-1.jpg" alt="Lapponia — renna nel bosco artico">
+        <img loading="lazy" src="assets/lapponia-preview-2.jpg" alt="Lapponia — aurora boreale">
+        <img loading="lazy" src="assets/lapponia-preview-3.jpg" alt="Lapponia — grande aurora boreale">
+        <img loading="lazy" src="assets/lapponia-preview-4.jpg" alt="Lapponia — paesaggio drone">
+        <img loading="lazy" src="assets/lapponia-preview-1.jpg" alt="Lapponia — renna nel bosco artico">
+        <img loading="lazy" src="assets/lapponia-preview-2.jpg" alt="Lapponia — aurora boreale">
+        <img loading="lazy" src="assets/lapponia-preview-3.jpg" alt="Lapponia — grande aurora boreale">
+        <img loading="lazy" src="assets/lapponia-preview-4.jpg" alt="Lapponia — paesaggio drone">
+      </div>
+    </div>
+
+    <!-- Ticker -->
+    <div class="lapponia-ticker-wrap">
+      <div class="lapponia-ticker-track">
+        <span>−30°C · 3 settimane · Aurora boreale · Drone a 120m · Lapponia, Svezia · Renne · Paesaggi artici · Riprese estreme · Nordic Camper · &nbsp;&nbsp;&nbsp;</span>
+        <span>−30°C · 3 settimane · Aurora boreale · Drone a 120m · Lapponia, Svezia · Renne · Paesaggi artici · Riprese estreme · Nordic Camper · &nbsp;&nbsp;&nbsp;</span>
+      </div>
+    </div>
+
+    <!-- Link progetto -->
+    <div class="lapponia-link-row reveal" style="--reveal-delay:400ms">
+      <a href="lapponia.html" class="lapponia-link">Esplora il progetto completo →</a>
+    </div>
+  </section>
+
   <!-- 04 SPORT -->
   <section id="sport">
     <div class="section-header reveal">
@@ -5610,6 +5701,15 @@
       });
     }, { rootMargin: '300px', threshold: 0 });
     lazyVideos.forEach(function(video) { observer.observe(video); });
+  })();
+
+  // ── LAPPONIA STRIP — hover speed ──
+  (function() {
+    const strip = document.getElementById('lapponiaStrip');
+    const track = document.getElementById('lapponiaTrack');
+    if (!strip || !track) return;
+    strip.addEventListener('mouseenter', () => { track.style.animationDuration = '60s'; });
+    strip.addEventListener('mouseleave', () => { track.style.animationDuration = '25s'; });
   })();
   </script>
 

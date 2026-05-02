@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapponia, Svezia 2024 — Alessio Lazzarini</title>
+  <meta name="description" content="3 settimane in Lapponia svedese a −30°C. Aurora boreale, renne, drone a 120m. Progetto personale di Alessio Lazzarini — Fotografo & Videomaker." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px;
+      border-bottom: 0.5px solid rgba(255,255,255,0.08);
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+    }
+    .nav-back {
+      font-size: 12px; font-weight: 300;
+      color: rgba(255,255,255,0.45); text-decoration: none;
+      letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 6px;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: rgba(255,255,255,0.85); }
+    .nav-title {
+      font-size: 11px; font-weight: 300;
+      letter-spacing: 0.18em; color: rgba(255,255,255,0.2);
+      text-transform: uppercase;
+    }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.75s cubic-bezier(0.16,1,0.3,1);
+      transition-delay: var(--reveal-delay, 0ms);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── HEADER ── */
+    #lap-header {
+      padding: 160px 48px 80px;
+      text-align: center;
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .lap-eyebrow {
+      font-size: 10px; font-weight: 300;
+      letter-spacing: 0.3em; color: rgba(255,255,255,0.2);
+      text-transform: uppercase; margin-bottom: 24px;
+    }
+    .lap-title {
+      font-size: clamp(36px,7vw,72px); font-weight: 200;
+      color: #fff; letter-spacing: -0.02em;
+      line-height: 1.05; margin-bottom: 20px;
+    }
+    .lap-subtitle {
+      font-size: 13px; font-weight: 300;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* ── STATS ROW ── */
+    #lap-stats {
+      display: flex; justify-content: center;
+      gap: 0; padding: 0 48px;
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .lap-stat {
+      flex: 1; max-width: 260px;
+      padding: 28px 0;
+      text-align: center;
+      border-right: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .lap-stat:last-child { border-right: none; }
+    .lap-stat-label {
+      font-size: 10px; font-weight: 300;
+      color: rgba(255,255,255,0.28);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .lap-stat-value {
+      font-size: 22px; font-weight: 200;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: -0.01em;
+    }
+
+    /* ── PHOTO GRID ── */
+    #lap-photos {
+      padding: 60px 48px;
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .lap-section-label {
+      font-size: 10px; font-weight: 300;
+      letter-spacing: 0.2em; color: rgba(255,255,255,0.2);
+      text-transform: uppercase; margin-bottom: 28px;
+    }
+    .lap-photo-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .lap-photo-item {
+      position: relative; overflow: hidden;
+      border-radius: 4px; border: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .lap-photo-item img {
+      width: 100%; aspect-ratio: 3/2; object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .lap-photo-item:hover img { transform: scale(1.02); }
+    .lap-photo-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 32px 16px 16px;
+      background: linear-gradient(0deg, rgba(0,0,0,0.65) 0%, transparent 100%);
+      font-size: 11px; font-weight: 300;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.04em;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .lap-photo-item:hover .lap-photo-caption { opacity: 1; }
+
+    /* ── VIDEO SECTION ── */
+    #lap-video {
+      padding: 60px 48px;
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .lap-video-title {
+      font-size: 22px; font-weight: 300;
+      color: #fff; margin-bottom: 32px;
+      letter-spacing: -0.01em;
+    }
+    .lap-video-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .lap-video-wrap {
+      position: relative; aspect-ratio: 16/9;
+      border-radius: 4px; overflow: hidden;
+      background: #111;
+      border: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .lap-video-wrap video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 24px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+    }
+    .footer-left { display: flex; align-items: center; gap: 12px; }
+    .footer-logo { height: 20px; width: auto; opacity: 0.5; }
+    .footer-brand { font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.28); }
+    .footer-center { font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.2); }
+    .footer-right  { font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.15); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      nav { padding: 18px 20px; }
+      .nav-title { display: none; }
+      #lap-header { padding: 120px 20px 60px; }
+      #lap-stats { flex-wrap: wrap; padding: 0 20px; }
+      .lap-stat { flex: 1 1 50%; border-right: none; border-bottom: 0.5px solid rgba(255,255,255,0.06); }
+      .lap-stat:nth-child(odd) { border-right: 0.5px solid rgba(255,255,255,0.06); }
+      .lap-stat:nth-last-child(-n+2) { border-bottom: none; }
+      #lap-photos { padding: 40px 20px; }
+      .lap-photo-grid { grid-template-columns: 1fr; }
+      #lap-video { padding: 40px 20px; }
+      .lap-video-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 8px; padding: 20px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-back">← Torna al sito</a>
+    <div class="nav-title">Progetto personale · 2024</div>
+  </nav>
+
+  <!-- HEADER -->
+  <section id="lap-header">
+    <div class="lap-eyebrow reveal">Progetto personale</div>
+    <h1 class="lap-title reveal" style="--reveal-delay:100ms">Lapponia, Svezia</h1>
+    <div class="lap-subtitle reveal" style="--reveal-delay:200ms">3 settimane · Inverno 2024 · −30°C</div>
+  </section>
+
+  <!-- STATS -->
+  <div id="lap-stats">
+    <div class="lap-stat reveal" style="--reveal-delay:0ms">
+      <div class="lap-stat-label">Temperatura</div>
+      <div class="lap-stat-value">−30°C</div>
+    </div>
+    <div class="lap-stat reveal" style="--reveal-delay:80ms">
+      <div class="lap-stat-label">Durata</div>
+      <div class="lap-stat-value">3 settimane</div>
+    </div>
+    <div class="lap-stat reveal" style="--reveal-delay:160ms">
+      <div class="lap-stat-label">Quota drone</div>
+      <div class="lap-stat-value">120m AGL</div>
+    </div>
+    <div class="lap-stat reveal" style="--reveal-delay:240ms">
+      <div class="lap-stat-label">Collaborazione</div>
+      <div class="lap-stat-value" style="font-size:16px;letter-spacing:0">Nordic Camper</div>
+    </div>
+  </div>
+
+  <!-- FOTO -->
+  <section id="lap-photos">
+    <div class="lap-section-label reveal">Fotografia</div>
+    <div class="lap-photo-grid">
+      <div class="lap-photo-item reveal" style="--reveal-delay:0ms">
+        <img loading="lazy" src="assets/lapponia-preview-1.jpg" alt="Renna nel bosco artico">
+        <div class="lap-photo-caption">Renna nel bosco artico</div>
+      </div>
+      <div class="lap-photo-item reveal" style="--reveal-delay:80ms">
+        <img loading="lazy" src="assets/lapponia-preview-2.jpg" alt="Aurora boreale — notte di gennaio">
+        <div class="lap-photo-caption">Aurora boreale — notte di gennaio</div>
+      </div>
+      <div class="lap-photo-item reveal" style="--reveal-delay:160ms">
+        <img loading="lazy" src="assets/lapponia-preview-3.jpg" alt="Aurora boreale — grande apparizione">
+        <div class="lap-photo-caption">Aurora boreale — grande apparizione</div>
+      </div>
+      <div class="lap-photo-item reveal" style="--reveal-delay:240ms">
+        <img loading="lazy" src="assets/lapponia-preview-4.jpg" alt="Paesaggio innevato — drone a 120m">
+        <div class="lap-photo-caption">Paesaggio innevato — drone a 120m</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section id="lap-video">
+    <div class="lap-video-title reveal">Video e reel</div>
+    <div class="lap-video-grid">
+      <div class="lap-video-wrap reveal" style="--reveal-delay:0ms">
+        <video autoplay loop muted playsinline preload="none">
+          <source src="assets/placeholder_lapponia_1_web.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="lap-video-wrap reveal" style="--reveal-delay:120ms">
+        <video autoplay loop muted playsinline preload="none">
+          <source src="assets/placeholder_lapponia_2_web.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      <img src="assets/logo ph white.png" alt="AL" class="footer-logo">
+      <span class="footer-brand">Alessio Lazzarini — Fotografo &amp; Videomaker</span>
+    </div>
+    <div class="footer-center">P.IVA 02763540222</div>
+    <div class="footer-right">© 2025 Developed by Alessio Lazzarini</div>
+  </footer>
+
+  <script>
+    // Reveal on scroll
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+  </script>
+</body>
+</html>
