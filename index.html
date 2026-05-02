@@ -58,8 +58,8 @@
       letter-spacing: 0.2em; color: rgba(255,255,255,0.2);
       text-transform: uppercase; padding: 0 2px;
     }
-    .cine-ticker--slow  .cine-ticker-track { animation: tickerScroll 45s linear infinite; }
-    .cine-ticker--slow2 .cine-ticker-track { animation: tickerScroll 55s linear infinite; }
+    .cine-ticker--slow  .cine-ticker-track { animation: tickerScroll 70s linear infinite; }
+    .cine-ticker--slow2 .cine-ticker-track { animation: tickerScroll 85s linear infinite; }
 
     /* ── NAV ── */
     nav {
@@ -422,6 +422,7 @@
       display: block;
       transition: transform 0.4s ease;
       position: relative;
+      will-change: transform;
     }
     .lapponia-strip-track img:hover { transform: scale(1.03); }
     .lapponia-ticker-wrap {
@@ -1830,8 +1831,8 @@
       #sport .section-sub { text-align: center; }
 
       /* ── TICKER MOBILE (più lento per schermo piccolo) ── */
-      .cine-ticker--slow  .cine-ticker-track { animation-duration: 60s; }
-      .cine-ticker--slow2 .cine-ticker-track { animation-duration: 75s; }
+      .cine-ticker--slow  .cine-ticker-track { animation-duration: 93s; }
+      .cine-ticker--slow2 .cine-ticker-track { animation-duration: 116s; }
 
       /* ── GEAR HERO CARD mobile ── */
       .gear-hero-card { margin: 0 20px 16px; }
@@ -3319,8 +3320,8 @@
     <!-- Ticker -->
     <div class="lapponia-ticker-wrap">
       <div class="lapponia-ticker-track">
-        <span>−30°C · 3 settimane · Aurora boreale · Drone a 120m · Lapponia, Svezia · Renne · Paesaggi artici · Riprese estreme · Nordic Camper · &nbsp;&nbsp;&nbsp;</span>
-        <span>−30°C · 3 settimane · Aurora boreale · Drone a 120m · Lapponia, Svezia · Renne · Paesaggi artici · Riprese estreme · Nordic Camper · &nbsp;&nbsp;&nbsp;</span>
+        <span>−30°C · 3 settimane · Aurora boreale · Riprese aeree · Lapponia, Svezia · Renne · Paesaggi artici · Clima estremo · Nordic Camper · &nbsp;&nbsp;&nbsp;</span>
+        <span>−30°C · 3 settimane · Aurora boreale · Riprese aeree · Lapponia, Svezia · Renne · Paesaggi artici · Clima estremo · Nordic Camper · &nbsp;&nbsp;&nbsp;</span>
       </div>
     </div>
 
@@ -5703,13 +5704,20 @@
     lazyVideos.forEach(function(video) { observer.observe(video); });
   })();
 
-  // ── LAPPONIA STRIP — hover speed ──
+  // ── LAPPONIA STRIP — hover speed + pause on single photo ──
   (function() {
     const strip = document.getElementById('lapponiaStrip');
     const track = document.getElementById('lapponiaTrack');
     if (!strip || !track) return;
     strip.addEventListener('mouseenter', () => { track.style.animationDuration = '60s'; });
-    strip.addEventListener('mouseleave', () => { track.style.animationDuration = '25s'; });
+    strip.addEventListener('mouseleave', () => {
+      track.style.animationDuration = '25s';
+      track.style.animationPlayState = 'running';
+    });
+    track.querySelectorAll('img').forEach(img => {
+      img.addEventListener('mouseenter', () => { track.style.animationPlayState = 'paused'; });
+      img.addEventListener('mouseleave', () => { track.style.animationPlayState = 'running'; });
+    });
   })();
   </script>
 

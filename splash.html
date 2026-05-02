@@ -1046,7 +1046,7 @@ function animateS2() {
 
 /* ================================================================
    S5 — SOFTWARE SEQUENCE (loghi grandi, glow brandizzato pulsante)
-   Timing: entry 0.5s, slot per logo 1.6s (0.5 entry + 1.1 display)
+   Timing: entry 0.4s, slot per logo 0.8s
 ================================================================ */
 function animateS4() {
   var tl = gsap.timeline();
@@ -1054,71 +1054,71 @@ function animateS4() {
   /* ── DaVinci entra al centro (t=0) ── */
   tl.fromTo('#sw-davinci',
     { scale: 0.5, opacity: 0 },
-    { scale: 1,   opacity: 1, duration: 0.7, ease: 'power3.out' }, 0)
+    { scale: 1,   opacity: 1, duration: 0.4, ease: 'power3.out' }, 0)
     /* glow DaVinci appare poi pulsa */
     .to('#sw-davinci img', {
         filter: 'drop-shadow(0 0 30px rgba(255,107,53,0.5))',
-        duration: 0.4, ease: 'power2.out',
+        duration: 0.3, ease: 'power2.out',
         onComplete: function () {
           gsap.to('#sw-davinci img', {
             filter: 'drop-shadow(0 0 10px rgba(255,107,53,0.15))',
-            duration: 1.8, ease: 'power1.inOut', repeat: -1, yoyo: true
+            duration: 1.2, ease: 'power1.inOut', repeat: -1, yoyo: true
           });
         }
-      }, 0.75)
-    .to('#sw-davinci-lbl', { opacity: 1, duration: 0.4 }, 0.85)
+      }, 0.4)
+    .to('#sw-davinci-lbl', { opacity: 1, duration: 0.3 }, 0.5)
 
-  /* ── DaVinci esce a sinistra, Premiere entra (t=1.6) ── */
-    .to('#sw-davinci',     { x: '-35vw', scale: 0.4, opacity: 0.3, duration: 0.5, ease: 'power2.inOut' }, 1.6)
-    .to('#sw-davinci img', { filter: 'none', duration: 0.3, overwrite: true }, 1.6)
-    .to('#sw-davinci-lbl', { opacity: 0, duration: 0.3 }, 1.6)
+  /* ── DaVinci esce a sinistra, Premiere entra (t=0.8) ── */
+    .to('#sw-davinci',     { x: '-35vw', scale: 0.4, opacity: 0.3, duration: 0.3, ease: 'power2.inOut' }, 0.8)
+    .to('#sw-davinci img', { filter: 'none', duration: 0.2, overwrite: true }, 0.8)
+    .to('#sw-davinci-lbl', { opacity: 0, duration: 0.2 }, 0.8)
     .fromTo('#sw-premiere',
       { scale: 0.5, opacity: 0 },
-      { scale: 1,   opacity: 1, duration: 0.7, ease: 'power3.out' }, 1.6)
+      { scale: 1,   opacity: 1, duration: 0.4, ease: 'power3.out' }, 0.8)
     /* glow Premiere appare poi pulsa */
     .to('#sw-premiere img', {
         filter: 'drop-shadow(0 0 30px rgba(153,153,255,0.5))',
-        duration: 0.4, ease: 'power2.out',
+        duration: 0.3, ease: 'power2.out',
         onComplete: function () {
           gsap.to('#sw-premiere img', {
             filter: 'drop-shadow(0 0 10px rgba(153,153,255,0.15))',
-            duration: 1.8, ease: 'power1.inOut', repeat: -1, yoyo: true
+            duration: 1.2, ease: 'power1.inOut', repeat: -1, yoyo: true
           });
         }
-      }, 2.35)
-    .to('#sw-premiere-lbl', { opacity: 1, duration: 0.4 }, 2.45)
+      }, 1.2)
+    .to('#sw-premiere-lbl', { opacity: 1, duration: 0.3 }, 1.3)
 
-  /* ── Premiere esce a destra, AE entra (t=3.2) ── */
-    .to('#sw-premiere',     { x: '35vw', scale: 0.4, opacity: 0.3, duration: 0.5, ease: 'power2.inOut' }, 3.2)
-    .to('#sw-premiere img', { filter: 'none', duration: 0.3, overwrite: true }, 3.2)
-    .to('#sw-premiere-lbl', { opacity: 0, duration: 0.3 }, 3.2)
+  /* ── Premiere esce a destra, AE entra (t=1.6) ── */
+    .to('#sw-premiere',     { x: '35vw', scale: 0.4, opacity: 0.3, duration: 0.3, ease: 'power2.inOut' }, 1.6)
+    .to('#sw-premiere img', { filter: 'none', duration: 0.2, overwrite: true }, 1.6)
+    .to('#sw-premiere-lbl', { opacity: 0, duration: 0.2 }, 1.6)
     .fromTo('#sw-ae',
       { scale: 0.5, opacity: 0 },
-      { scale: 1,   opacity: 1, duration: 0.7, ease: 'power3.out' }, 3.2)
+      { scale: 1,   opacity: 1, duration: 0.4, ease: 'power3.out' }, 1.6)
     /* glow AE appare poi pulsa */
     .to('#sw-ae img', {
         filter: 'drop-shadow(0 0 30px rgba(210,145,255,0.5))',
-        duration: 0.4, ease: 'power2.out',
+        duration: 0.3, ease: 'power2.out',
         onComplete: function () {
           gsap.to('#sw-ae img', {
             filter: 'drop-shadow(0 0 10px rgba(210,145,255,0.15))',
-            duration: 1.8, ease: 'power1.inOut', repeat: -1, yoyo: true
+            duration: 1.2, ease: 'power1.inOut', repeat: -1, yoyo: true
           });
         }
-      }, 3.95)
-    .to('#sw-ae-lbl', { opacity: 1, duration: 0.4 }, 4.05)
+      }, 2.0)
+    .to('#sw-ae-lbl', { opacity: 1, duration: 0.3 }, 2.1)
 
-  /* ── Tutti e tre convergono in riga (t=4.8) ──
+  /* ── Tutti e tre convergono in riga (t=2.4) ──
        scala finale: 60px / 150px max → scale 0.40 */
-    .to('#sw-davinci',  { x: '-120px', scale: 0.40, opacity: 0.5, duration: 0.7, ease: 'power2.inOut' }, 4.8)
-    .to('#sw-premiere', { x:        0, scale: 0.40, opacity: 0.5, duration: 0.7, ease: 'power2.inOut' }, 4.8)
-    .to('#sw-ae',       { x:  '120px', scale: 0.40, opacity: 0.5, duration: 0.7, ease: 'power2.inOut' }, 4.8)
-    .to('#sw-ae img',   { filter: 'none', duration: 0.3, overwrite: true }, 4.8)
-    .to('#sw-ae-lbl',   { opacity: 0, duration: 0.3 }, 4.8)
+    .to('#sw-davinci',  { x: '-120px', scale: 0.40, opacity: 0.5, duration: 0.4, ease: 'power2.inOut' }, 2.4)
+    .to('#sw-premiere', { x:        0, scale: 0.40, opacity: 0.5, duration: 0.4, ease: 'power2.inOut' }, 2.4)
+    .to('#sw-ae',       { x:  '120px', scale: 0.40, opacity: 0.5, duration: 0.4, ease: 'power2.inOut' }, 2.4)
+    .to('#sw-ae img',   { filter: 'none', duration: 0.2, overwrite: true }, 2.4)
+    .to('#sw-ae-lbl',   { opacity: 0, duration: 0.2 }, 2.4)
     /* linea SVG di connessione */
-    .to('#s4-connection',      { opacity: 1, duration: 0.4 }, 5.4)
-    .to('#s4-connection line', { attr: { strokeDashoffset: 0 }, duration: 0.6, ease: 'power2.out' }, 5.4)
-    .to('#s4-tagline',         { opacity: 1, duration: 0.6, ease: 'power2.out' }, 5.7);
+    .to('#s4-connection',      { opacity: 1, duration: 0.3 }, 2.9)
+    .to('#s4-connection line', { attr: { strokeDashoffset: 0 }, duration: 0.4, ease: 'power2.out' }, 2.9)
+    .to('#s4-tagline',         { opacity: 1, duration: 0.4, ease: 'power2.out' }, 3.1);
 }
 
 /* ================================================================
