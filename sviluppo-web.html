@@ -93,13 +93,13 @@
     }
     .hero-title {
       font-size: clamp(48px,10vw,100px); font-weight: 200;
-      background: linear-gradient(135deg, #fff 0%, rgba(160,100,255,0.8) 50%, rgba(100,140,255,0.6) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      color: #fff;
       letter-spacing: -0.03em; line-height: 0.95;
-      margin-bottom: 40px; opacity: 0;
+      margin-bottom: 40px;
     }
+    .hero-title-w1 { color: #fff; }
+    .hero-title-w2 { color: rgba(160,100,255,0.85); }
+    .hero-title-w3 { color: rgba(100,140,255,0.75); }
     .hero-divider {
       width: 0; height: 0.5px; background: rgba(255,255,255,0.1);
       margin-bottom: 32px; opacity: 0;
@@ -465,8 +465,8 @@
     <canvas id="heroCanvas"></canvas>
     <div class="hero-inner">
 
-      <div class="hero-eyebrow" id="heroEyebrow">Sviluppo web professionale</div>
-      <h1 class="hero-title" id="heroTitle">Il tuo sito, fatto bene.</h1>
+      <div class="hero-eyebrow" id="heroEyebrow">Tre soluzioni. Un obiettivo.</div>
+      <h1 class="hero-title" id="heroTitle"><span class="hero-title-w1">Sviluppo</span> <span class="hero-title-w2">web</span> <span class="hero-title-w3">professionale</span></h1>
 
       <div class="hero-divider" id="heroDivider"></div>
       <div class="hero-sub" id="heroSub">Tre approcci, un obiettivo — il tuo sito che converte</div>
@@ -819,14 +819,15 @@
     // ── HERO — GSAP timeline ──
     gsap.registerPlugin(ScrollTrigger);
     (function() {
-      gsap.set('#heroDots', { opacity: 0 });
+      // Imposta stati iniziali via JS — nessuna opacity:0 nel CSS per evitare flash su background-clip
+      gsap.set('#heroTitle',  { opacity: 0, y: -30 });
+      gsap.set('#heroDots',   { opacity: 0 });
 
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
       tl
         .to('#heroEyebrow',  { opacity: 1, duration: 0.8 }, 0.3)
-        .from('#heroTitle',  { y: -30, opacity: 0, duration: 1 }, 0.8)
-        .set('#heroTitle',   { opacity: 1 }, 0.8)
+        .to('#heroTitle',    { opacity: 1, y: 0, duration: 1 }, 0.8)
         .set('#heroDivider', { opacity: 1 }, 1.6)
         .to('#heroDivider',  { width: 80, duration: 0.6, ease: 'power2.out' }, 1.7)
         .to('#heroSub',      { opacity: 1, y: 0, duration: 0.8 }, 2.2)
