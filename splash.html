@@ -658,8 +658,8 @@ body { cursor: none; }
     </div>
     <img id="s2-logo" src="assets/dji-1.png" alt="DJI">
     <div id="s2-model">Air 3S</div>
-    <div id="s2-sub">Prospettive che cambiano tutto</div>
     <div id="s2-line"></div>
+    <div id="s2-sub">Prospettive che cambiano tutto</div>
   </div>
   <div class="scroll-arrow">↓</div>
 </section>
@@ -706,7 +706,7 @@ body { cursor: none; }
         </div>
         <div class="num-item" id="ni-matr">
           <div class="num-value" id="nv-matr">0</div>
-          <div class="num-label">Matrimoni 2025</div>
+          <div class="num-label">Eventi 2025</div>
         </div>
         <div class="num-item" id="ni-anni">
           <div class="num-value" id="nv-anni">0</div>
@@ -1225,7 +1225,7 @@ function animateS6() {
   });
   var c2 = { val: 0 };
   gsap.to(c2, {
-    val: 6, duration: 2, ease: 'power2.out', snap: { val: 1 }, delay: 0.2,
+    val: 12, duration: 2, ease: 'power2.out', snap: { val: 1 }, delay: 0.2,
     onUpdate: function () { document.getElementById('nv-matr').textContent = Math.round(c2.val); }
   });
   var c3 = { val: 0 };
