@@ -4,3 +4,15 @@
 !.dev.vars.example
 .env*
 !.env.example
+
+# Cartelle di backup
+backup/
+
+# File di backup index
+index_backup*
+
+# macOS
+.DS_Store
+
+# Dipendenze Node
+node_modules/

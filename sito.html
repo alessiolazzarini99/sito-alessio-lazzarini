@@ -8,6 +8,8 @@
   <!-- SEO -->
   <meta name="description" content="Alessio Lazzarini — Fotografo, Videomaker e Drone Operator. Riprese aeree, video professionali e fotografia per eventi, aziende e matrimoni nel Triveneto." />
   <meta name="theme-color" content="#0a0a0a" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="format-detection" content="telephone=no">
 
   <!-- Open Graph -->
   <meta property="og:type"        content="website" />
@@ -21,7 +23,11 @@
   <meta name="twitter:description" content="Alessio Lazzarini — Fotografo, Videomaker e Drone Operator. Riprese aeree, video professionali e fotografia per eventi, aziende e matrimoni nel Triveneto." />
   <meta name="twitter:image"       content="assets/placeholder_header_002.jpg" />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -54,8 +60,8 @@
       letter-spacing: 0.2em; color: rgba(255,255,255,0.2);
       text-transform: uppercase; padding: 0 2px;
     }
-    .cine-ticker--slow  .cine-ticker-track { animation: tickerScroll 45s linear infinite; }
-    .cine-ticker--slow2 .cine-ticker-track { animation: tickerScroll 55s linear infinite; }
+    .cine-ticker--slow  .cine-ticker-track { animation: tickerScroll 70s linear infinite; }
+    .cine-ticker--slow2 .cine-ticker-track { animation: tickerScroll 85s linear infinite; }
 
     /* ── NAV ── */
     nav {
@@ -392,6 +398,61 @@
     .ctx-item { border-top: 0.5px solid rgba(255,255,255,0.08); padding-top: 14px; }
     .ctx-name { font-size: 11px; font-weight: 400; color: rgba(255,255,255,0.6); margin-bottom: 5px; }
     .ctx-desc { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.25); line-height: 1.6; }
+
+    /* ── LAPPONIA SEPARATORE ── */
+    #lapponia { background: #0a0a0a; padding: 80px 0 60px; overflow: hidden; }
+    .lapponia-label {
+      text-align: center;
+      font-size: 10px; font-weight: 300;
+      letter-spacing: 0.2em; color: rgba(255,255,255,0.2);
+      text-transform: uppercase; margin-bottom: 32px;
+      padding: 0 48px;
+    }
+    .lapponia-strip-wrap { width: 100%; overflow: hidden; }
+    @keyframes lapponiaScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-33.33%); }
+    }
+    .lapponia-strip-track {
+      display: flex; gap: 12px; width: max-content;
+      animation: lapponiaScroll 25s linear infinite;
+      will-change: transform;
+    }
+    .lapponia-strip-track img {
+      height: 420px; width: auto; object-fit: cover;
+      border-radius: 4px; flex-shrink: 0;
+      display: block;
+      transition: filter 0.4s ease;
+      will-change: filter;
+      filter: brightness(0.7);
+    }
+    .lapponia-ticker-wrap {
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+      padding: 14px 0; margin-top: 20px; overflow: hidden;
+    }
+    @keyframes lapTicker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .lapponia-ticker-track {
+      display: flex; white-space: nowrap;
+      animation: lapTicker 20s linear infinite;
+      will-change: transform;
+    }
+    .lapponia-ticker-track span {
+      font-size: 11px; font-weight: 300;
+      letter-spacing: 0.18em; color: rgba(255,255,255,0.2);
+      text-transform: uppercase; padding-right: 0;
+    }
+    .lapponia-link-row { text-align: center; margin-top: 32px; padding: 0 48px; }
+    .lapponia-link {
+      font-size: 11px; font-weight: 300; letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.3); text-decoration: none;
+      border-bottom: 0.5px solid rgba(255,255,255,0.15); padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .lapponia-link:hover { color: rgba(255,255,255,0.6); border-color: rgba(255,255,255,0.4); }
 
     /* ── 04 SPORT ── */
     #sport { background: #0a0a0a; }
@@ -826,11 +887,12 @@
       opacity: 0; transition: opacity 0.6s ease 0.4s;
     }
     .wf-step.active .wf-logos { opacity: 1; }
-    .wf-logo { max-height: 32px; height: auto; width: auto; object-fit: contain; display: block; margin: 0 auto; }
+    .wf-logo { max-height: 40px; height: 40px; width: auto; object-fit: contain; display: block; margin: 0 auto; }
     .wf-logos-sm { gap: 14px; }
-    .wf-logos-sm .wf-logo { max-height: 32px; }
-    .wf-step[data-step="5"] .wf-logos { gap: 14px; }
-    .wf-step[data-step="5"] .wf-logo { max-height: 32px; }
+    .wf-logos-sm .wf-logo { max-height: 40px; }
+    /* Step 5 (Fotografia) — Lightroom e Photoshop più grandi */
+    .wf-step[data-step="5"] .wf-logos { gap: 14px; align-items: center; min-width: 140px; flex-wrap: nowrap; }
+    .wf-step[data-step="5"] .wf-logo { height: 52px; max-height: 52px; width: auto; object-fit: contain; }
     /* File extension typewriter */
     .wf-ext-row {
       display: flex; gap: 4px; flex-wrap: wrap;
@@ -917,6 +979,17 @@
       .wf-step-desc { margin: 0 auto !important; }
       .wf-step-tools { justify-content: center !important; }
       .wf-spine { left: 24px; }
+      /* Spaziatura grafica/testo su mobile — tutti gli step */
+      .wf-step-visual { margin-top: 20px; }
+      /* Step 1 Camera + Drone — spaziatura aggiuntiva */
+      .wf-step[data-step="1"] .wf-step-visual { margin-top: 24px; }
+      .wf-step[data-step="1"] .wf-step-desc { padding-top: 16px; }
+      /* Respiro badge software su mobile */
+      .wf-step-visual .wf-logos { padding-top: 20px; padding-bottom: 20px; }
+      /* Respiro visualizzazioni grafiche su mobile */
+      .wf-step-visual .wf-vis { margin-top: 12px; margin-bottom: 16px; }
+      /* Spazio tra testo descrittivo e badge tool-tag */
+      .wf-step-tools { margin-top: 16px; }
     }
 
     /* ── 07 DRONE ── */
@@ -1040,6 +1113,201 @@
     .port-load { margin: 20px 48px 0; border: 0.5px solid rgba(255,255,255,0.07); border-radius: 3px; padding: 16px; text-align: center; cursor: pointer; }
     .port-load-text { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.25); letter-spacing: 0.1em; text-transform: uppercase; }
 
+    /* ── SVILUPPO WEB ── */
+    #sviluppo-web {
+      padding: 80px 48px;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.025) 0%, transparent 70%), #0a0a0a;
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+      text-align: center;
+    }
+    .sw-label {
+      font-size: 10px; font-weight: 300;
+      letter-spacing: 0.2em; color: rgba(255,255,255,0.25);
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+    .sw-title {
+      font-size: clamp(24px,4vw,42px); font-weight: 200;
+      color: #fff; letter-spacing: -0.02em; margin-bottom: 12px;
+    }
+    .sw-subtitle {
+      font-size: 12px; font-weight: 300;
+      color: rgba(255,255,255,0.3); margin-bottom: 48px;
+    }
+    .sw-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 12px; text-align: left;
+    }
+    .sw-card {
+      border-radius: 4px; padding: 28px;
+      display: flex; flex-direction: column; gap: 16px;
+      cursor: pointer;
+      transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .sw-card:hover { transform: translateY(-4px); }
+    /* Per-card base colors */
+    .sw-card--wix  { background: rgba(15,40,20,0.4);  border: 0.5px solid rgba(100,200,120,0.15); }
+    .sw-card--wp   { background: rgba(10,20,50,0.4);  border: 0.5px solid rgba(100,140,255,0.15); }
+    .sw-card--html { background: rgba(25,10,50,0.5);  border: 0.5px solid rgba(160,100,255,0.2); animation: htmlBorderShimmer 3s ease-in-out infinite; }
+    @keyframes htmlBorderShimmer { 0%,100% { border-color: rgba(160,100,255,0.2); } 50% { border-color: rgba(160,100,255,0.5); } }
+    /* Per-card hover */
+    .sw-card--wix:hover  { background: rgba(20,60,30,0.5);  border-color: rgba(100,200,120,0.35); box-shadow: 0 0 40px rgba(100,200,120,0.08); }
+    .sw-card--wp:hover   { background: rgba(15,30,70,0.5);  border-color: rgba(100,140,255,0.35); box-shadow: 0 0 40px rgba(100,140,255,0.08); }
+    .sw-card--html:hover { background: rgba(35,15,70,0.6);  border-color: rgba(160,100,255,0.45); box-shadow: 0 0 60px rgba(160,100,255,0.12); animation: none; }
+    /* Card icon */
+    .sw-icon { width: 20px; height: 20px; display: block; flex-shrink: 0; transition: transform 0.2s ease; }
+    .sw-card:hover .sw-icon { transform: scale(1.1); }
+    /* Badge row */
+    .sw-badges-row {
+      display: flex; justify-content: center; gap: 12px;
+      flex-wrap: wrap; margin-bottom: 32px;
+    }
+    .sw-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 9px; font-weight: 300; letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.25); text-transform: uppercase;
+      border: 0.5px solid rgba(255,255,255,0.08);
+      padding: 4px 12px; border-radius: 20px;
+    }
+    .sw-pill-dot {
+      width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
+      animation: swPillPulse 2s ease-in-out infinite;
+    }
+    @keyframes swPillPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .sw-badge {
+      font-size: 9px; font-weight: 300; letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.3); text-transform: uppercase;
+      border: 0.5px solid rgba(255,255,255,0.1);
+      padding: 3px 10px; border-radius: 20px;
+      display: inline-block; align-self: flex-start;
+    }
+    .sw-badge-advanced {
+      border-color: rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.5);
+    }
+    /* Per-card badge accent colors */
+    .sw-card--wix  .sw-badge { border-color: rgba(100,200,120,0.2); color: rgba(100,200,120,0.5); }
+    .sw-card--wp   .sw-badge { border-color: rgba(100,140,255,0.2); color: rgba(100,140,255,0.5); }
+    .sw-card--html .sw-badge { border-color: rgba(160,100,255,0.3); color: rgba(160,100,255,0.6); }
+    .sw-card-title {
+      font-size: 20px; font-weight: 300;
+      color: rgba(255,255,255,0.8); letter-spacing: -0.01em;
+    }
+    .sw-card-title-bright { color: #fff; }
+    .sw-card-desc {
+      font-size: 11px; font-weight: 300;
+      color: rgba(255,255,255,0.35); line-height: 1.6; flex: 1;
+    }
+    .sw-features { display: flex; flex-direction: column; gap: 8px; }
+    .sw-feat {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.3);
+    }
+    .sw-feat-dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: rgba(255,255,255,0.2); flex-shrink: 0;
+    }
+    .sw-card-link {
+      font-size: 10px; font-weight: 300;
+      color: rgba(255,255,255,0.3); letter-spacing: 0.1em;
+      text-decoration: none; margin-top: auto;
+      transition: color 0.2s;
+    }
+    .sw-card:hover .sw-card-link { color: rgba(255,255,255,0.65); }
+    .sw-tech-badges {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .sw-tech-badge {
+      font-size: 8px; font-weight: 300; letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.2); text-transform: uppercase;
+      border: 0.5px solid rgba(255,255,255,0.08);
+      padding: 2px 8px; border-radius: 2px;
+    }
+    .sw-footer-note {
+      margin-top: 32px;
+      font-size: 11px; font-weight: 300;
+      color: rgba(255,255,255,0.2); letter-spacing: 0.04em;
+    }
+    @media (max-width: 768px) {
+      #sviluppo-web { padding: 60px 20px; }
+      .sw-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── PORTFOLIO TEASER ── */
+    #portfolio-teaser {
+      padding: 80px 48px;
+      background: #0a0a0a;
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+      text-align: center;
+    }
+    .pf-label {
+      font-size: 10px; font-weight: 300;
+      letter-spacing: 0.2em; color: rgba(255,255,255,0.25);
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+    .pf-title {
+      font-size: clamp(28px,5vw,48px); font-weight: 200;
+      color: #fff; letter-spacing: -0.02em;
+      margin-bottom: 48px;
+    }
+    .pf-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 12px; text-align: left;
+    }
+    .pf-card {
+      border: 0.5px solid rgba(255,255,255,0.08);
+      border-radius: 4px; overflow: hidden;
+      cursor: pointer;
+      background: rgba(255,255,255,0.02);
+      padding: 24px;
+      display: flex; flex-direction: column; gap: 12px;
+      text-decoration: none;
+      transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+    }
+    .pf-card:hover {
+      border-color: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.04);
+      transform: translateY(-4px);
+    }
+    .pf-card.pf-disabled {
+      opacity: 0.5; cursor: default; pointer-events: none;
+    }
+    .pf-icon { width: 32px; height: 32px; display: block; flex-shrink: 0; }
+    .pf-card-title {
+      font-size: 14px; font-weight: 400;
+      color: rgba(255,255,255,0.8);
+    }
+    .pf-card-desc {
+      font-size: 11px; font-weight: 300;
+      color: rgba(255,255,255,0.3); line-height: 1.5;
+      flex: 1;
+    }
+    .pf-card-arrow {
+      font-size: 10px; color: rgba(255,255,255,0.2);
+      letter-spacing: 0.1em;
+    }
+    .pf-cta-wrap { margin-top: 32px; }
+    .pf-cta-btn {
+      display: inline-block;
+      border: 0.5px solid rgba(255,255,255,0.2);
+      padding: 14px 40px; border-radius: 2px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 300;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color 0.3s ease, color 0.3s ease;
+    }
+    .pf-cta-btn:hover {
+      border-color: rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.9);
+    }
+    @media (max-width: 768px) {
+      #portfolio-teaser { padding: 60px 20px; }
+      .pf-grid { grid-template-columns: repeat(2,1fr); }
+    }
+
     /* ── 09 CTA ── */
     #cta {
       position: relative; padding: 100px 48px;
@@ -1106,9 +1374,150 @@
     .social-arrow { font-size: 11px; color: rgba(255,255,255,0.15); }
 
     /* ── FOOTER ── */
-    footer { padding: 22px 48px; border-top: 0.5px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; }
-    .footer-name { font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.2); letter-spacing: 0.04em; }
-    .footer-copy { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.12); letter-spacing: 0.06em; }
+    footer {
+      padding: 22px 48px;
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .footer-left   { display: flex; align-items: center; gap: 10px; }
+    .footer-logo   { height: 18px; width: auto; object-fit: contain; opacity: 0.4; }
+    .footer-brand  { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; }
+    .footer-center { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; }
+    .footer-right  { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; }
+
+    /* ── BIO / CHI SONO ── */
+    #bio {
+      background: #0a0a0a;
+      padding: 80px 48px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .bio-left, .bio-right {
+      opacity: 0;
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .bio-left  { transform: translateX(-20px); }
+    .bio-right { transform: translateX(20px); }
+    .bio-left.is-visible, .bio-right.is-visible { opacity: 1; transform: translateX(0); }
+    .bio-eyebrow {
+      font-size: 13px; font-weight: 300; letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.25); text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .bio-text {
+      font-size: 22px; font-weight: 300;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6; letter-spacing: -0.01em;
+    }
+    .bio-row {
+      display: flex; justify-content: space-between;
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+      padding: 14px 0;
+    }
+    .bio-row-label { font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.3); }
+    .bio-row-value { font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.6); }
+    .bio-counters {
+      display: flex; gap: 32px;
+      border-top: 0.5px solid rgba(255,255,255,0.08);
+      padding-top: 24px; margin-top: 24px;
+    }
+    .bio-counter { display: flex; flex-direction: column; gap: 4px; }
+    .bio-counter-num {
+      font-size: 28px; font-weight: 300;
+      color: rgba(255,255,255,0.85); line-height: 1;
+    }
+    .bio-counter-label {
+      font-size: 10px; font-weight: 300;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    /* ── RECENSIONI ── */
+    #recensioni { background: #0a0a0a; padding-bottom: 80px; overflow: hidden; }
+    .rec-ticker-outer {
+      width: 100vw; margin-left: 50%;
+      transform: translateX(-50%);
+      overflow: hidden;
+    }
+    .rec-ticker-track {
+      display: flex; gap: 16px; padding: 0 8px;
+      animation: recScroll 40s linear infinite;
+      width: max-content;
+    }
+    .rec-ticker-track:hover { animation-play-state: paused; }
+    @keyframes recScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .rec-card {
+      width: 320px; flex-shrink: 0;
+      border: 0.5px solid rgba(255,255,255,0.08);
+      border-radius: 8px; padding: 24px;
+      background: rgba(255,255,255,0.02);
+      transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    .rec-card.rec-hidden {
+      opacity: 0; transform: translateY(16px);
+    }
+    .rec-quote-mark {
+      font-size: 32px; font-weight: 300;
+      color: rgba(255,255,255,0.1); line-height: 1;
+    }
+    .rec-text {
+      font-size: 13px; font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7; margin-top: 8px;
+    }
+    .rec-author {
+      font-size: 11px; font-weight: 400;
+      color: rgba(255,255,255,0.35);
+      margin-top: 16px; letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+      padding-top: 12px;
+    }
+
+    /* ── MOBILE MUTE BUTTON ── */
+    .mobile-mute-btn {
+      display: none; /* nascosto su desktop */
+      position: fixed; bottom: 24px; left: 24px; z-index: 9997;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(15,15,15,0.85);
+      border: 0.5px solid rgba(255,255,255,0.15);
+      align-items: center; justify-content: center;
+      cursor: pointer; padding: 0;
+      transition: border-color 0.2s ease;
+    }
+    .mobile-mute-btn:active { border-color: rgba(255,255,255,0.4); }
+
+    /* ── WHATSAPP BUTTON ── */
+    .wa-btn {
+      position: fixed; bottom: 24px; right: 24px; z-index: 9997;
+      width: 52px; height: 52px; border-radius: 50%;
+      background: #25D366;
+      box-shadow: 0 4px 16px rgba(37,211,102,0.3);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .wa-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 24px rgba(37,211,102,0.45);
+    }
+    .wa-tooltip {
+      position: absolute; right: 64px; top: 50%;
+      transform: translateY(-50%);
+      background: rgba(10,10,10,0.92); color: rgba(255,255,255,0.8);
+      font-size: 11px; font-weight: 300; letter-spacing: 0.04em;
+      padding: 6px 12px; border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s ease;
+      border: 0.5px solid rgba(255,255,255,0.08);
+    }
+    .wa-btn:hover .wa-tooltip { opacity: 1; }
 
     /* ── 09 PACCHETTI ── */
     #pacchetti { background: #0a0a0a; }
@@ -1319,7 +1728,7 @@
     .vdf-platform {
       margin: 40px 48px 0;
       padding: 48px 0 0;
-      border-top: 0.5px solid rgba(99,102,241,0.1);
+      border-top: 0.5px solid rgba(212,175,55,0.15);
       text-align: center;
     }
     .vdf-title {
@@ -1339,10 +1748,10 @@
     }
     .vdf-device-card {
       width: 120px;
-      border: 0.5px solid rgba(99,102,241,0.2);
+      border: 0.5px solid rgba(180,140,30,0.4);
       border-radius: 8px;
       padding: 16px 12px;
-      background: rgba(99,102,241,0.04);
+      background: rgba(212,175,55,0.04);
       display: flex; flex-direction: column;
       align-items: center; gap: 8px;
       cursor: default;
@@ -1356,14 +1765,14 @@
       opacity: 1; transform: translateY(0);
     }
     .vdf-device-card:hover {
-      border-color: rgba(139,92,246,0.5);
-      background: rgba(99,102,241,0.08);
+      border-color: rgba(212,175,55,0.8);
+      background: rgba(212,175,55,0.08);
     }
     .vdf-device-card svg {
-      color: rgba(139,92,246,0.6);
+      color: rgba(212,175,55,0.8);
       transition: color 0.3s ease;
     }
-    .vdf-device-card:hover svg { color: rgba(139,92,246,1); }
+    .vdf-device-card:hover svg { color: rgba(255,215,0,0.6); filter: drop-shadow(0 0 6px rgba(212,175,55,0.4)); }
     .vdf-device-name {
       font-size: 10px; font-weight: 300;
       color: rgba(255,255,255,0.35);
@@ -1379,10 +1788,10 @@
     }
     .vdf-pills.is-visible { opacity: 1; }
     .vdf-pill {
-      border: 0.5px solid rgba(99,102,241,0.25);
+      border: 0.5px solid rgba(180,140,30,0.4);
       border-radius: 20px;
       padding: 8px 16px;
-      background: rgba(99,102,241,0.06);
+      background: rgba(212,175,55,0.06);
       display: inline-flex; align-items: center; gap: 8px;
       font-size: 11px; font-weight: 300;
       color: rgba(255,255,255,0.5);
@@ -1396,7 +1805,7 @@
       0%, 100% { opacity: 1; }
       50%       { opacity: 0.3; }
     }
-    .vdf-pill svg { color: rgba(139,92,246,0.7); flex-shrink: 0; }
+    .vdf-pill svg { color: rgba(212,175,55,0.8); flex-shrink: 0; }
     /* powered by */
     .vdf-powered {
       display: flex; align-items: center;
@@ -1410,9 +1819,9 @@
     }
     .vdf-powered-brand {
       font-size: 13px; font-weight: 400;
-      color: rgba(139,92,246,0.6);
+      color: rgba(212,175,55,0.7);
       letter-spacing: 0.06em;
-      text-shadow: 0 0 20px rgba(139,92,246,0.3);
+      text-shadow: 0 0 20px rgba(212,175,55,0.3);
     }
 
     /* ── HAMBURGER BUTTON (nascosto su desktop) ── */
@@ -1438,6 +1847,18 @@
 
     /* ── MOBILE RESPONSIVE ── */
     @media (max-width: 768px) {
+      #bio { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px; }
+      .rec-card { width: 260px; }
+      footer { flex-direction: column; gap: 6px; text-align: center; padding: 24px 20px; }
+      .footer-left { justify-content: center; }
+      /* audio popup nascosto su mobile */
+      #audio-notice { display: none !important; }
+      /* bottone muto globale nascosto su mobile */
+      .mobile-mute-btn { display: none !important; }
+      /* icona audio video più grande per il touch */
+      .video-audio-icon { width: 28px; height: 28px; }
+      /* loghi workflow spaziati su mobile */
+      .wf-logo { margin-top: 8px; }
 
       /* ── NAV — completamente nascosta su mobile ── */
       nav { display: none !important; }
@@ -1606,8 +2027,8 @@
       #sport .section-sub { text-align: center; }
 
       /* ── TICKER MOBILE (più lento per schermo piccolo) ── */
-      .cine-ticker--slow  .cine-ticker-track { animation-duration: 60s; }
-      .cine-ticker--slow2 .cine-ticker-track { animation-duration: 75s; }
+      .cine-ticker--slow  .cine-ticker-track { animation-duration: 93s; }
+      .cine-ticker--slow2 .cine-ticker-track { animation-duration: 116s; }
 
       /* ── GEAR HERO CARD mobile ── */
       .gear-hero-card { margin: 0 20px 16px; }
@@ -1975,7 +2396,8 @@
       position: absolute; inset: 0;
       width: 100%; height: 100%;
       object-fit: cover;
-      transition: transform 0.6s ease;
+      transform: scale(1.0);
+      transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
     }
     .service-card:hover .service-bg img { transform: scale(1.08); }
 
@@ -2500,6 +2922,19 @@
     }
     #audio-toggle:hover { background: rgba(30,30,30,0.9); border-color: rgba(255,255,255,0.2); }
 
+    /* ── VIDEO LAZY PLACEHOLDER ── */
+    .video-lazy-ph {
+      position: absolute; inset: 0;
+      background: #111;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2; pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .video-lazy-ph svg {
+      opacity: 0.18;
+      color: rgba(255,255,255,0.7);
+    }
+
     /* ── SECTION SMOOTH REVEAL ── */
     .section-reveal {
       will-change: transform, opacity;
@@ -2534,6 +2969,8 @@
       <span class="nav-logo-name">Alessio Lazzarini</span>
     </div>
     <div class="nav-links" id="nav-links">
+      <a href="portfolio.html">Lavori</a>
+      <a href="sviluppo-web.html">Sviluppo web</a>
       <a href="#servizi">Servizi</a>
       <a href="#pacchetti">Pacchetti</a>
       <a href="#contatti">Contatti</a>
@@ -2547,7 +2984,10 @@
   <section id="hero">
     <img id="heroParallaxImg"
       src="assets/placeholder_header_002.jpg"
-      alt="Hero background" style="position:absolute;left:0;right:0;top:-10%;width:100%;height:120%;object-fit:cover;opacity:0.6;z-index:0;will-change:transform;">
+      alt="Hero background"
+      fetchpriority="high"
+      sizes="100vw"
+      style="position:absolute;left:0;right:0;top:-10%;width:100%;height:120%;object-fit:cover;opacity:0.6;z-index:0;will-change:transform;">
     <div class="hero-overlay"></div>
     <div class="hero-nav-spacer"></div>
     <div class="rec-indicator">
@@ -2574,13 +3014,53 @@
           <div class="hero-counter-label">Matrimoni 2025</div>
         </div>
         <div class="hero-counter-item">
-          <div class="hero-counter-num" data-target="24" data-suffix="+">0+</div>
+          <div class="hero-counter-num" data-target="30" data-suffix="+">0+</div>
           <div class="hero-counter-label">Progetti realizzati</div>
         </div>
         <div class="hero-counter-item">
           <div class="hero-counter-num" data-target="3" data-suffix="">0</div>
           <div class="hero-counter-label">Collaborazioni turistiche</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BIO / CHI SONO -->
+  <section id="bio">
+    <div class="bio-left" id="bioLeft">
+      <div class="bio-eyebrow">Chi sono</div>
+      <div class="bio-text">Mi chiamo Alessio, ho 26 anni e sono fotografo, videomaker e operatore drone certificato ENAC nel Triveneto. Trasformo momenti in immagini che durano — dal drone alla sala montaggio, ogni progetto è fatto con cura e una visione cinematografica.</div>
+      <div class="bio-counters" id="bioCounters">
+        <div class="bio-counter">
+          <span class="bio-counter-num" data-target="5" data-suffix="+">0+</span>
+          <span class="bio-counter-label">Anni di esperienza</span>
+        </div>
+        <div class="bio-counter">
+          <span class="bio-counter-num" data-target="30" data-suffix="+">0+</span>
+          <span class="bio-counter-label">Progetti realizzati</span>
+        </div>
+        <div class="bio-counter">
+          <span class="bio-counter-num" data-target="6" data-suffix="">0</span>
+          <span class="bio-counter-label">Matrimoni 2025</span>
+        </div>
+      </div>
+    </div>
+    <div class="bio-right" id="bioRight">
+      <div class="bio-row">
+        <span class="bio-row-label">Esperienza</span>
+        <span class="bio-row-value">Dal 2020</span>
+      </div>
+      <div class="bio-row">
+        <span class="bio-row-label">Certificazione</span>
+        <span class="bio-row-value">ENAC A1/A3</span>
+      </div>
+      <div class="bio-row">
+        <span class="bio-row-label">Zona</span>
+        <span class="bio-row-value">Triveneto — disponibile ovunque</span>
+      </div>
+      <div class="bio-row">
+        <span class="bio-row-label">P.IVA</span>
+        <span class="bio-row-value" style="color:rgba(255,255,255,0.6);text-decoration:none;cursor:default;">02763540222</span>
       </div>
     </div>
   </section>
@@ -2672,9 +3152,11 @@
     <div class="services-grid">
       <div class="service-card">
         <div class="service-bg service-bg-foto">
-          <img loading="lazy"
+          <img loading="lazy" fetchpriority="low"
             src="assets/placeholder_servizi_fotografia.jpeg"
-            alt="Fotografia" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+            alt="Fotografia"
+            sizes="(max-width: 768px) 100vw, 33vw"
+            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
           <div class="service-bg-label">foto · jpg · raw</div>
         </div>
         <div class="service-overlay"></div>
@@ -2687,9 +3169,11 @@
       </div>
       <div class="service-card">
         <div class="service-bg service-bg-video">
-          <img loading="lazy"
+          <img loading="lazy" fetchpriority="low"
             src="assets/placeholder_servizi_videomaking.jpeg"
-            alt="Videomaking" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+            alt="Videomaking"
+            sizes="(max-width: 768px) 100vw, 33vw"
+            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
           <div class="service-bg-label">video · 4k · log</div>
         </div>
         <div class="service-overlay"></div>
@@ -2702,9 +3186,11 @@
       </div>
       <div class="service-card">
         <div class="service-bg service-bg-drone">
-          <img loading="lazy"
+          <img loading="lazy" fetchpriority="low"
             src="assets/placeholder_servizi_riprese%20aeree.jpeg"
-            alt="Riprese aeree" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+            alt="Riprese aeree"
+            sizes="(max-width: 768px) 100vw, 33vw"
+            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
           <div class="service-bg-label">drone · aerial · fpv</div>
         </div>
         <div class="service-overlay"></div>
@@ -3007,6 +3493,42 @@
     </div>
   </section>
 
+  <!-- LAPPONIA — separatore cinematografico -->
+  <section id="lapponia">
+    <div class="lapponia-label reveal">Progetto personale · Lapponia, Svezia · 2024</div>
+
+    <!-- Nastro fotografico -->
+    <div class="lapponia-strip-wrap" id="lapponiaStrip">
+      <div class="lapponia-strip-track" id="lapponiaTrack">
+        <img loading="lazy" src="assets/lapponia-preview-1.jpg" alt="Lapponia — renna nel bosco artico">
+        <img loading="lazy" src="assets/lapponia-preview-2.jpg" alt="Lapponia — aurora boreale">
+        <img loading="lazy" src="assets/lapponia-preview-3.jpg" alt="Lapponia — grande aurora boreale">
+        <img loading="lazy" src="assets/lapponia-preview-4.jpg" alt="Lapponia — paesaggio drone">
+        <img loading="lazy" src="assets/lapponia-preview-1.jpg" alt="Lapponia — renna nel bosco artico">
+        <img loading="lazy" src="assets/lapponia-preview-2.jpg" alt="Lapponia — aurora boreale">
+        <img loading="lazy" src="assets/lapponia-preview-3.jpg" alt="Lapponia — grande aurora boreale">
+        <img loading="lazy" src="assets/lapponia-preview-4.jpg" alt="Lapponia — paesaggio drone">
+        <img loading="lazy" src="assets/lapponia-preview-1.jpg" alt="Lapponia — renna nel bosco artico">
+        <img loading="lazy" src="assets/lapponia-preview-2.jpg" alt="Lapponia — aurora boreale">
+        <img loading="lazy" src="assets/lapponia-preview-3.jpg" alt="Lapponia — grande aurora boreale">
+        <img loading="lazy" src="assets/lapponia-preview-4.jpg" alt="Lapponia — paesaggio drone">
+      </div>
+    </div>
+
+    <!-- Ticker -->
+    <div class="lapponia-ticker-wrap">
+      <div class="lapponia-ticker-track">
+        <span>−30°C · 3 settimane · Aurora boreale · Riprese aeree · Lapponia, Svezia · Renne · Paesaggi artici · Clima estremo · Nordic Camper · &nbsp;&nbsp;&nbsp;</span>
+        <span>−30°C · 3 settimane · Aurora boreale · Riprese aeree · Lapponia, Svezia · Renne · Paesaggi artici · Clima estremo · Nordic Camper · &nbsp;&nbsp;&nbsp;</span>
+      </div>
+    </div>
+
+    <!-- Link progetto -->
+    <div class="lapponia-link-row reveal" style="--reveal-delay:400ms">
+      <a href="lapponia.html" class="lapponia-link">Esplora il progetto completo →</a>
+    </div>
+  </section>
+
   <!-- 04 SPORT -->
   <section id="sport">
     <div class="section-header reveal">
@@ -3022,7 +3544,7 @@
     <!-- SHOWREEL CAROUSEL sport — 6 slide 16:9 -->
     <div class="sport-showreel" data-carousel>
       <div class="carousel-wrapper">
-        <div class="carousel-counter-badge sport-showreel-counter">1/6</div>
+        <div class="carousel-counter-badge sport-showreel-counter">1/3</div>
         <div class="carousel-track">
           <!-- Slide 1 — Placeholder calcio_1_jpeg.jpeg -->
           <div class="carousel-slide">
@@ -3035,27 +3557,6 @@
           <!-- Slide 3 — Placeholder calcio_3.jpg -->
           <div class="carousel-slide">
             <img loading="lazy" src="assets/placeholder_calcio3_compressed.jpg" alt="Foto sportiva 3" style="width:100%;height:100%;object-fit:contain;display:block;">
-          </div>
-          <!-- Slide 4 — SOSTITUIRE con foto sportiva -->
-          <div class="carousel-slide">
-            <div class="sport-slide-ph">
-              <!-- SOSTITUIRE -->
-              <span class="sport-slide-label">Foto sportiva — trascina per navigare</span>
-            </div>
-          </div>
-          <!-- Slide 5 — SOSTITUIRE con foto sportiva -->
-          <div class="carousel-slide">
-            <div class="sport-slide-ph">
-              <!-- SOSTITUIRE -->
-              <span class="sport-slide-label">Foto sportiva — trascina per navigare</span>
-            </div>
-          </div>
-          <!-- Slide 6 — SOSTITUIRE con foto sportiva -->
-          <div class="carousel-slide">
-            <div class="sport-slide-ph">
-              <!-- SOSTITUIRE -->
-              <span class="sport-slide-label">Foto sportiva — trascina per navigare</span>
-            </div>
           </div>
         </div>
         <button class="carousel-btn carousel-prev" aria-label="Precedente">‹</button>
@@ -3072,7 +3573,7 @@
           <source src="assets/placeholder_sequenza_calcio2_web.mp4">
         </video>
         <div class="seq-video-overlay"></div>
-        <div class="seq-video-badge">Hover per audio</div>
+
         <div class="seq-video-text">Sequenza dinamica — frame da partita</div>
       </div>
     </div>
@@ -3211,18 +3712,18 @@
     <div class="wedding-features">
       <div class="wedding-feat">
         <div class="wedding-feat-num">01 —</div>
-        <div class="wedding-feat-title">Trailer cinematografico</div>
-        <div class="wedding-feat-desc">Un cortometraggio emozionale del vostro giorno. Musica, sguardi, dettagli indimenticabili.</div>
+        <div class="wedding-feat-title">Regia &amp; Riprese</div>
+        <div class="wedding-feat-desc">Mi occupo delle riprese video durante tutta la giornata.</div>
       </div>
       <div class="wedding-feat">
         <div class="wedding-feat-num">02 —</div>
-        <div class="wedding-feat-title">Fotografia completa</div>
-        <div class="wedding-feat-desc">Dalla preparazione al ricevimento. Ogni momento catturato con discrezione e precisione.</div>
+        <div class="wedding-feat-title">Montaggio &amp; Color grading</div>
+        <div class="wedding-feat-desc">Editing professionale e color grading cinematografico in DaVinci Resolve.</div>
       </div>
       <div class="wedding-feat">
         <div class="wedding-feat-num">03 —</div>
-        <div class="wedding-feat-title">Editing professionale</div>
-        <div class="wedding-feat-desc">Color grading cinematografico, sviluppo RAW e consegna in alta risoluzione.</div>
+        <div class="wedding-feat-title">Consegna premium</div>
+        <div class="wedding-feat-desc">Il film viene consegnato su piattaforma professionale con accesso illimitato.</div>
       </div>
     </div>
   </section>
@@ -3347,10 +3848,6 @@
             <div class="wf-node-ring"><span class="wf-node-number">01</span></div>
           </div>
           <div class="wf-step-visual">
-            <div class="wf-logos wf-logos-sm">
-              <img loading="lazy" class="wf-logo" src="assets/Nikon_RED_Logo trasp.png" alt="Nikon" style="filter:drop-shadow(0 0 6px rgba(255,255,255,0.3));">
-              <img loading="lazy" class="wf-logo" src="assets/dji-1.png" alt="DJI" style="filter:drop-shadow(0 0 6px rgba(255,255,255,0.3));">
-            </div>
             <div class="wf-vis wf-vis-field">
               <div class="wf-corner wf-corner-tl"></div>
               <div class="wf-corner wf-corner-tr"></div>
@@ -3578,7 +4075,11 @@
       <div class="section-num">07</div>
     </div>
     <div class="drone-hero">
-      <img loading="lazy" src="assets/placeholder_drone_compressed.jpg" alt="Riprese aeree" style="opacity:0.6;">
+      <img loading="lazy" fetchpriority="low"
+           src="assets/placeholder_drone_compressed.jpg"
+           alt="Riprese aeree"
+           sizes="100vw"
+           style="opacity:0.6;">
       <div class="hud-corner hud-tl"></div>
       <div class="hud-corner hud-tr"></div>
       <div class="hud-corner hud-bl"></div>
@@ -3629,7 +4130,7 @@
     <div class="port-intro reveal">
       <div class="port-title">Tutti i lavori</div>
       <div class="section-subtitle">selezionati</div>
-      <div class="port-count"><span>24+</span>progetti realizzati</div>
+      <div class="port-count"><span>30+</span>progetti realizzati</div>
     </div>
     <div class="filters">
       <div class="filter-btn active" onclick="filterPortfolio('tutti', this)">Tutti</div>
@@ -3919,6 +4420,95 @@
     </div>
   </section>
 
+  <!-- SVILUPPO WEB -->
+  <section id="sviluppo-web">
+    <!-- Badge row -->
+    <div class="sw-badges-row reveal">
+      <span class="sw-pill">
+        <span class="sw-pill-dot" style="background:rgba(100,200,120,0.6);"></span>Wix
+      </span>
+      <span class="sw-pill">
+        <span class="sw-pill-dot" style="background:rgba(100,140,255,0.6); animation-delay:0.7s;"></span>WordPress · Shopify
+      </span>
+      <span class="sw-pill">
+        <span class="sw-pill-dot" style="background:rgba(160,100,255,0.6); animation-delay:1.4s;"></span>HTML · CSS · JS
+      </span>
+    </div>
+    <div class="sw-label reveal" style="--reveal-delay:80ms">Sviluppo web</div>
+    <h2 class="sw-title reveal" style="--reveal-delay:160ms">Il tuo sito, come vuoi tu</h2>
+    <div class="sw-subtitle reveal" style="--reveal-delay:240ms">Tre approcci diversi per ogni esigenza e budget — richiedi un preventivo personalizzato</div>
+
+    <div class="sw-grid">
+
+      <!-- Card 1 — Wix -->
+      <div class="sw-card sw-card--wix reveal" style="--reveal-delay:0ms" onclick="location.href='sviluppo-web.html#wix'">
+        <svg class="sw-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="3" width="18" height="14" rx="2" stroke="rgba(100,200,120,0.5)" stroke-width="1.2"/>
+          <line x1="1" y1="7" x2="19" y2="7" stroke="rgba(100,200,120,0.5)" stroke-width="1.2"/>
+          <circle cx="4" cy="5" r="0.8" fill="rgba(100,200,120,0.5)"/>
+          <circle cx="7" cy="5" r="0.8" fill="rgba(100,200,120,0.5)"/>
+        </svg>
+        <span class="sw-badge">Base</span>
+        <div class="sw-card-title">Wix</div>
+        <div class="sw-card-desc">Soluzione veloce e gestibile in autonomia, ideale per attività locali e professionisti.</div>
+        <div class="sw-features">
+          <div class="sw-feat"><span class="sw-feat-dot"></span>Gestione autonoma dei contenuti</div>
+          <div class="sw-feat"><span class="sw-feat-dot"></span>Dominio e hosting inclusi</div>
+          <div class="sw-feat"><span class="sw-feat-dot"></span>Pronto in pochi giorni</div>
+        </div>
+        <a href="sviluppo-web.html#wix" class="sw-card-link">Richiedi preventivo →</a>
+      </div>
+
+      <!-- Card 2 — WordPress · Shopify -->
+      <div class="sw-card sw-card--wp reveal" style="--reveal-delay:100ms" onclick="location.href='sviluppo-web.html#wordpress-shopify'">
+        <svg class="sw-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="7" height="7" rx="1" stroke="rgba(100,140,255,0.5)" stroke-width="1.2"/>
+          <rect x="11" y="2" width="7" height="7" rx="1" stroke="rgba(100,140,255,0.5)" stroke-width="1.2"/>
+          <rect x="2" y="11" width="7" height="7" rx="1" stroke="rgba(100,140,255,0.5)" stroke-width="1.2"/>
+          <rect x="11" y="11" width="7" height="7" rx="1" stroke="rgba(100,140,255,0.5)" stroke-width="1.2"/>
+        </svg>
+        <span class="sw-badge">Medio</span>
+        <div class="sw-card-title">WordPress · Shopify</div>
+        <div class="sw-card-desc">Flessibile e scalabile, ideale per blog, portfolio e e-commerce.</div>
+        <div class="sw-features">
+          <div class="sw-feat"><span class="sw-feat-dot"></span>CMS completo e personalizzabile</div>
+          <div class="sw-feat"><span class="sw-feat-dot"></span>E-commerce integrato</div>
+          <div class="sw-feat"><span class="sw-feat-dot"></span>Plugin e integrazioni illimitate</div>
+        </div>
+        <a href="sviluppo-web.html#wordpress-shopify" class="sw-card-link">Richiedi preventivo →</a>
+      </div>
+
+      <!-- Card 3 — HTML · CSS · JS -->
+      <div class="sw-card sw-card--html reveal" style="--reveal-delay:200ms" onclick="location.href='sviluppo-web.html#html-css-js'">
+        <svg class="sw-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 6 L2 10 L6 14" stroke="rgba(160,100,255,0.5)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14 6 L18 10 L14 14" stroke="rgba(160,100,255,0.5)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="11" y1="4" x2="9" y2="16" stroke="rgba(160,100,255,0.5)" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <span class="sw-badge sw-badge-advanced">Avanzato</span>
+        <div class="sw-card-title sw-card-title-bright">HTML · CSS · JS</div>
+        <div class="sw-card-desc">Performance superiori, design unico e animazioni custom — il massimo della personalizzazione.</div>
+        <div class="sw-features">
+          <div class="sw-feat"><span class="sw-feat-dot"></span>Animazioni GSAP cinematografiche</div>
+          <div class="sw-feat"><span class="sw-feat-dot"></span>Deploy su Cloudflare — velocità globale</div>
+          <div class="sw-feat"><span class="sw-feat-dot"></span>Design completamente su misura</div>
+        </div>
+        <a href="sviluppo-web.html#html-css-js" class="sw-card-link">Richiedi preventivo →</a>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;">
+          <span class="sw-tech-badge">Cloudflare</span>
+          <span class="sw-tech-badge">GitHub</span>
+          <span class="sw-tech-badge">Namecheap</span>
+          <span class="sw-tech-badge">Claude Code</span>
+        </div>
+      </div>
+
+    </div><!-- /.sw-grid -->
+
+    <div class="sw-footer-note reveal" style="--reveal-delay:300ms">
+      Ogni progetto è diverso — contattami per discutere la soluzione più adatta a te
+    </div>
+  </section>
+
   <!-- 12 SIRI CTA -->
   <!-- Border glow elements (fixed, toggled by JS) -->
   <div class="siri-border siri-border-t" id="siriTop"></div>
@@ -3947,7 +4537,7 @@
             <text x="12" y="19" text-anchor="middle" font-family="Inter,sans-serif" font-size="6" font-weight="500" fill="rgba(255,255,255,0.8)">GIU</text>
           </svg>
           <div>
-            <div class="siri-cal-title">Giornata di riprese</div>
+            <div class="siri-cal-title">Prenota un appuntamento</div>
             <div class="siri-cal-sub">Quando vuoi tu</div>
           </div>
         </div>
@@ -3958,7 +4548,149 @@
       </div>
     </div>
 
-    <div class="siri-subtext" id="siriSubtext">Prenota la tua giornata di riprese</div>
+    <div class="siri-subtext" id="siriSubtext">Prenota il tuo appuntamento</div>
+  </section>
+
+  <!-- 10 RECENSIONI -->
+  <section id="recensioni">
+    <div class="section-header reveal">
+      <div class="section-label">Dicono di me</div>
+      <div class="section-num">10</div>
+    </div>
+    <div class="section-intro">
+      <div class="section-title reveal">Le parole dei clienti</div>
+      <div class="section-subtitle" style="margin-bottom:48px;">Feedback reali da chi ha scelto di lavorare con me</div>
+    </div>
+
+    <div class="rec-ticker-outer">
+      <div class="rec-ticker-track" id="recTrack">
+        <!-- Set 1 -->
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bellazzeee! Bravo Alessio proprio belle. Grazie ancora</div><div class="rec-author">Comano Mountain Runners</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Grazie a te del tuo splendido lavoro e per la disponibilità. A presto e buon proseguimento!</div><div class="rec-author">Sara</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bellissime foto Alessio!</div><div class="rec-author">Marco</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Sei una macchina! Super bravo e complimenti da tutta la proloco</div><div class="rec-author">Martin</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bellissimo video grande</div><div class="rec-author">Vassilly</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Molto belle le foto!</div><div class="rec-author">Enrico — Pro Loco Lardaro</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bello il reel, grazie!</div><div class="rec-author">Gabriele — Garda Dolomiti</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Volevamo ringraziarti, siamo stati molto contenti di te! Avrai un futuro bellissimo in questo campo, sicuro.</div><div class="rec-author">Isabel</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Mi è scesa una lacrima. È stupendo! Sei un professionista vero. Complimenti, ti ammiro tanto per quello che sei diventato, personalmente e professionalmente.</div><div class="rec-author">Genny</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Mamma mia sono stupende! Non ti ringrazierò mai abbastanza per avermi lasciato questi ricordi! Sono davvero stupende, grazie grazie grazie.</div><div class="rec-author">Silvia</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Ciao Ale, perfetto, tutti contenti!</div><div class="rec-author">Christian</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Stiamo guardando il video e ci pare davvero ottimo.</div><div class="rec-author">Matteo</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Belle le foto complimenti!</div><div class="rec-author">Monica — Ufficio Stampa Tonina</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bello il video, bravo!</div><div class="rec-author">Gianluca</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Buongiorno, bello l'aftermovie!</div><div class="rec-author">Giacomo</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Molto bello, grande! Adesso lo condivido anche con gli altri! Super e anche velocissimo sei stato! Anche le foto belleeeee, grazie ancora!</div><div class="rec-author">Sara</div></div>
+        <!-- Set 2 — duplicato per loop senza stacco -->
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bellazzeee! Bravo Alessio proprio belle. Grazie ancora</div><div class="rec-author">Comano Mountain Runners</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Grazie a te del tuo splendido lavoro e per la disponibilità. A presto e buon proseguimento!</div><div class="rec-author">Sara</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bellissime foto Alessio!</div><div class="rec-author">Marco</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Sei una macchina! Super bravo e complimenti da tutta la proloco</div><div class="rec-author">Martin</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bellissimo video grande</div><div class="rec-author">Vassilly</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Molto belle le foto!</div><div class="rec-author">Enrico — Pro Loco Lardaro</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bello il reel, grazie!</div><div class="rec-author">Gabriele — Garda Dolomiti</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Volevamo ringraziarti, siamo stati molto contenti di te! Avrai un futuro bellissimo in questo campo, sicuro.</div><div class="rec-author">Isabel</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Mi è scesa una lacrima. È stupendo! Sei un professionista vero. Complimenti, ti ammiro tanto per quello che sei diventato, personalmente e professionalmente.</div><div class="rec-author">Genny</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Mamma mia sono stupende! Non ti ringrazierò mai abbastanza per avermi lasciato questi ricordi! Sono davvero stupende, grazie grazie grazie.</div><div class="rec-author">Silvia</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Ciao Ale, perfetto, tutti contenti!</div><div class="rec-author">Christian</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Stiamo guardando il video e ci pare davvero ottimo.</div><div class="rec-author">Matteo</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Belle le foto complimenti!</div><div class="rec-author">Monica — Ufficio Stampa Tonina</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Bello il video, bravo!</div><div class="rec-author">Gianluca</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Buongiorno, bello l'aftermovie!</div><div class="rec-author">Giacomo</div></div>
+        <div class="rec-card"><div class="rec-quote-mark">"</div><div class="rec-text">Molto bello, grande! Adesso lo condivido anche con gli altri! Super e anche velocissimo sei stato! Anche le foto belleeeee, grazie ancora!</div><div class="rec-author">Sara</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO TEASER -->
+  <section id="portfolio-teaser">
+    <div class="pf-label reveal">I lavori</div>
+    <h2 class="pf-title reveal" style="--reveal-delay:100ms">Tutto quello che so fare</h2>
+
+    <div class="pf-grid">
+
+      <!-- Card 1 — Matrimoni -->
+      <a href="portfolio.html#matrimoni" class="pf-card reveal" style="--reveal-delay:0ms">
+        <svg class="pf-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="20" r="7" stroke="rgba(220,180,120,0.6)" stroke-width="1.5"/>
+          <circle cx="21" cy="20" r="7" stroke="rgba(220,180,120,0.6)" stroke-width="1.5"/>
+          <path d="M16 7 L14 10 L16 9 L18 10 Z" fill="rgba(220,180,120,0.6)"/>
+          <line x1="16" y1="7" x2="16" y2="12" stroke="rgba(220,180,120,0.6)" stroke-width="1.2"/>
+        </svg>
+        <div class="pf-card-title">Matrimoni</div>
+        <div class="pf-card-desc">Trailer cinematografici e consegna premium</div>
+        <div class="pf-card-arrow">Esplora →</div>
+      </a>
+
+      <!-- Card 2 — Interviste -->
+      <a href="portfolio.html#interviste" class="pf-card reveal" style="--reveal-delay:100ms">
+        <svg class="pf-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="11" y="4" width="10" height="14" rx="5" stroke="rgba(100,160,255,0.6)" stroke-width="1.5"/>
+          <path d="M6 19 Q6 27 16 27 Q26 27 26 19" stroke="rgba(100,160,255,0.6)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          <line x1="16" y1="27" x2="16" y2="31" stroke="rgba(100,160,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="12" y1="31" x2="20" y2="31" stroke="rgba(100,160,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div class="pf-card-title">Interviste</div>
+        <div class="pf-card-desc">Interviste per aziende e emittenti televisive</div>
+        <div class="pf-card-arrow">Esplora →</div>
+      </a>
+
+      <!-- Card 3 — Mini documentari -->
+      <a href="portfolio.html#documentari" class="pf-card reveal" style="--reveal-delay:200ms">
+        <svg class="pf-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="9" width="26" height="18" rx="2" stroke="rgba(160,100,255,0.6)" stroke-width="1.5"/>
+          <path d="M3 14 L29 14" stroke="rgba(160,100,255,0.6)" stroke-width="1.5"/>
+          <path d="M3 9 L7 14" stroke="rgba(160,100,255,0.6)" stroke-width="1.5"/>
+          <path d="M12 9 L16 14" stroke="rgba(160,100,255,0.6)" stroke-width="1.5"/>
+          <path d="M21 9 L25 14" stroke="rgba(160,100,255,0.6)" stroke-width="1.5"/>
+          <rect x="3" y="4" width="26" height="5" rx="1" stroke="rgba(160,100,255,0.6)" stroke-width="1.5"/>
+        </svg>
+        <div class="pf-card-title">Mini documentari</div>
+        <div class="pf-card-desc">Racconti brevi per realtà locali e aziende</div>
+        <div class="pf-card-arrow">Esplora →</div>
+      </a>
+
+      <!-- Card 4 — Spot per auto -->
+      <a href="portfolio.html#spot-auto" class="pf-card reveal" style="--reveal-delay:300ms">
+        <svg class="pf-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 20 L6 13 L10 10 L22 10 L26 13 L28 20 L28 24 L4 24 Z" stroke="rgba(255,120,80,0.6)" stroke-width="1.5" stroke-linejoin="round"/>
+          <circle cx="9" cy="24" r="3" stroke="rgba(255,120,80,0.6)" stroke-width="1.5"/>
+          <circle cx="23" cy="24" r="3" stroke="rgba(255,120,80,0.6)" stroke-width="1.5"/>
+          <path d="M6 13 L26 13" stroke="rgba(255,120,80,0.6)" stroke-width="1" opacity="0.5"/>
+        </svg>
+        <div class="pf-card-title">Spot per auto</div>
+        <div class="pf-card-desc">Video branded per concessionarie e privati</div>
+        <div class="pf-card-arrow">Esplora →</div>
+      </a>
+
+      <!-- Card 5 — Progetti personali -->
+      <a href="portfolio.html#progetti-personali" class="pf-card reveal" style="--reveal-delay:400ms">
+        <svg class="pf-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 26 L11 12 L16 20 L20 14 L28 26 Z" stroke="rgba(100,200,150,0.6)" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+          <circle cx="22" cy="8" r="3" stroke="rgba(100,200,150,0.6)" stroke-width="1.5"/>
+          <line x1="4" y1="26" x2="28" y2="26" stroke="rgba(100,200,150,0.6)" stroke-width="1" opacity="0.4"/>
+        </svg>
+        <div class="pf-card-title">Progetti personali</div>
+        <div class="pf-card-desc">Lapponia, natura e viaggi estremi</div>
+        <div class="pf-card-arrow">Esplora →</div>
+      </a>
+
+      <!-- Card 6 — Reel aziende (coming soon) -->
+      <div class="pf-card pf-disabled reveal" style="--reveal-delay:500ms">
+        <svg class="pf-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="12" stroke="rgba(200,200,200,0.3)" stroke-width="1.5"/>
+          <path d="M13 11 L23 16 L13 21 Z" stroke="rgba(200,200,200,0.3)" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+        <div class="pf-card-title">Reel per aziende</div>
+        <div class="pf-card-desc">Contenuti social per brand e attività locali — coming soon</div>
+        <div class="pf-card-arrow">Prossimamente</div>
+      </div>
+
+    </div><!-- /.pf-grid -->
+
+    <div class="pf-cta-wrap reveal" style="--reveal-delay:600ms">
+      <a href="portfolio.html" class="pf-cta-btn">Esplora tutti i lavori →</a>
+    </div>
   </section>
 
   <!-- 13 CTA -->
@@ -4018,7 +4750,7 @@
     <div class="contact-right reveal" style="--reveal-delay:120ms">
       <div class="contact-info-block">
         <div class="contact-info-item"><div class="info-label">Email</div><div class="info-value"><a href="mailto:alessio.lazzarini99@gmail.com" style="color:inherit;text-decoration:none;">alessio.lazzarini99@gmail.com</a></div></div>
-        <div class="contact-info-item"><div class="info-label">Telefono</div><div class="info-value"><a href="tel:+393462772270" style="color:inherit;text-decoration:none;">+39 346 207 7270</a></div></div>
+        <div class="contact-info-item"><div class="info-label">Telefono</div><div class="info-value"><a href="tel:+393462772270" style="color:inherit;text-decoration:none;">+39 346 277 2270</a></div></div>
         <div class="contact-info-item"><div class="info-label">Sede</div><div class="info-value">Italia — disponibile ovunque</div></div>
         <div class="contact-info-item"><div class="info-label">Risposta</div><div class="info-value">Entro 24 ore</div></div>
       </div>
@@ -4039,10 +4771,30 @@
     </div>
   </section>
 
+  <!-- MOBILE MUTE BUTTON -->
+  <button id="mobileMuteBtn" class="mobile-mute-btn" aria-label="Attiva/disattiva audio">
+    <span class="mmb-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+    </span>
+  </button>
+
+  <!-- WHATSAPP BUTTON -->
+  <a href="https://wa.me/393462772270" target="_blank" rel="noopener noreferrer" class="wa-btn" aria-label="Scrivimi su WhatsApp">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.116 1.525 5.845L.057 23.488a.5.5 0 0 0 .604.634l5.809-1.522A11.946 11.946 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.518-5.228-1.42l-.374-.222-3.896 1.02 1.04-3.794-.243-.386A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+    </svg>
+    <span class="wa-tooltip">Scrivimi su WhatsApp</span>
+  </a>
+
   <!-- FOOTER -->
   <footer>
-    <div class="footer-name">Alessio Lazzarini — Fotografo & Videomaker</div>
-    <div class="footer-copy">© 2026 — All rights reserved</div>
+    <div class="footer-left">
+      <img loading="lazy" src="assets/logo ph white.png" alt="AL" class="footer-logo">
+      <span class="footer-brand">Alessio Lazzarini — Fotografo &amp; Videomaker</span>
+    </div>
+    <div class="footer-center" style="color:rgba(255,255,255,0.6);text-decoration:none;cursor:default;">P.IVA 02763540222</div>
+    <div class="footer-right">© 2025 Developed by Alessio Lazzarini</div>
   </footer>
 
   <!-- ── AUDIO NOTICE ── -->
@@ -4070,6 +4822,15 @@
   <button id="audio-toggle" aria-label="Toggle audio"></button>
 
   <script>
+    // ── SPLASH REDIRECT — prima visita → splash.html ──
+    // Se l'utente non ha ancora visto la splash screen, reindirizziamo.
+    // Il bottone "Entra nel sito" in splash.html imposta skipSplash=true.
+    (function() {
+      if (!sessionStorage.getItem('skipSplash')) {
+        window.location.replace('splash.html');
+      }
+    })();
+
     // Menu hamburger
     const hamburger = document.getElementById('nav-hamburger');
     const navLinks  = document.getElementById('nav-links');
@@ -4167,19 +4928,60 @@
     // Rileva dispositivo touch una volta sola all'avvio
     const isTouch = window.matchMedia('(pointer: coarse)').matches;
 
+    // Tracker video attivo su mobile (un solo video con audio alla volta)
+    window._activeMobileVideo = null;
+    window._activeMobileIcon  = null;
+
     document.querySelectorAll('video').forEach(video => {
       const isSilent = video.hasAttribute('data-silent');
       const isHero   = !isSilent && (!!video.closest('#hero') || video.hasAttribute('data-bg'));
       const container = video.parentElement;
       if (getComputedStyle(container).position === 'static') container.style.position = 'relative';
 
-      // ── MOBILE / TOUCH: tutti i video sempre muted + autoplay, nessun listener hover ──
+      // ── MOBILE / TOUCH ──
       if (isTouch) {
         video.muted  = true;
         video.volume = 0;
         video.style.cursor = 'default';
         video.play().catch(() => {});
-        return; // niente icona, niente mouseenter/mouseleave
+
+        // Video data-silent: solo autoplay muto, nessun tap handler
+        if (isSilent) return;
+
+        // Icona speaker: visibile, mostra stato muted/unmuted
+        const icon = document.createElement('div');
+        icon.className = 'video-audio-icon';
+        icon.innerHTML = svgMuted;
+        container.appendChild(icon);
+
+        // Tap sul video: attiva audio (un solo video alla volta)
+        video.addEventListener('click', () => {
+          if (document.body.classList.contains('global-muted')) return;
+
+          // Tap sullo stesso video attivo → rimuta
+          if (window._activeMobileVideo === video) {
+            video.muted = true; video.volume = 0;
+            icon.innerHTML = svgMuted;
+            window._activeMobileVideo = null;
+            window._activeMobileIcon  = null;
+            return;
+          }
+
+          // Muta il video precedentemente attivo
+          if (window._activeMobileVideo) {
+            window._activeMobileVideo.muted  = true;
+            window._activeMobileVideo.volume = 0;
+            if (window._activeMobileIcon) window._activeMobileIcon.innerHTML = svgMuted;
+          }
+
+          // Attiva audio su questo video
+          video.muted = false; video.volume = 0.7;
+          icon.innerHTML = svgUnmuted;
+          window._activeMobileVideo = video;
+          window._activeMobileIcon  = icon;
+        });
+
+        return; // fine logica mobile
       }
 
       // ── DESKTOP: logica hover audio invariata ──
@@ -4572,8 +5374,13 @@
       });
     })();
 
+    // ── DEFER UTILITY — schedula lavoro non critico dopo il primo frame ──
+    const _defer = (typeof requestIdleCallback !== 'undefined')
+      ? function(cb) { requestIdleCallback(cb, { timeout: 2000 }); }
+      : function(cb) { setTimeout(cb, 150); };
+
     // ── SECTION BACKGROUND TRANSITIONS ──
-    (function() {
+    _defer(function() { (function() {
       const BG_MAP = {
         'hero':          '#0a0a0a',
         'servizi':       '#0a0a0b',
@@ -4598,10 +5405,10 @@
         const el = document.getElementById(id);
         if (el) bgObs.observe(el);
       });
-    })();
+    })(); });
 
     // ── SCROLL PROGRESS LINE ──
-    (function() {
+    _defer(function() { (function() {
       const fill = document.getElementById('scroll-progress-fill');
       const sdot = document.getElementById('scroll-section-dot');
       if (!fill) return;
@@ -4631,10 +5438,10 @@
 
       window.addEventListener('scroll', () => { if (!rafId) rafId = requestAnimationFrame(update); }, { passive: true });
       update();
-    })();
+    })(); });
 
     // ── SCROLL PROGRESS — visibile solo in #workflow su mobile ──
-    (function() {
+    _defer(function() { (function() {
       if (!window.matchMedia('(max-width: 768px)').matches) return; // solo mobile
 
       const progressLine   = document.getElementById('scroll-progress-line');
@@ -4652,7 +5459,7 @@
       }, { threshold: 0.05 }); // si attiva appena il 5% della sezione è visibile
 
       obs.observe(workflowSection);
-    })();
+    })(); });
 
     // ── WORKFLOW ANIMATED PIPELINE ──
     (function() {
@@ -4704,7 +5511,7 @@
     })();
 
     // ── SOCIAL PIPELINE WHEEL ──
-    (function() {
+    _defer(function() { (function() {
       const wheel = document.getElementById('spWheel');
       if (!wheel) return;
       const nodes = Array.from(wheel.querySelectorAll('.sp-node'));
@@ -4734,7 +5541,7 @@
         requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
-    })();
+    })(); });
 
     // ── SECTION SMOOTH REVEAL ──
     (function() {
@@ -4884,7 +5691,7 @@
     })();
 
     // ── INSTAGRAM LIKE COUNT-UP ──
-    (function() {
+    _defer(function() { (function() {
       const els = [0,1,2,3].map(i => document.getElementById('likes' + i));
       if (!els[0]) return;
       const DURATION = 1500;
@@ -4914,7 +5721,7 @@
       }, { threshold: 0.4 });
       const grid = document.querySelector('.collab-grid');
       if (grid) likeObs.observe(grid);
-    })();
+    })(); });
 
     // ── FORM MAILTO ──
     (function() {
@@ -5023,6 +5830,182 @@
       });
     })();
 
+  /* ── MOBILE VIDEO VIEWPORT OBSERVER — auto-mute quando esce dal viewport ── */
+  (function() {
+    if (!window.matchMedia('(pointer: coarse)').matches) return;
+
+    // SVG muted inline per aggiornare icona (stesso dell'IIFE principale)
+    const svgMutedInline = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
+
+    const obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) return; // video nel viewport: nessuna azione
+        const video = entry.target;
+        if (video.muted) return; // già muto: nessuna azione
+
+        // Fade volume → 0 in 300ms poi muta
+        var steps = 15;
+        var dt = 300 / steps;
+        var n = 0;
+        var startVol = video.volume;
+        var t = setInterval(function() {
+          n++;
+          video.volume = Math.max(0, startVol * (1 - n / steps));
+          if (n >= steps) {
+            clearInterval(t);
+            video.muted = true;
+            video.volume = 0;
+            // Aggiorna icona speaker del video se presente
+            if (window._activeMobileVideo === video) {
+              if (window._activeMobileIcon) window._activeMobileIcon.innerHTML = svgMutedInline;
+              window._activeMobileVideo = null;
+              window._activeMobileIcon  = null;
+            }
+          }
+        }, dt);
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('video').forEach(function(v) {
+      if (!v.hasAttribute('data-silent')) obs.observe(v);
+    });
+  })();
+
+  /* ── MOBILE MUTE BUTTON — toggle audio globale ── */
+  (function() {
+    const btn = document.getElementById('mobileMuteBtn');
+    if (!btn || !window.matchMedia('(pointer: coarse)').matches) return;
+
+    const iconWrap = btn.querySelector('.mmb-icon');
+    const svgOn  = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
+    const svgOff = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
+
+    let globalMuted = false;
+
+    btn.addEventListener('click', function() {
+      globalMuted = !globalMuted;
+      document.body.classList.toggle('global-muted', globalMuted);
+      iconWrap.innerHTML = globalMuted ? svgOff : svgOn;
+
+      if (globalMuted) {
+        // Muta tutti i video
+        document.querySelectorAll('video').forEach(function(v) {
+          v.muted = true; v.volume = 0;
+        });
+        // Aggiorna icona del video attivo
+        if (window._activeMobileIcon) {
+          window._activeMobileIcon.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>';
+        }
+      } else {
+        // Ripristina audio solo sul video attivo
+        if (window._activeMobileVideo && !window._activeMobileVideo.hasAttribute('data-silent')) {
+          window._activeMobileVideo.muted  = false;
+          window._activeMobileVideo.volume = 0.7;
+          if (window._activeMobileIcon) {
+            window._activeMobileIcon.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>';
+          }
+        }
+      }
+    });
+  })();
+
+  /* ── RECENSIONI — stagger prime 4 card al primo scroll ── */
+  (function() {
+    var track = document.getElementById('recTrack');
+    var section = document.getElementById('recensioni');
+    if (!track || !section) return;
+
+    var cards = Array.from(track.querySelectorAll('.rec-card'));
+    // Nasconde tutte le card inizialmente
+    cards.forEach(function(c) { c.classList.add('rec-hidden'); });
+    // Ferma l'animazione finché non inizia lo stagger
+    track.style.animationPlayState = 'paused';
+
+    var triggered = false;
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting || triggered) return;
+        triggered = true;
+        obs.disconnect();
+
+        // Mostra subito tutte le card dal 5° in poi (set 2 del loop incluso)
+        cards.slice(4).forEach(function(c) {
+          c.classList.remove('rec-hidden');
+        });
+
+        // Stagger sulle prime 4 con delay progressivo
+        cards.slice(0, 4).forEach(function(c, i) {
+          setTimeout(function() {
+            c.classList.remove('rec-hidden');
+            // Dopo l'ultima carta, riprende l'animazione del ticker
+            if (i === 3) {
+              setTimeout(function() {
+                track.style.animationPlayState = '';
+              }, 650);
+            }
+          }, i * 100);
+        });
+      });
+    }, { threshold: 0.2 });
+
+    obs.observe(section);
+  })();
+
+  /* ── BIO COUNTERS — count-up animato ── */
+  (function() {
+    var wrap = document.getElementById('bioCounters');
+    if (!wrap) return;
+    var nums = wrap.querySelectorAll('.bio-counter-num');
+    var triggered = false;
+
+    function countUp(el) {
+      var target = parseInt(el.getAttribute('data-target'), 10);
+      var suffix = el.getAttribute('data-suffix') || '';
+      var duration = 1500;
+      var steps = 60;
+      var dt = duration / steps;
+      var current = 0;
+      var t = setInterval(function() {
+        current++;
+        // ease-out: più lento verso la fine
+        var progress = 1 - Math.pow(1 - current / steps, 3);
+        var val = Math.round(progress * target);
+        el.textContent = val + suffix;
+        if (current >= steps) {
+          clearInterval(t);
+          el.textContent = target + suffix;
+        }
+      }, dt);
+    }
+
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting || triggered) return;
+        triggered = true;
+        obs.disconnect();
+        nums.forEach(function(el) { countUp(el); });
+      });
+    }, { threshold: 0.5 });
+
+    obs.observe(wrap);
+  })();
+
+  /* ── BIO — fade-in colonne con direzione opposta ── */
+  (function() {
+    const left  = document.getElementById('bioLeft');
+    const right = document.getElementById('bioRight');
+    if (!left || !right) return;
+    const obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        left.classList.add('is-visible');
+        right.classList.add('is-visible');
+        obs.disconnect();
+      });
+    }, { threshold: 0.25 });
+    obs.observe(left);
+  })();
+
   /* ── VIDFLOW PLATFORM — stagger animazione device cards + pills ── */
   (function() {
     const cards = document.querySelectorAll('#vdfDevices .vdf-device-card');
@@ -5062,10 +6045,30 @@
     obs.observe(card);
   })();
 
-  /* ── LAZY VIDEO LOADING — IntersectionObserver ── */
+  /* ── LAZY VIDEO LOADING — IntersectionObserver + placeholder ── */
   (function() {
     const lazyVideos = document.querySelectorAll('video[preload="none"]');
     if (!lazyVideos.length) return;
+
+    // Inietta placeholder visivo su ogni video lazy
+    const playIcon = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>';
+    lazyVideos.forEach(function(video) {
+      const parent = video.parentElement;
+      if (!parent) return;
+      const style = getComputedStyle(parent);
+      if (style.position === 'static') parent.style.position = 'relative';
+      const ph = document.createElement('div');
+      ph.className = 'video-lazy-ph';
+      ph.innerHTML = playIcon;
+      parent.appendChild(ph);
+      // Rimuovi placeholder quando il primo frame è pronto
+      video.addEventListener('loadeddata', function() {
+        ph.style.opacity = '0';
+        setTimeout(function() { if (ph.parentNode) ph.parentNode.removeChild(ph); }, 420);
+      }, { once: true });
+    });
+
+    // Observer con 300px di anticipo per pre-scaricare prima che arrivi in viewport
     const observer = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
@@ -5075,8 +6078,54 @@
           observer.unobserve(video);
         }
       });
-    }, { rootMargin: '200px', threshold: 0 });
+    }, { rootMargin: '300px', threshold: 0 });
     lazyVideos.forEach(function(video) { observer.observe(video); });
+  })();
+
+  // ── LAPPONIA STRIP — spotlight automatico: foto più vicina al centro → bright ──
+  (function() {
+    const strip = document.getElementById('lapponiaStrip');
+    const track = document.getElementById('lapponiaTrack');
+    if (!strip || !track) return;
+
+    const imgs = Array.from(track.querySelectorAll('img'));
+    let rafId = null;
+    let lastActive = -1;
+
+    function updateSpotlight() {
+      const stripRect = strip.getBoundingClientRect();
+      const centerX   = stripRect.left + stripRect.width / 2;
+
+      let minDist = Infinity;
+      let closest = -1;
+      imgs.forEach((img, i) => {
+        const r    = img.getBoundingClientRect();
+        const dist = Math.abs((r.left + r.width / 2) - centerX);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+
+      if (closest !== lastActive) {
+        imgs.forEach((img, i) => {
+          img.style.filter = i === closest ? 'brightness(1.1)' : 'brightness(0.7)';
+        });
+        lastActive = closest;
+      }
+
+      rafId = requestAnimationFrame(updateSpotlight);
+    }
+
+    // Avvia il loop solo quando il nastro è visibile, fermalo quando esce dalla viewport
+    const visObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          if (!rafId) rafId = requestAnimationFrame(updateSpotlight);
+        } else {
+          if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        }
+      });
+    }, { threshold: 0 });
+
+    visObs.observe(strip);
   })();
   </script>
 
