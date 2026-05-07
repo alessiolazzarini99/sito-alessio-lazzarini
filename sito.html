@@ -3208,7 +3208,7 @@
   <style>
     /* ── WA SECTION LAYOUT ── */
     #servizi-dettaglio {
-      padding: 80px 20px;
+      padding: 80px 0;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -3224,17 +3224,21 @@
     }
     .wa-cards-row {
       display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 16px;
-      flex-wrap: wrap;
+      width: 100%;
+      height: 560px;
+      overflow: hidden;
+      gap: 0;
     }
-    /* ── SCALE WRAPPER ── */
+    /* ── ACCORDION SLOT ── */
     .wa-card-outer {
-      width: 280px;
-      height: 498px;
+      width: 33.33%;
+      height: 100%;
       overflow: hidden;
       flex-shrink: 0;
+      position: relative;
+      perspective: 1000px;
+      transition: width 0.6s cubic-bezier(0.16,1,0.3,1);
+      cursor: pointer;
     }
     /* ── CARD BASE ── */
     .wa-card {
@@ -3244,8 +3248,9 @@
       border: 0.5px solid rgba(255,255,255,0.08);
       position: relative;
       overflow: hidden;
-      transform: scale(0.7778);
+      transform: scale(0.875) rotateY(0deg);
       transform-origin: top left;
+      transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.6s cubic-bezier(0.16,1,0.3,1);
     }
     .wa-card::before {
       content: '';
@@ -3373,9 +3378,61 @@
     #servizi-dettaglio.visible .wa-service-desc { animation: waSlideUp 0.5s ease 1.90s forwards; }
     #servizi-dettaglio.visible .wa-service-meta { animation: waFadeIn  0.4s ease 2.10s forwards; }
     #servizi-dettaglio.visible .wa-card-logo    { animation: waFadeIn  0.4s ease 2.30s forwards; }
+    /* ── HOVER OVERLAY ── */
+    .wa-hover-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 25;
+      pointer-events: none;
+      opacity: 0.3;
+      transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    .wa-card-outer:hover .wa-hover-overlay { opacity: 0; }
+    /* ── ACCORDION — width ── */
+    .wa-cards-row:has(.wa-card-outer:nth-child(1):hover) .wa-card-outer:nth-child(1) { width: 55%; }
+    .wa-cards-row:has(.wa-card-outer:nth-child(1):hover) .wa-card-outer:nth-child(2),
+    .wa-cards-row:has(.wa-card-outer:nth-child(1):hover) .wa-card-outer:nth-child(3) { width: 22.5%; }
+    .wa-cards-row:has(.wa-card-outer:nth-child(2):hover) .wa-card-outer:nth-child(1),
+    .wa-cards-row:has(.wa-card-outer:nth-child(2):hover) .wa-card-outer:nth-child(3) { width: 22.5%; }
+    .wa-cards-row:has(.wa-card-outer:nth-child(2):hover) .wa-card-outer:nth-child(2) { width: 55%; }
+    .wa-cards-row:has(.wa-card-outer:nth-child(3):hover) .wa-card-outer:nth-child(1),
+    .wa-cards-row:has(.wa-card-outer:nth-child(3):hover) .wa-card-outer:nth-child(2) { width: 22.5%; }
+    .wa-cards-row:has(.wa-card-outer:nth-child(3):hover) .wa-card-outer:nth-child(3) { width: 55%; }
+    /* ── ACCORDION — inner scale + rotateY + opacity ── */
+    /* Card 1 active: flat, full scale, full opacity */
+    .wa-cards-row:has(.wa-card-outer:nth-child(1):hover) .wa-card-outer:nth-child(1) .wa-card { transform: scale(0.875) rotateY(0deg); opacity: 1; }
+    /* Cards 2+3 right of active: rotateY(-3deg), scale down, dim */
+    .wa-cards-row:has(.wa-card-outer:nth-child(1):hover) .wa-card-outer:nth-child(2) .wa-card,
+    .wa-cards-row:has(.wa-card-outer:nth-child(1):hover) .wa-card-outer:nth-child(3) .wa-card { transform: scale(0.744) rotateY(-3deg); opacity: 0.6; }
+    /* Card 2 active */
+    .wa-cards-row:has(.wa-card-outer:nth-child(2):hover) .wa-card-outer:nth-child(1) .wa-card { transform: scale(0.744) rotateY(3deg);  opacity: 0.6; }
+    .wa-cards-row:has(.wa-card-outer:nth-child(2):hover) .wa-card-outer:nth-child(2) .wa-card { transform: scale(0.875) rotateY(0deg); opacity: 1; }
+    .wa-cards-row:has(.wa-card-outer:nth-child(2):hover) .wa-card-outer:nth-child(3) .wa-card { transform: scale(0.744) rotateY(-3deg); opacity: 0.6; }
+    /* Card 3 active */
+    .wa-cards-row:has(.wa-card-outer:nth-child(3):hover) .wa-card-outer:nth-child(1) .wa-card,
+    .wa-cards-row:has(.wa-card-outer:nth-child(3):hover) .wa-card-outer:nth-child(2) .wa-card { transform: scale(0.744) rotateY(3deg);  opacity: 0.6; }
+    .wa-cards-row:has(.wa-card-outer:nth-child(3):hover) .wa-card-outer:nth-child(3) .wa-card { transform: scale(0.875) rotateY(0deg); opacity: 1; }
     /* ── MOBILE ── */
     @media (max-width: 768px) {
-      .wa-cards-row { flex-direction: column; gap: 24px; align-items: center; }
+      .wa-cards-row {
+        flex-direction: column;
+        height: auto;
+        overflow: visible;
+        gap: 24px;
+        align-items: center;
+      }
+      .wa-card-outer {
+        width: 280px !important;
+        height: 498px;
+        perspective: none;
+        transition: none;
+      }
+      .wa-card {
+        transform: scale(0.7778) rotateY(0deg);
+        transition: none;
+      }
+      .wa-hover-overlay { display: none; }
     }
   </style>
 
@@ -3385,6 +3442,7 @@
 
       <!-- CARD 01 — FOTOGRAFIA -->
       <div class="wa-card-outer">
+        <div class="wa-hover-overlay"></div>
         <div class="wa-card">
           <div class="wa-card-bg wa-bg-foto"></div>
           <div class="wa-corner wa-corner-tl"></div>
@@ -3432,6 +3490,7 @@
 
       <!-- CARD 02 — VIDEOMAKING -->
       <div class="wa-card-outer">
+        <div class="wa-hover-overlay"></div>
         <div class="wa-card">
           <div class="wa-card-bg wa-bg-video"></div>
           <div class="wa-corner wa-corner-tl"></div>
@@ -3483,6 +3542,7 @@
 
       <!-- CARD 03 — DRONE -->
       <div class="wa-card-outer">
+        <div class="wa-hover-overlay"></div>
         <div class="wa-card">
           <div class="wa-card-bg wa-bg-drone"></div>
           <div class="wa-corner wa-corner-tl"></div>
