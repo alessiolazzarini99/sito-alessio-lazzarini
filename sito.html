@@ -3204,6 +3204,343 @@
     </div>
   </section>
 
+  <!-- WA BUSINESS SERVICE DETAIL CARDS -->
+  <style>
+    /* ── WA SECTION LAYOUT ── */
+    #servizi-dettaglio {
+      padding: 80px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .wa-section-label {
+      color: rgba(255,255,255,0.25);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .wa-cards-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    /* ── SCALE WRAPPER ── */
+    .wa-card-outer {
+      width: 280px;
+      height: 498px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    /* ── CARD BASE ── */
+    .wa-card {
+      width: 360px;
+      height: 640px;
+      background: #0f0f0f;
+      border: 0.5px solid rgba(255,255,255,0.08);
+      position: relative;
+      overflow: hidden;
+      transform: scale(0.7778);
+      transform-origin: top left;
+    }
+    .wa-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .wa-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+      pointer-events: none;
+      z-index: 9;
+    }
+    /* ── BG GRADIENTS ── */
+    .wa-card-bg { position: absolute; inset: 0; z-index: 1; }
+    .wa-bg-foto  { background: radial-gradient(ellipse 80% 60% at 50% 20%, rgba(255,255,255,0.04) 0%, transparent 70%), linear-gradient(160deg,#111 0%,#0a0a0a 100%); }
+    .wa-bg-video { background: radial-gradient(ellipse 80% 60% at 30% 30%, rgba(255,255,255,0.03) 0%, transparent 70%), linear-gradient(200deg,#0e0e0e 0%,#080808 100%); }
+    .wa-bg-drone { background: radial-gradient(ellipse 100% 50% at 50% 0%, rgba(255,255,255,0.05) 0%, transparent 60%), linear-gradient(180deg,#111 0%,#090909 100%); }
+    /* ── CORNERS ── */
+    .wa-corner { position: absolute; width: 16px; height: 16px; z-index: 20; opacity: 0; }
+    .wa-corner-tl { top:18px; left:18px;    border-top: 0.5px solid rgba(255,255,255,0.3); border-left: 0.5px solid rgba(255,255,255,0.3); }
+    .wa-corner-tr { top:18px; right:18px;   border-top: 0.5px solid rgba(255,255,255,0.3); border-right: 0.5px solid rgba(255,255,255,0.3); }
+    .wa-corner-bl { bottom:18px; left:18px;  border-bottom: 0.5px solid rgba(255,255,255,0.3); border-left: 0.5px solid rgba(255,255,255,0.3); }
+    .wa-corner-br { bottom:18px; right:18px; border-bottom: 0.5px solid rgba(255,255,255,0.3); border-right: 0.5px solid rgba(255,255,255,0.3); }
+    /* ── REC ── */
+    .wa-rec { position: absolute; top:22px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:6px; z-index:20; opacity:0; }
+    .wa-rec-dot { width:5px; height:5px; border-radius:50%; background:#fff; }
+    .wa-rec-label { font-size:8px; font-weight:400; letter-spacing:0.18em; color:rgba(255,255,255,0.4); text-transform:uppercase; }
+    /* ── INDEX ── */
+    .wa-card-index { position:absolute; top:22px; right:22px; font-size:9px; font-weight:300; color:rgba(255,255,255,0.2); letter-spacing:0.1em; z-index:20; opacity:0; }
+    /* ── VISUAL BASE ── */
+    .wa-card-visual { position:absolute; z-index:5; }
+    /* Foto */
+    .wa-visual-foto { top:120px; left:50%; transform:translateX(-50%); width:220px; height:220px; border-radius:50%; border:0.5px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; opacity:0; }
+    .wa-visual-foto::before { content:''; position:absolute; width:180px; height:180px; border-radius:50%; border:0.5px solid rgba(255,255,255,0.06); }
+    .wa-visual-foto::after  { content:''; position:absolute; width:140px; height:140px; border-radius:50%; border:0.5px solid rgba(255,255,255,0.04); }
+    .wa-apertura-icon { width:56px; height:56px; opacity:0.4; }
+    /* Video */
+    .wa-visual-video { top:110px; left:32px; right:32px; opacity:0; }
+    .wa-timecode { display:flex; justify-content:space-between; margin-bottom:14px; }
+    .wa-tc { font-size:8px; color:rgba(255,255,255,0.2); letter-spacing:0.08em; }
+    .wa-tc-mid { font-size:8px; color:rgba(255,255,255,0.15); letter-spacing:0.06em; font-weight:300; }
+    .wa-timeline-track { height:1px; background:rgba(255,255,255,0.08); position:relative; margin-bottom:16px; }
+    .wa-timeline-progress { position:absolute; left:0; top:0; height:100%; width:0%; background:rgba(255,255,255,0.4); }
+    .wa-timeline-head { position:absolute; top:-3px; width:7px; height:7px; border-radius:50%; background:#fff; left:0%; }
+    .wa-timeline-markers { display:flex; justify-content:space-between; }
+    .wa-tm { font-size:7px; color:rgba(255,255,255,0.15); letter-spacing:0.05em; font-weight:300; }
+    .wa-timeline-clips { margin-top:20px; display:flex; flex-direction:column; gap:6px; }
+    .wa-clip-row { display:flex; gap:4px; align-items:center; }
+    .wa-clip-label { font-size:7px; color:rgba(255,255,255,0.15); letter-spacing:0.06em; width:32px; flex-shrink:0; }
+    .wa-clip-bar { height:14px; background:rgba(255,255,255,0.04); border:0.5px solid rgba(255,255,255,0.06); flex:1; position:relative; overflow:hidden; }
+    .wa-clip-fill { position:absolute; top:0; left:0; height:100%; background:rgba(255,255,255,0.08); width:0%; }
+    .wa-format-badges { display:flex; gap:8px; margin-top:20px; flex-wrap:wrap; }
+    .wa-badge { font-size:7px; border:0.5px solid rgba(255,255,255,0.1); padding:4px 8px; color:rgba(255,255,255,0.2); letter-spacing:0.1em; }
+    /* Drone */
+    .wa-visual-drone { top:100px; left:50%; transform:translateX(-50%); width:240px; height:240px; opacity:0; }
+    .wa-drone-svg { width:100%; height:100%; }
+    .wa-drone-path { stroke-dasharray:600; stroke-dashoffset:600; }
+    .wa-drone-dot { opacity:0; }
+    /* Specs rows */
+    .wa-specs-row { position:absolute; left:32px; right:32px; display:flex; justify-content:space-between; z-index:15; opacity:0; }
+    .wa-specs-foto  { top:358px; }
+    .wa-specs-drone { top:355px; }
+    .wa-spec-item { text-align:center; }
+    .wa-spec-key { font-size:7px; color:rgba(255,255,255,0.12); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:3px; }
+    .wa-spec-val { font-size:11px; color:rgba(255,255,255,0.35); font-weight:300; }
+    /* Divider */
+    .wa-card-divider { position:absolute; left:32px; right:32px; height:0.5px; background:rgba(255,255,255,0.06); z-index:15; opacity:0; }
+    .wa-divider-foto  { top:390px; }
+    .wa-divider-video { top:400px; }
+    .wa-divider-drone { top:400px; }
+    /* Bottom */
+    .wa-card-bottom { position:absolute; bottom:0; left:0; right:0; padding:28px 32px 36px; z-index:20; }
+    .wa-service-tag  { font-size:8px; font-weight:400; letter-spacing:0.22em; color:rgba(255,255,255,0.25); text-transform:uppercase; margin-bottom:10px; opacity:0; }
+    .wa-service-name { font-size:32px; font-weight:200; color:#fff; letter-spacing:-0.02em; line-height:1.1; margin-bottom:14px; opacity:0; }
+    .wa-service-desc { font-size:11px; font-weight:300; color:rgba(255,255,255,0.35); line-height:1.65; margin-bottom:22px; opacity:0; }
+    .wa-service-meta { display:flex; gap:20px; opacity:0; }
+    .wa-meta-item { display:flex; flex-direction:column; gap:3px; }
+    .wa-meta-key { font-size:7px; color:rgba(255,255,255,0.15); letter-spacing:0.12em; text-transform:uppercase; }
+    .wa-meta-val { font-size:10px; color:rgba(255,255,255,0.5); font-weight:300; letter-spacing:0.02em; }
+    .wa-card-logo { position:absolute; bottom:36px; right:32px; font-size:11px; font-weight:300; color:rgba(255,255,255,0.12); letter-spacing:0.12em; z-index:20; opacity:0; }
+    /* ── KEYFRAMES ── */
+    @keyframes waFadeIn { to { opacity: 1; } }
+    @keyframes waSlideUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes waScaleIn { from { opacity:0; transform:translateX(-50%) scale(0.85); } to { opacity:1; transform:translateX(-50%) scale(1); } }
+    @keyframes waPulse { 0%,100% { opacity:1; } 50% { opacity:0.2; } }
+    @keyframes waSlowRotate { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+    @keyframes waProgressFill { to { width:72%; } }
+    @keyframes waHeadMove { to { left:72%; } }
+    @keyframes waClipFill { to { width:var(--w); } }
+    @keyframes waDrawPath { to { stroke-dashoffset:0; } }
+    /* ── ANIMATION TRIGGERS — fire when section enters viewport ── */
+    #servizi-dettaglio.visible .wa-corner-tl { animation: waFadeIn 0.4s ease 0.8s  forwards; }
+    #servizi-dettaglio.visible .wa-corner-tr { animation: waFadeIn 0.4s ease 0.9s  forwards; }
+    #servizi-dettaglio.visible .wa-corner-bl { animation: waFadeIn 0.4s ease 1.0s  forwards; }
+    #servizi-dettaglio.visible .wa-corner-br { animation: waFadeIn 0.4s ease 1.1s  forwards; }
+    #servizi-dettaglio.visible .wa-rec       { animation: waFadeIn 0.4s ease 0.3s  forwards; }
+    #servizi-dettaglio.visible .wa-rec-dot   { animation: waPulse  2s ease-in-out 0.7s infinite; }
+    #servizi-dettaglio.visible .wa-card-index { animation: waFadeIn 0.4s ease 0.5s forwards; }
+    #servizi-dettaglio.visible .wa-visual-foto { animation: waScaleIn 0.8s cubic-bezier(0.16,1,0.3,1) 0.6s forwards; }
+    #servizi-dettaglio.visible .wa-apertura-icon { animation: waSlowRotate 20s linear 0.6s infinite; }
+    #servizi-dettaglio.visible .wa-specs-foto  { animation: waFadeIn 0.4s ease 1.3s forwards; }
+    #servizi-dettaglio.visible .wa-visual-video { animation: waFadeIn 0.6s ease 0.6s forwards; }
+    #servizi-dettaglio.visible .wa-timeline-progress { animation: waProgressFill 2.5s cubic-bezier(0.4,0,0.2,1) 1.2s forwards; }
+    #servizi-dettaglio.visible .wa-timeline-head     { animation: waHeadMove     2.5s cubic-bezier(0.4,0,0.2,1) 1.2s forwards; }
+    #servizi-dettaglio.visible .wa-clip-row:nth-child(1) .wa-clip-fill { animation: waClipFill 0.6s ease 1.40s forwards; }
+    #servizi-dettaglio.visible .wa-clip-row:nth-child(2) .wa-clip-fill { animation: waClipFill 0.6s ease 1.55s forwards; }
+    #servizi-dettaglio.visible .wa-clip-row:nth-child(3) .wa-clip-fill { animation: waClipFill 0.6s ease 1.70s forwards; }
+    #servizi-dettaglio.visible .wa-clip-row:nth-child(4) .wa-clip-fill { animation: waClipFill 0.6s ease 1.85s forwards; }
+    #servizi-dettaglio.visible .wa-visual-drone { animation: waFadeIn  0.6s ease      0.6s forwards; }
+    #servizi-dettaglio.visible .wa-drone-path   { animation: waDrawPath 2s ease       1.0s forwards; }
+    #servizi-dettaglio.visible .wa-dd1 { animation: waFadeIn 0.3s ease 2.8s forwards; }
+    #servizi-dettaglio.visible .wa-dd2 { animation: waFadeIn 0.3s ease 3.0s forwards; }
+    #servizi-dettaglio.visible .wa-dd3 { animation: waFadeIn 0.3s ease 3.2s forwards; }
+    #servizi-dettaglio.visible .wa-ddg { animation: waFadeIn 0.3s ease 3.4s forwards; }
+    #servizi-dettaglio.visible .wa-specs-drone  { animation: waFadeIn  0.4s ease 1.4s  forwards; }
+    #servizi-dettaglio.visible .wa-card-divider { animation: waFadeIn  0.4s ease 1.4s  forwards; }
+    #servizi-dettaglio.visible .wa-service-tag  { animation: waSlideUp 0.5s ease 1.60s forwards; }
+    #servizi-dettaglio.visible .wa-service-name { animation: waSlideUp 0.6s ease 1.75s forwards; }
+    #servizi-dettaglio.visible .wa-service-desc { animation: waSlideUp 0.5s ease 1.90s forwards; }
+    #servizi-dettaglio.visible .wa-service-meta { animation: waFadeIn  0.4s ease 2.10s forwards; }
+    #servizi-dettaglio.visible .wa-card-logo    { animation: waFadeIn  0.4s ease 2.30s forwards; }
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .wa-cards-row { flex-direction: column; gap: 24px; align-items: center; }
+    }
+  </style>
+
+  <section id="servizi-dettaglio">
+    <div class="wa-section-label">I servizi in dettaglio</div>
+    <div class="wa-cards-row">
+
+      <!-- CARD 01 — FOTOGRAFIA -->
+      <div class="wa-card-outer">
+        <div class="wa-card">
+          <div class="wa-card-bg wa-bg-foto"></div>
+          <div class="wa-corner wa-corner-tl"></div>
+          <div class="wa-corner wa-corner-tr"></div>
+          <div class="wa-corner wa-corner-bl"></div>
+          <div class="wa-corner wa-corner-br"></div>
+          <div class="wa-rec"><div class="wa-rec-dot"></div><div class="wa-rec-label">Fotografo</div></div>
+          <div class="wa-card-index">01 / 03</div>
+          <div class="wa-card-visual wa-visual-foto">
+            <svg class="wa-apertura-icon" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="28" cy="28" r="27" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+              <circle cx="28" cy="28" r="18" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+              <circle cx="28" cy="28" r="8"  stroke="rgba(255,255,255,0.4)"  stroke-width="0.5"/>
+              <line x1="28" y1="1"  x2="28" y2="12" stroke="rgba(255,255,255,0.2)"  stroke-width="0.5"/>
+              <line x1="28" y1="44" x2="28" y2="55" stroke="rgba(255,255,255,0.2)"  stroke-width="0.5"/>
+              <line x1="1"  y1="28" x2="12" y2="28" stroke="rgba(255,255,255,0.2)"  stroke-width="0.5"/>
+              <line x1="44" y1="28" x2="55" y2="28" stroke="rgba(255,255,255,0.2)"  stroke-width="0.5"/>
+              <line x1="7"  y1="7"  x2="15" y2="15" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
+              <line x1="41" y1="41" x2="49" y2="49" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
+              <line x1="49" y1="7"  x2="41" y2="15" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
+              <line x1="15" y1="41" x2="7"  y2="49" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
+              <text x="28" y="31" text-anchor="middle" font-family="Inter" font-size="5" fill="rgba(255,255,255,0.4)" font-weight="300" letter-spacing="0.05em">f/1.8</text>
+            </svg>
+          </div>
+          <div class="wa-specs-row wa-specs-foto">
+            <div class="wa-spec-item"><div class="wa-spec-key">ISO</div><div class="wa-spec-val">3200</div></div>
+            <div class="wa-spec-item"><div class="wa-spec-key">Apertura</div><div class="wa-spec-val">f/1.8</div></div>
+            <div class="wa-spec-item"><div class="wa-spec-key">Formato</div><div class="wa-spec-val">RAW</div></div>
+            <div class="wa-spec-item"><div class="wa-spec-key">Output</div><div class="wa-spec-val">JPEG</div></div>
+          </div>
+          <div class="wa-card-divider wa-divider-foto"></div>
+          <div class="wa-card-bottom">
+            <div class="wa-service-tag">Servizio · 01</div>
+            <div class="wa-service-name">Foto­grafia</div>
+            <div class="wa-service-desc">Eventi, sport, corporate e contenuti per social.<br>Editing professionale incluso.</div>
+            <div class="wa-service-meta">
+              <div class="wa-meta-item"><div class="wa-meta-key">Zona</div><div class="wa-meta-val">Triveneto</div></div>
+              <div class="wa-meta-item"><div class="wa-meta-key">Formato</div><div class="wa-meta-val">RAW + JPEG</div></div>
+              <div class="wa-meta-item"><div class="wa-meta-key">Info</div><div class="wa-meta-val">Su richiesta →</div></div>
+            </div>
+          </div>
+          <div class="wa-card-logo">AL</div>
+        </div>
+      </div>
+
+      <!-- CARD 02 — VIDEOMAKING -->
+      <div class="wa-card-outer">
+        <div class="wa-card">
+          <div class="wa-card-bg wa-bg-video"></div>
+          <div class="wa-corner wa-corner-tl"></div>
+          <div class="wa-corner wa-corner-tr"></div>
+          <div class="wa-corner wa-corner-bl"></div>
+          <div class="wa-corner wa-corner-br"></div>
+          <div class="wa-rec"><div class="wa-rec-dot"></div><div class="wa-rec-label">Videomaker</div></div>
+          <div class="wa-card-index">02 / 03</div>
+          <div class="wa-card-visual wa-visual-video">
+            <div class="wa-timecode">
+              <div class="wa-tc">00:00:00:00</div>
+              <div class="wa-tc-mid">1080p · 25fps</div>
+              <div class="wa-tc">00:03:45:12</div>
+            </div>
+            <div class="wa-timeline-track">
+              <div class="wa-timeline-progress"></div>
+              <div class="wa-timeline-head"></div>
+            </div>
+            <div class="wa-timeline-markers">
+              <span class="wa-tm">0s</span><span class="wa-tm">1m</span><span class="wa-tm">2m</span><span class="wa-tm">3m</span>
+            </div>
+            <div class="wa-timeline-clips">
+              <div class="wa-clip-row"><div class="wa-clip-label">VIDEO</div><div class="wa-clip-bar"><div class="wa-clip-fill" style="--w:85%"></div></div></div>
+              <div class="wa-clip-row"><div class="wa-clip-label">AUDIO</div><div class="wa-clip-bar"><div class="wa-clip-fill" style="--w:60%"></div></div></div>
+              <div class="wa-clip-row"><div class="wa-clip-label">DRONE</div><div class="wa-clip-bar"><div class="wa-clip-fill" style="--w:92%"></div></div></div>
+              <div class="wa-clip-row"><div class="wa-clip-label">COLOR</div><div class="wa-clip-bar"><div class="wa-clip-fill" style="--w:45%"></div></div></div>
+            </div>
+            <div class="wa-format-badges">
+              <div class="wa-badge">4K UHD</div>
+              <div class="wa-badge">LOG-C</div>
+              <div class="wa-badge">PREMIERE</div>
+              <div class="wa-badge">RESOLVE</div>
+            </div>
+          </div>
+          <div class="wa-card-divider wa-divider-video"></div>
+          <div class="wa-card-bottom">
+            <div class="wa-service-tag">Servizio · 02</div>
+            <div class="wa-service-name">Video­making</div>
+            <div class="wa-service-desc">Video professionali per eventi, aziende e social.<br>Color grading e montaggio inclusi.</div>
+            <div class="wa-service-meta">
+              <div class="wa-meta-item"><div class="wa-meta-key">Qualità</div><div class="wa-meta-val">4K UHD</div></div>
+              <div class="wa-meta-item"><div class="wa-meta-key">Editing</div><div class="wa-meta-val">Incluso</div></div>
+              <div class="wa-meta-item"><div class="wa-meta-key">Info</div><div class="wa-meta-val">Su richiesta →</div></div>
+            </div>
+          </div>
+          <div class="wa-card-logo">AL</div>
+        </div>
+      </div>
+
+      <!-- CARD 03 — DRONE -->
+      <div class="wa-card-outer">
+        <div class="wa-card">
+          <div class="wa-card-bg wa-bg-drone"></div>
+          <div class="wa-corner wa-corner-tl"></div>
+          <div class="wa-corner wa-corner-tr"></div>
+          <div class="wa-corner wa-corner-bl"></div>
+          <div class="wa-corner wa-corner-br"></div>
+          <div class="wa-rec"><div class="wa-rec-dot"></div><div class="wa-rec-label">Drone Operator</div></div>
+          <div class="wa-card-index">03 / 03</div>
+          <div class="wa-card-visual wa-visual-drone">
+            <svg class="wa-drone-svg" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="0" y1="60"  x2="240" y2="60"  stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+              <line x1="0" y1="120" x2="240" y2="120" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+              <line x1="0" y1="180" x2="240" y2="180" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+              <line x1="60"  y1="0" x2="60"  y2="240" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+              <line x1="120" y1="0" x2="120" y2="240" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+              <line x1="180" y1="0" x2="180" y2="240" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+              <path class="wa-drone-path" d="M 30 200 C 60 160, 80 100, 120 80 C 160 60, 190 90, 210 50" stroke="rgba(255,255,255,0.35)" stroke-width="0.8" fill="none" stroke-linecap="round"/>
+              <circle class="wa-drone-dot wa-dd1" cx="30"  cy="200" r="3"   fill="rgba(255,255,255,0.3)"/>
+              <circle class="wa-drone-dot wa-dd2" cx="120" cy="80"  r="2.5" fill="rgba(255,255,255,0.2)"/>
+              <circle class="wa-drone-dot wa-dd3" cx="210" cy="50"  r="4"   fill="#fff"/>
+              <g class="wa-drone-dot wa-ddg" transform="translate(195, 36)">
+                <rect x="-10" y="-4" width="20" height="8" rx="2" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="0.8"/>
+                <line x1="-14" y1="-6"  x2="-14" y2="-10" stroke="rgba(255,255,255,0.3)" stroke-width="0.8"/>
+                <line x1="14"  y1="-6"  x2="14"  y2="-10" stroke="rgba(255,255,255,0.3)" stroke-width="0.8"/>
+                <line x1="-14" y1="6"   x2="-14" y2="10"  stroke="rgba(255,255,255,0.3)" stroke-width="0.8"/>
+                <line x1="14"  y1="6"   x2="14"  y2="10"  stroke="rgba(255,255,255,0.3)" stroke-width="0.8"/>
+              </g>
+              <text x="220" y="200" font-family="Inter" font-size="6" fill="rgba(255,255,255,0.12)" font-weight="300">0m</text>
+              <text x="220" y="140" font-family="Inter" font-size="6" fill="rgba(255,255,255,0.12)" font-weight="300">50m</text>
+              <text x="220" y="80"  font-family="Inter" font-size="6" fill="rgba(255,255,255,0.12)" font-weight="300">100m</text>
+              <text x="220" y="50"  font-family="Inter" font-size="6" fill="rgba(255,255,255,0.12)" font-weight="300">120m</text>
+              <text x="8"   y="230" font-family="Inter" font-size="6.5" fill="rgba(255,255,255,0.12)" font-weight="300" letter-spacing="0.04em">46.0748° N · 11.1217° E</text>
+            </svg>
+          </div>
+          <div class="wa-specs-row wa-specs-drone">
+            <div class="wa-spec-item"><div class="wa-spec-key">Quota</div><div class="wa-spec-val">120m</div></div>
+            <div class="wa-spec-item"><div class="wa-spec-key">Cert.</div><div class="wa-spec-val">A1/A3</div></div>
+            <div class="wa-spec-item"><div class="wa-spec-key">Video</div><div class="wa-spec-val">4K</div></div>
+            <div class="wa-spec-item"><div class="wa-spec-key">Zona</div><div class="wa-spec-val">IT+</div></div>
+          </div>
+          <div class="wa-card-divider wa-divider-drone"></div>
+          <div class="wa-card-bottom">
+            <div class="wa-service-tag">Servizio · 03</div>
+            <div class="wa-service-name">Riprese<br>Aeree</div>
+            <div class="wa-service-desc">Drone operator certificato. Foto e video aerei<br>per immobili, eventi e produzioni video.</div>
+            <div class="wa-service-meta">
+              <div class="wa-meta-item"><div class="wa-meta-key">Certificazione</div><div class="wa-meta-val">ENAC A1/A3</div></div>
+              <div class="wa-meta-item"><div class="wa-meta-key">Qualità</div><div class="wa-meta-val">4K / RAW</div></div>
+              <div class="wa-meta-item"><div class="wa-meta-key">Info</div><div class="wa-meta-val">Su richiesta →</div></div>
+            </div>
+          </div>
+          <div class="wa-card-logo">AL</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- SHOWREEL -->
   <div class="showreel-card" data-carousel style="display:none">
     <!-- Carousel (z-index 0, dietro overlay e content) -->
