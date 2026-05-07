@@ -3321,19 +3321,14 @@
     .wa-drone-path { stroke-dasharray:600; stroke-dashoffset:600; }
     .wa-drone-dot { opacity:0; }
     /* Specs rows */
-    .wa-specs-row { position:absolute; left:32px; right:32px; display:grid; grid-template-columns:repeat(auto-fit,minmax(60px,1fr)); gap:8px; z-index:15; opacity:0; }
-    .wa-specs-foto  { top:358px; }
-    .wa-specs-drone { top:355px; }
+    .wa-specs-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(60px,1fr)); gap:8px; opacity:0; }
     .wa-spec-item { text-align:center; }
-    .wa-spec-key { font-size:7px; color:rgba(255,255,255,0.12); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:3px; margin-top:8px; line-height:1.4; }
+    .wa-spec-key { font-size:7px; color:rgba(255,255,255,0.12); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:3px; margin-top:0; line-height:1.4; }
     .wa-spec-val { font-size:11px; color:rgba(255,255,255,0.35); font-weight:300; line-height:1.4; }
     /* Divider */
-    .wa-card-divider { position:absolute; left:32px; right:32px; height:0.5px; background:rgba(255,255,255,0.06); z-index:15; opacity:0; }
-    .wa-divider-foto  { top:390px; }
-    .wa-divider-video { top:400px; }
-    .wa-divider-drone { top:400px; }
+    .wa-card-divider { height:0.5px; background:rgba(255,255,255,0.06); opacity:0; }
     /* Bottom */
-    .wa-card-bottom { position:absolute; bottom:0; left:0; right:0; padding:20px 32px 16px; z-index:20; display:flex; flex-direction:column; gap:10px; }
+    .wa-card-bottom { position:absolute; bottom:0; left:0; right:0; padding:20px 24px 24px; z-index:20; display:flex; flex-direction:column; gap:12px; background:linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.6) 60%, transparent 100%); }
     .wa-service-tag  { font-size:8px; font-weight:400; letter-spacing:0.22em; color:rgba(255,255,255,0.25); text-transform:uppercase; line-height:1.4; margin-bottom:0; opacity:0; }
     .wa-service-name { font-size:clamp(24px,3vw,32px); font-weight:200; color:#fff; letter-spacing:-0.02em; line-height:1.4; margin-bottom:12px; opacity:0; }
     .wa-service-desc { font-size:11px; font-weight:300; color:rgba(255,255,255,0.35); line-height:1.65; margin-bottom:0; opacity:0; }
@@ -3341,7 +3336,7 @@
     .wa-meta-item { display:flex; flex-direction:column; gap:4px; }
     .wa-meta-key { font-size:7px; color:rgba(255,255,255,0.15); letter-spacing:0.12em; text-transform:uppercase; line-height:1.4; margin-top:0; }
     .wa-meta-val { font-size:10px; color:rgba(255,255,255,0.5); font-weight:300; letter-spacing:0.02em; line-height:1.4; }
-    .wa-card-logo { position:absolute; bottom:36px; right:32px; font-size:11px; font-weight:300; color:rgba(255,255,255,0.12); letter-spacing:0.12em; z-index:20; opacity:0; }
+    .wa-card-logo { display:none; }
     /* ── KEYFRAMES ── */
     @keyframes waFadeIn { to { opacity: 1; } }
     @keyframes waSlideUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
@@ -3382,7 +3377,6 @@
     #servizi-dettaglio.visible .wa-service-name { animation: waSlideUp 0.6s ease 1.75s forwards; }
     #servizi-dettaglio.visible .wa-service-desc { animation: waSlideUp 0.5s ease 1.90s forwards; }
     #servizi-dettaglio.visible .wa-service-meta { animation: waFadeIn  0.4s ease 2.10s forwards; }
-    #servizi-dettaglio.visible .wa-card-logo    { animation: waFadeIn  0.4s ease 2.30s forwards; }
     /* ── HOVER OVERLAY ── */
     .wa-hover-overlay {
       position: absolute;
@@ -3486,14 +3480,14 @@
               <text x="28" y="31" text-anchor="middle" font-family="Inter" font-size="5" fill="rgba(255,255,255,0.4)" font-weight="300" letter-spacing="0.05em">f/1.8</text>
             </svg>
           </div>
-          <div class="wa-specs-row wa-specs-foto">
-            <div class="wa-spec-item"><div class="wa-spec-key">ISO</div><div class="wa-spec-val">3200</div></div>
-            <div class="wa-spec-item"><div class="wa-spec-key">Apertura</div><div class="wa-spec-val">f/1.8</div></div>
-            <div class="wa-spec-item"><div class="wa-spec-key">Formato</div><div class="wa-spec-val">RAW</div></div>
-            <div class="wa-spec-item"><div class="wa-spec-key">Output</div><div class="wa-spec-val">JPEG</div></div>
-          </div>
-          <div class="wa-card-divider wa-divider-foto"></div>
           <div class="wa-card-bottom">
+            <div class="wa-specs-row wa-specs-foto">
+              <div class="wa-spec-item"><div class="wa-spec-key">ISO</div><div class="wa-spec-val">3200</div></div>
+              <div class="wa-spec-item"><div class="wa-spec-key">Apertura</div><div class="wa-spec-val">f/1.8</div></div>
+              <div class="wa-spec-item"><div class="wa-spec-key">Formato</div><div class="wa-spec-val">RAW</div></div>
+              <div class="wa-spec-item"><div class="wa-spec-key">Output</div><div class="wa-spec-val">JPEG</div></div>
+            </div>
+            <div class="wa-card-divider wa-divider-foto"></div>
             <div class="wa-service-tag">Servizio · 01</div>
             <div class="wa-service-name">Foto­grafia</div>
             <div class="wa-service-desc">Eventi, sport, corporate e contenuti per social.<br>Editing professionale incluso.</div>
@@ -3503,7 +3497,6 @@
               <div class="wa-meta-item"><div class="wa-meta-key">Info</div><div class="wa-meta-val">Su richiesta →</div></div>
             </div>
           </div>
-          <div class="wa-card-logo">AL</div>
         </div>
       </div>
 
@@ -3544,8 +3537,8 @@
               <div class="wa-badge">RESOLVE</div>
             </div>
           </div>
-          <div class="wa-card-divider wa-divider-video"></div>
           <div class="wa-card-bottom">
+            <div class="wa-card-divider wa-divider-video"></div>
             <div class="wa-service-tag">Servizio · 02</div>
             <div class="wa-service-name">Video­making</div>
             <div class="wa-service-desc">Video professionali per eventi, aziende e social.<br>Color grading e montaggio inclusi.</div>
@@ -3555,7 +3548,6 @@
               <div class="wa-meta-item"><div class="wa-meta-key">Info</div><div class="wa-meta-val">Su richiesta →</div></div>
             </div>
           </div>
-          <div class="wa-card-logo">AL</div>
         </div>
       </div>
 
@@ -3596,14 +3588,14 @@
               <text x="8"   y="230" font-family="Inter" font-size="6.5" fill="rgba(255,255,255,0.12)" font-weight="300" letter-spacing="0.04em">46.0748° N · 11.1217° E</text>
             </svg>
           </div>
-          <div class="wa-specs-row wa-specs-drone">
-            <div class="wa-spec-item"><div class="wa-spec-key">Quota</div><div class="wa-spec-val">120m</div></div>
-            <div class="wa-spec-item"><div class="wa-spec-key">Cert.</div><div class="wa-spec-val">A1/A3</div></div>
-            <div class="wa-spec-item"><div class="wa-spec-key">Video</div><div class="wa-spec-val">4K</div></div>
-            <div class="wa-spec-item"><div class="wa-spec-key">Zona</div><div class="wa-spec-val">IT+</div></div>
-          </div>
-          <div class="wa-card-divider wa-divider-drone"></div>
           <div class="wa-card-bottom">
+            <div class="wa-specs-row wa-specs-drone">
+              <div class="wa-spec-item"><div class="wa-spec-key">Quota</div><div class="wa-spec-val">120m</div></div>
+              <div class="wa-spec-item"><div class="wa-spec-key">Cert.</div><div class="wa-spec-val">A1/A3</div></div>
+              <div class="wa-spec-item"><div class="wa-spec-key">Video</div><div class="wa-spec-val">4K</div></div>
+              <div class="wa-spec-item"><div class="wa-spec-key">Zona</div><div class="wa-spec-val">IT+</div></div>
+            </div>
+            <div class="wa-card-divider wa-divider-drone"></div>
             <div class="wa-service-tag">Servizio · 03</div>
             <div class="wa-service-name">Riprese<br>Aeree</div>
             <div class="wa-service-desc">Drone operator certificato. Foto e video aerei<br>per immobili, eventi e produzioni video.</div>
@@ -3613,7 +3605,6 @@
               <div class="wa-meta-item"><div class="wa-meta-key">Info</div><div class="wa-meta-val">Su richiesta →</div></div>
             </div>
           </div>
-          <div class="wa-card-logo">AL</div>
         </div>
       </div>
 
