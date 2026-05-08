@@ -3009,21 +3009,14 @@
         color: rgba(255,255,255,0.7);
         text-decoration: none;
         letter-spacing: 0.04em;
+        /* stato iniziale — lo stagger è gestito dal JS */
         opacity: 0;
         transform: translateY(20px);
         transition: color 0.2s ease, opacity 0.4s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);
       }
       .hbg-nav a:first-child { border-top: 0.5px solid rgba(255,255,255,0.06); }
-      .hbg-nav a:active { color: rgba(255,255,255,1); }
-
-      /* stagger: 7 link × 60ms */
-      .hbg-overlay.open .hbg-nav a:nth-child(1) { opacity:1; transform:translateY(0); transition-delay:0.06s; }
-      .hbg-overlay.open .hbg-nav a:nth-child(2) { opacity:1; transform:translateY(0); transition-delay:0.12s; }
-      .hbg-overlay.open .hbg-nav a:nth-child(3) { opacity:1; transform:translateY(0); transition-delay:0.18s; }
-      .hbg-overlay.open .hbg-nav a:nth-child(4) { opacity:1; transform:translateY(0); transition-delay:0.24s; }
-      .hbg-overlay.open .hbg-nav a:nth-child(5) { opacity:1; transform:translateY(0); transition-delay:0.30s; }
-      .hbg-overlay.open .hbg-nav a:nth-child(6) { opacity:1; transform:translateY(0); transition-delay:0.36s; }
-      .hbg-overlay.open .hbg-nav a:nth-child(7) { opacity:1; transform:translateY(0); transition-delay:0.42s; }
+      .hbg-nav a:active,
+      .hbg-nav a:focus  { color: rgba(255,255,255,1); outline: none; }
 
       /* ── DOMINIO ── */
       .hbg-domain {
@@ -3031,10 +3024,10 @@
         color: rgba(255,255,255,0.15);
         letter-spacing: 0.15em;
         margin-top: 32px;
+        text-align: center;
         opacity: 0;
-        transition: opacity 0.4s ease 0.50s;
+        transition: opacity 0.4s ease;
       }
-      .hbg-overlay.open .hbg-domain { opacity: 1; }
     }
   </style>
 </head>
@@ -3077,8 +3070,8 @@
   </button>
 
   <div class="hbg-overlay" id="hbg-overlay" aria-hidden="true">
-    <nav class="hbg-nav" aria-label="Menu mobile">
-      <a href="index.html">Home</a>
+    <nav class="hbg-nav" id="hbg-nav" aria-label="Menu mobile">
+      <a href="index.html">Homepage</a>
       <a href="portfolio.html">Lavori</a>
       <a href="lapponia.html">Lapponia</a>
       <a href="sviluppo-web.html">Sviluppo web</a>
@@ -3086,7 +3079,7 @@
       <a href="#pacchetti">Pacchetti</a>
       <a href="#contatti">Contatti</a>
     </nav>
-    <div class="hbg-domain">alessiolazzarini.com</div>
+    <div class="hbg-domain" id="hbg-domain">alessiolazzarini.com</div>
   </div>
 
   <!-- 01 HERO -->
@@ -5360,7 +5353,39 @@
     (function () {
       const btn     = document.getElementById('hbg-btn');
       const overlay = document.getElementById('hbg-overlay');
+      const domain  = document.getElementById('hbg-domain');
       if (!btn || !overlay) return;
+
+      const links = Array.from(overlay.querySelectorAll('.hbg-nav a'));
+
+      // azzera lo stato visivo di tutti i link
+      function resetLinks() {
+        links.forEach(a => {
+          a.style.opacity         = '0';
+          a.style.transform       = 'translateY(20px)';
+          a.style.transitionDelay = '0ms';
+        });
+        if (domain) {
+          domain.style.opacity         = '0';
+          domain.style.transitionDelay = '0ms';
+        }
+      }
+
+      // anima i link in entrata con stagger 60ms
+      function animateLinksIn() {
+        links.forEach((a, i) => {
+          a.style.transitionDelay = (60 + i * 60) + 'ms';
+          // force reflow per far partire la transition
+          void a.offsetWidth;
+          a.style.opacity   = '1';
+          a.style.transform = 'translateY(0)';
+        });
+        if (domain) {
+          domain.style.transitionDelay = (60 + links.length * 60) + 'ms';
+          void domain.offsetWidth;
+          domain.style.opacity = '1';
+        }
+      }
 
       function openMenu() {
         overlay.classList.add('open');
@@ -5368,9 +5393,11 @@
         btn.setAttribute('aria-expanded', 'true');
         overlay.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+        animateLinksIn();
       }
 
       function closeMenu() {
+        resetLinks();
         overlay.classList.remove('open');
         btn.classList.remove('open');
         btn.setAttribute('aria-expanded', 'false');
@@ -5378,14 +5405,15 @@
         document.body.style.overflow = '';
       }
 
+      // inizializza stato reset
+      resetLinks();
+
       btn.addEventListener('click', () => {
         overlay.classList.contains('open') ? closeMenu() : openMenu();
       });
 
-      // chiudi su click dei link (anchor e pagine)
-      overlay.querySelectorAll('.hbg-nav a').forEach(a => {
-        a.addEventListener('click', closeMenu);
-      });
+      // chiudi al click sui link
+      links.forEach(a => a.addEventListener('click', closeMenu));
 
       // chiudi con Escape
       document.addEventListener('keydown', e => {
