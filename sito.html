@@ -2999,34 +2999,34 @@
       /* ── LINK LIST ── */
       .hbg-nav { display: flex; flex-direction: column; align-items: center; }
       .hbg-nav a {
-        display: block;
+        display: block !important;
         padding: 18px 0;
         border-bottom: 0.5px solid rgba(255,255,255,0.06);
         width: 260px;
         text-align: center;
         font-family: 'Inter', sans-serif;
         font-size: 20px; font-weight: 200;
-        color: rgba(255,255,255,0.7);
+        color: rgba(255,255,255,0.7) !important;
         text-decoration: none;
         letter-spacing: 0.04em;
-        /* stato iniziale — lo stagger è gestito dal JS */
-        opacity: 0;
-        transform: translateY(20px);
-        transition: color 0.2s ease, opacity 0.4s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        transition: color 0.2s ease;
       }
       .hbg-nav a:first-child { border-top: 0.5px solid rgba(255,255,255,0.06); }
       .hbg-nav a:active,
-      .hbg-nav a:focus  { color: rgba(255,255,255,1); outline: none; }
+      .hbg-nav a:focus { color: rgba(255,255,255,1) !important; outline: none; }
 
       /* ── DOMINIO ── */
       .hbg-domain {
         font-size: 10px;
-        color: rgba(255,255,255,0.15);
+        color: rgba(255,255,255,0.15) !important;
         letter-spacing: 0.15em;
         margin-top: 32px;
         text-align: center;
-        opacity: 0;
-        transition: opacity 0.4s ease;
+        opacity: 1 !important;
+        visibility: visible !important;
       }
     }
   </style>
@@ -5353,39 +5353,7 @@
     (function () {
       const btn     = document.getElementById('hbg-btn');
       const overlay = document.getElementById('hbg-overlay');
-      const domain  = document.getElementById('hbg-domain');
       if (!btn || !overlay) return;
-
-      const links = Array.from(overlay.querySelectorAll('.hbg-nav a'));
-
-      // azzera lo stato visivo di tutti i link
-      function resetLinks() {
-        links.forEach(a => {
-          a.style.opacity         = '0';
-          a.style.transform       = 'translateY(20px)';
-          a.style.transitionDelay = '0ms';
-        });
-        if (domain) {
-          domain.style.opacity         = '0';
-          domain.style.transitionDelay = '0ms';
-        }
-      }
-
-      // anima i link in entrata con stagger 60ms
-      function animateLinksIn() {
-        links.forEach((a, i) => {
-          a.style.transitionDelay = (60 + i * 60) + 'ms';
-          // force reflow per far partire la transition
-          void a.offsetWidth;
-          a.style.opacity   = '1';
-          a.style.transform = 'translateY(0)';
-        });
-        if (domain) {
-          domain.style.transitionDelay = (60 + links.length * 60) + 'ms';
-          void domain.offsetWidth;
-          domain.style.opacity = '1';
-        }
-      }
 
       function openMenu() {
         overlay.classList.add('open');
@@ -5393,11 +5361,9 @@
         btn.setAttribute('aria-expanded', 'true');
         overlay.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
-        animateLinksIn();
       }
 
       function closeMenu() {
-        resetLinks();
         overlay.classList.remove('open');
         btn.classList.remove('open');
         btn.setAttribute('aria-expanded', 'false');
@@ -5405,17 +5371,14 @@
         document.body.style.overflow = '';
       }
 
-      // inizializza stato reset
-      resetLinks();
-
       btn.addEventListener('click', () => {
         overlay.classList.contains('open') ? closeMenu() : openMenu();
       });
 
-      // chiudi al click sui link
-      links.forEach(a => a.addEventListener('click', closeMenu));
+      overlay.querySelectorAll('.hbg-nav a').forEach(a => {
+        a.addEventListener('click', closeMenu);
+      });
 
-      // chiudi con Escape
       document.addEventListener('keydown', e => {
         if (e.key === 'Escape' && overlay.classList.contains('open')) closeMenu();
       });
