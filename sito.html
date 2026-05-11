@@ -2974,7 +2974,7 @@
   width: 18px;
   height: 1px;
   background: #fff;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
 }
 #hbg-overlay {
   display: none;
@@ -3002,7 +3002,9 @@
   text-decoration: none;
   border-bottom: 0.5px solid rgba(255,255,255,0.08);
   letter-spacing: 0.04em;
+  transition: color 0.2s ease;
 }
+#hbg-overlay a:hover { color: #fff; }
 #hbg-footer {
   margin-top: 32px;
   font-size: 10px;
@@ -6614,17 +6616,37 @@
 (function() {
   var btn = document.getElementById('hbg-btn');
   var overlay = document.getElementById('hbg-overlay');
+  var spans = btn.querySelectorAll('span');
   var isOpen = false;
 
   function open() {
     isOpen = true;
     overlay.style.display = 'flex';
-    btn.style.zIndex = '99999';
+    setTimeout(function() {
+      overlay.style.opacity = '0';
+    }, 10);
+    setTimeout(function() {
+      overlay.style.transition = 'opacity 0.3s ease';
+      overlay.style.opacity = '1';
+    }, 20);
+    // animazione X sul bottone
+    spans[0].style.transform = 'translateY(6px) rotate(45deg)';
+    spans[1].style.opacity = '0';
+    spans[2].style.transform = 'translateY(-6px) rotate(-45deg)';
   }
 
   function close() {
     isOpen = false;
-    overlay.style.display = 'none';
+    overlay.style.opacity = '0';
+    setTimeout(function() {
+      overlay.style.display = 'none';
+      overlay.style.opacity = '';
+      overlay.style.transition = '';
+    }, 300);
+    // ripristino span
+    spans[0].style.transform = '';
+    spans[1].style.opacity = '';
+    spans[2].style.transform = '';
   }
 
   btn.addEventListener('click', function(e) {
