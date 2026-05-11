@@ -347,6 +347,8 @@
     .insta-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,0.2); }
     .insta-media {
       width: 100%; aspect-ratio: 16/9;
+      /* fallback esplicito per Safari che non calcola height dai figli con aspect-ratio */
+      min-height: 0;
       display: flex; align-items: center; justify-content: center;
       position: relative;
       /* SOSTITUIRE con <video autoplay loop muted playsinline preload="none"> */
@@ -2082,7 +2084,7 @@
       transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: transform;
     }
-    .carousel-slide { min-width: 100%; flex-shrink: 0; }
+    .carousel-slide { min-width: 100%; -webkit-flex-shrink: 0; flex-shrink: 0; }
     .carousel-empty-slide { background: #0d0d0d; }
     .carousel-empty-label {
       font-size: 9px; font-weight: 300; letter-spacing: 0.16em;
@@ -2115,15 +2117,25 @@
     }
 
     /* insta-media as carousel host */
-    .insta-media.carousel-host { display: block; overflow: hidden; position: relative; }
+    .insta-media.carousel-host {
+      display: block; overflow: hidden; position: relative;
+      -webkit-overflow-scrolling: touch;
+      -webkit-scroll-snap-type: x mandatory;
+      scroll-snap-type: x mandatory;
+    }
     .insta-media.carousel-host .carousel-track { display: flex; height: 100%; }
     .insta-media.carousel-host .carousel-slide {
-      min-width: 100%; height: 100%; flex-shrink: 0;
+      min-width: 100%; width: 100%; height: 100%;
+      -webkit-flex-shrink: 0; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center; position: relative;
     }
     .insta-media.carousel-host .carousel-slide img,
     .insta-media.carousel-host .carousel-slide video {
-      width: 100%; height: 100%; object-fit: cover; display: block;
+      width: 100%; height: 100%;
+      -webkit-object-fit: cover; object-fit: cover;
+      display: block;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
     }
 
     /* wedding reel carousel */
