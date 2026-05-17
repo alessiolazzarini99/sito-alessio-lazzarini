@@ -179,8 +179,12 @@ section {
    S2 — NIKON ZR (ex-S1)
 ===================================================== */
 .s1-inner {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
   display: flex; flex-direction: column;
-  align-items: center; position: relative; z-index: 2;
+  align-items: center;
+  z-index: 2;
 }
 #s1-logo-wrap {
   position: relative;
@@ -202,16 +206,21 @@ section {
   font-size: clamp(14px,2.5vw,22px); font-weight: 200;
   color: rgba(255,255,255,0.5); letter-spacing: 0.15em;
   margin-top: 12px;
+  opacity: 0;
+  min-height: clamp(14px,2.5vw,22px);
 }
 #s1-line {
   width: 0; height: 0.5px;
   background: rgba(255,255,255,0.2);
   margin: 20px auto;
+  min-height: 0.5px;
 }
 #s1-caption {
   font-size: clamp(12px,1.8vw,16px); font-weight: 300;
   color: rgba(255,255,255,0.4); letter-spacing: 0.2em;
   text-transform: uppercase; text-align: center;
+  opacity: 0;
+  min-height: clamp(12px,1.8vw,16px);
 }
 
 /* =====================================================
@@ -1078,11 +1087,16 @@ function animateS5() {
    S2 — NIKON ZR (glow pulsante, entry 0.7s, delay -30%)
 ================================================================ */
 function animateS1() {
-  gsap.set('#s1-sub',     { y: 20, opacity: 0, clipPath: 'inset(0 100% 0 0)' });
-  gsap.set('#s1-caption', { y: 16, opacity: 0, clipPath: 'inset(0 100% 0 0)' });
+  /* imposta PRIMA tutti gli elementi alla posizione finale (y:0)
+     così il layout è già stabile e non causa reflow durante l'animazione */
+  gsap.set('.s1-inner',   { position: 'absolute', top: '50%', left: '50%', xPercent: -50, yPercent: -50 });
+  gsap.set('#s1-logo',    { opacity: 0, scale: 0.6 });
+  gsap.set('#s1-sub',     { y: 0, opacity: 0, clipPath: 'inset(0 100% 0 0)' });
+  gsap.set('#s1-line',    { width: 0 });
+  gsap.set('#s1-caption', { y: 0, opacity: 0, clipPath: 'inset(0 100% 0 0)' });
 
   var tl = gsap.timeline();
-  tl.from('#s1-logo', { scale: 0.6, opacity: 0, duration: 0.7, ease: 'power3.out' }, 0)
+  tl.to('#s1-logo', { scale: 1, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0)
     /* glow appare */
     .to('#s1-logo', {
         filter: 'brightness(0) invert(1) drop-shadow(0 0 30px rgba(255,255,255,0.6))',
