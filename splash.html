@@ -182,11 +182,21 @@ section {
   display: flex; flex-direction: column;
   align-items: center; position: relative; z-index: 2;
 }
+#s1-logo-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(90px,15vw,140px);
+  min-width: clamp(172px,28.65vw,267px); /* larghezza proporzionale ratio 1.909 */
+  overflow: visible;
+}
 #s1-logo {
-  height: clamp(90px,15vw,140px); width: auto;
+  height: 100%; width: auto;
   object-fit: contain;
   filter: brightness(0) invert(1);
   display: block;
+  will-change: transform;
 }
 #s1-sub {
   font-size: clamp(14px,2.5vw,22px); font-weight: 200;
@@ -224,11 +234,21 @@ section {
   border: 0.5px solid rgba(255,255,255,0.15);
   width: 0; height: 0; opacity: 0;
 }
+#s2-logo-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(80px,14vw,140px);
+  min-width: clamp(80px,14vw,140px); /* quadrato: ratio 1:1 */
+  overflow: visible;
+}
 #s2-logo {
-  height: clamp(80px,14vw,140px); width: auto;
+  height: 100%; width: auto;
   object-fit: contain;
   filter: brightness(0) invert(1);
   display: block;
+  will-change: transform;
 }
 #s2-model {
   font-size: clamp(14px,2.5vw,22px); font-weight: 200;
@@ -639,7 +659,9 @@ body { cursor: none; }
 ════════════════════════════════════════════ -->
 <section id="s2">
   <div class="s1-inner">
-    <img id="s1-logo" src="assets/Nikon_RED_Logo%20trasp.png" alt="Nikon">
+    <div id="s1-logo-wrap">
+      <img id="s1-logo" src="assets/Nikon_RED_Logo%20trasp.png" alt="Nikon" loading="eager" width="2700" height="1414">
+    </div>
     <div id="s1-sub">ZR — Z8 — Z6III</div>
     <div id="s1-line"></div>
     <div id="s1-caption">Per riprese cinematografiche</div>
@@ -657,7 +679,9 @@ body { cursor: none; }
       <div class="radar-ring" id="rr2"></div>
       <div class="radar-ring" id="rr3"></div>
     </div>
-    <img id="s2-logo" src="assets/dji-1.png" alt="DJI">
+    <div id="s2-logo-wrap">
+      <img id="s2-logo" src="assets/dji-1.png" alt="DJI" loading="eager" width="512" height="512">
+    </div>
     <div id="s2-model">Air 3S</div>
     <div id="s2-line"></div>
     <div id="s2-sub">Prospettive che cambiano tutto</div>
