@@ -141,7 +141,17 @@ section {
     max-height: calc(100dvh - 80px);
     overflow: hidden;
   }
-  .s1-inner  { padding-left: 28px; padding-right: 28px; }
+  .s1-inner {
+    padding-left: 28px;
+    padding-right: 28px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    will-change: transform;
+  }
   .s2-inner  { padding-left: 28px; padding-right: 28px; }
   .s4-inner  { padding-left: 28px; padding-right: 28px; }
   #s6-philosophy { padding-left: 28px; padding-right: 28px; }
