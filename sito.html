@@ -1825,6 +1825,65 @@
       text-shadow: 0 0 20px rgba(212,175,55,0.3);
     }
 
+    /* ── WEDDING PHOTO GRID ── */
+    .wph-wrap {
+      margin: 48px 48px 0;
+    }
+    .wph-label {
+      font-size: 10px; font-weight: 300;
+      letter-spacing: 0.2em; color: rgba(255,255,255,0.25);
+      text-transform: uppercase; text-align: center;
+      margin-bottom: 24px;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .wph-label.wph-visible { opacity: 1; }
+    .wph-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
+    .wph-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+      border: 0.5px solid rgba(255,255,255,0.06);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+    .wph-item.wph-visible { opacity: 1; transform: translateY(0); }
+    .wph-item:nth-child(1),
+    .wph-item:nth-child(2) { grid-column: span 3; }
+    .wph-item:nth-child(3),
+    .wph-item:nth-child(4),
+    .wph-item:nth-child(5) { grid-column: span 2; }
+    .wph-item img {
+      width: 100%; display: block;
+      aspect-ratio: 3/2; object-fit: cover; object-position: center;
+      transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+      will-change: transform;
+    }
+    .wph-item:hover img { transform: scale(1.06); }
+    .wph-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.2);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    .wph-item:hover .wph-overlay { opacity: 1; }
+    @media (max-width: 768px) {
+      .wph-wrap { margin: 40px 20px 0; }
+      .wph-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+      .wph-item:nth-child(1),
+      .wph-item:nth-child(2),
+      .wph-item:nth-child(3),
+      .wph-item:nth-child(4) { grid-column: span 1; }
+      .wph-item:nth-child(5) { grid-column: span 2; }
+    }
+
     /* ── HAMBURGER BUTTON (nascosto su desktop) ── */
     .nav-hamburger {
       display: none;
@@ -4224,6 +4283,33 @@
 
     </div><!-- /.vdf-platform -->
 
+    <!-- ── WEDDING PHOTO GRID ── -->
+    <div class="wph-wrap">
+      <div class="wph-label" id="wphLabel">Fotografie</div>
+      <div class="wph-grid" id="wphGrid">
+        <div class="wph-item">
+          <img src="assets/matrimonio-1.jpg" alt="Fotografia matrimonio 1" loading="lazy">
+          <div class="wph-overlay"></div>
+        </div>
+        <div class="wph-item">
+          <img src="assets/matrimonio-2.jpg" alt="Fotografia matrimonio 2" loading="lazy">
+          <div class="wph-overlay"></div>
+        </div>
+        <div class="wph-item">
+          <img src="assets/matrimonio-3.jpg" alt="Fotografia matrimonio 3" loading="lazy">
+          <div class="wph-overlay"></div>
+        </div>
+        <div class="wph-item">
+          <img src="assets/matrimonio-4.jpg" alt="Fotografia matrimonio 4" loading="lazy">
+          <div class="wph-overlay"></div>
+        </div>
+        <div class="wph-item">
+          <img src="assets/matrimonio-5.jpg" alt="Fotografia matrimonio 5" loading="lazy">
+          <div class="wph-overlay"></div>
+        </div>
+      </div>
+    </div><!-- /.wph-wrap -->
+
     <div class="wedding-features">
       <div class="wedding-feat">
         <div class="wedding-feat-num">01 —</div>
@@ -6535,6 +6621,41 @@
     }, { threshold: 0.25 });
 
     cardObs.observe(document.getElementById('vdfDevices'));
+  })();
+
+  /* ── WEDDING PHOTO GRID — label fade + stagger foto ── */
+  (function() {
+    var label = document.getElementById('wphLabel');
+    var items = document.querySelectorAll('#wphGrid .wph-item');
+    if (!label || !items.length) return;
+
+    /* label fade-in */
+    var labelObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          label.classList.add('wph-visible');
+          labelObs.unobserve(label);
+        }
+      });
+    }, { threshold: 0.1 });
+    labelObs.observe(label);
+
+    /* stagger foto: ogni foto appare con delay +100ms */
+    var triggered = false;
+    var gridObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting && !triggered) {
+          triggered = true;
+          items.forEach(function(item, i) {
+            setTimeout(function() {
+              item.classList.add('wph-visible');
+            }, i * 100);
+          });
+          gridObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    gridObs.observe(document.getElementById('wphGrid'));
   })();
 
   /* ── WEDDING DELIVERY CARD — fade-in animazione entrata ── */

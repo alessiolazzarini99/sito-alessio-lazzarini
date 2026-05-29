@@ -4,7 +4,16 @@
       "Bash(sed -n '2441,2445p' \"/Users/alessiolazzarini/Documents/New website 2026/sito-alessio-lazzarini/index.html\")",
       "Bash(sed -n '2944,2948p' \"/Users/alessiolazzarini/Documents/New website 2026/sito-alessio-lazzarini/index.html\")",
       "Bash(sed -n '3337,3342p' \"/Users/alessiolazzarini/Documents/New website 2026/sito-alessio-lazzarini/index.html\")",
-      "Bash(grep -n \"^    a {\\\\|^    a,\\\\|^  a {\" \"/Users/alessiolazzarini/Documents/New website 2026/sito-alessio-lazzarini/sito.html\")"
+      "Bash(grep -n \"^    a {\\\\|^    a,\\\\|^  a {\" \"/Users/alessiolazzarini/Documents/New website 2026/sito-alessio-lazzarini/sito.html\")",
+      "Bash(mkdir -p ~/lofoten-roadtrip-2026/.cloudflare)",
+      "Read(//Users/alessiolazzarini/**)",
+      "Bash(gh auth *)",
+      "Bash(ssh -T git@github.com)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(python3 -c ' *)",
+      "Bash(git push *)",
+      "Bash(python3)"
     ]
   }
 }
