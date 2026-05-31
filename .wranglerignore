@@ -1,0 +1,11 @@
+.git
+.git/**
+_dev
+_dev/**
+node_modules
+node_modules/**
+.claude
+.claude/**
+*.mov
+*.MOV
+sito.html
