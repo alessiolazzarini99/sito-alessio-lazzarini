@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alessio Lazzarini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Plus+Jakarta+Sans:wght@200;300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-snap-type: y mandatory;
+  height: 100dvh;
+  overflow-y: scroll;
+}
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: #0a0a0a;
+  color: #fff;
+  height: 100dvh;
+}
+
+/* ── Fixed background ── */
+#bg-img {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  z-index: -1;
+}
+#bg-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.82);
+  z-index: 0;
+}
+
+/* ── Canvas ── */
+#ptc {
+  position: fixed; inset: 0;
+  z-index: 2; pointer-events: none;
+}
+
+/* ── Skip button ── */
+#skip-btn {
+  position: fixed; top: 24px; right: 24px;
+  z-index: 9999;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px; color: rgba(255,255,255,0.2);
+  letter-spacing: 0.15em; cursor: pointer;
+  background: none; border: none;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+#skip-btn:hover { color: rgba(255,255,255,0.5); }
+
+/* ── Fade overlay ── */
+#fov {
+  position: fixed; inset: 0;
+  background: #000; opacity: 0;
+  z-index: 99999; pointer-events: none;
+}
+
+/* ── Scroll progress bar (M5) ── */
+#scroll-progress-bg {
+  position: fixed; bottom: 0; left: 0;
+  z-index: 9999; width: 100%; height: 1px;
+  background: rgba(255,255,255,0.08);
+}
+#scroll-progress-bar {
+  width: 0%; height: 100%;
+  background: rgba(255,255,255,0.4);
+  transition: width 0.3s ease;
+}
+
+/* ── Section counter (M6) ── */
+#sec-counter {
+  position: fixed; bottom: 24px; right: 24px;
+  z-index: 9999;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px; font-weight: 300;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.1em;
+}
+
+/* ── Sections ── */
+section {
+  scroll-snap-align: start;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* ── Scroll arrow ── */
+.scroll-arrow {
+  position: absolute;
+  bottom: 32px; left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,0.18);
+  font-size: 18px;
+  animation: bounce 2s ease-in-out infinite;
+  z-index: 2;
+}
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(8px); }
+}
+
+/* =====================================================
+   S1 — CHI SONO (prima sezione, ex-S5)
+===================================================== */
+.s5-inner {
+  max-width: 680px; text-align: center;
+  padding: 0 32px;
+  position: relative; z-index: 2;
+}
+#s5-name {
+  font-size: clamp(22px,4.5vw,52px);
+  font-weight: 200; letter-spacing: 0.18em;
+  color: #fff; text-transform: uppercase;
+  white-space: nowrap;
+  display: flex; flex-wrap: nowrap;
+  justify-content: center; align-items: baseline;
+  line-height: 1; margin-bottom: 0;
+}
+#s5-name .letter { display: inline-block; opacity: 0; }
+#s5-name .ns     { display: inline-block; width: 0.35em; }
+@media (max-width: 480px) {
+  #s5-name { font-size: 13px; white-space: normal; flex-wrap: wrap; }
+}
+@media (max-width: 768px) {
+  /* M1 — padding orizzontale uniforme su tutti i contenitori testo */
+  .s5-inner  {
+    padding: 0 28px;
+    max-height: calc(100dvh - 80px);
+    overflow: hidden;
+  }
+  .s1-inner {
+    padding-left: 28px;
+    padding-right: 28px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    will-change: transform;
+  }
+  .s2-inner  { padding-left: 28px; padding-right: 28px; }
+  .s4-inner  { padding-left: 28px; padding-right: 28px; }
+  #s6-philosophy { padding-left: 28px; padding-right: 28px; }
+  /* bio mobile — dimensioni ridotte al minimo */
+  #s5-ticker-wrap { margin: 4px 0; }
+  #s5-ticker { font-size: 8px; }
+  #s5-bio {
+    font-size: 9px;
+    line-height: 1.3;
+    margin-top: 4px;
+    max-height: 28vh;
+    overflow: hidden;
+  }
+}
+#s5-ticker-wrap {
+  overflow: hidden; width: 100%; margin: 20px 0;
+  opacity: 0;
+}
+#s5-ticker {
+  white-space: nowrap;
+  font-size: 11px; font-weight: 300;
+  color: rgba(255,255,255,0.22);
+  letter-spacing: 0.15em;
+  will-change: transform;
+}
+#s5-bio {
+  font-size: clamp(13px,1.6vw,16px); font-weight: 300;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.8; text-align: center;
+}
+#s5-bio .word { display: inline-block; opacity: 0; }
+.bio-sp       { display: inline-block; width: 0.28em; }
+
+/* =====================================================
+   S2 — NIKON ZR (ex-S1)
+===================================================== */
+.s1-inner {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex; flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+#s1-logo-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(90px,15vw,140px);
+  min-width: clamp(172px,28.65vw,267px); /* larghezza proporzionale ratio 1.909 */
+  overflow: visible;
+}
+#s1-logo {
+  height: 100%; width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  display: block;
+  will-change: transform;
+}
+#s1-sub {
+  font-size: clamp(14px,2.5vw,22px); font-weight: 200;
+  color: rgba(255,255,255,0.5); letter-spacing: 0.15em;
+  margin-top: 12px;
+  opacity: 0;
+  min-height: clamp(14px,2.5vw,22px);
+}
+#s1-line {
+  width: 0; height: 0.5px;
+  background: rgba(255,255,255,0.2);
+  margin: 20px auto;
+  min-height: 0.5px;
+}
+#s1-caption {
+  font-size: clamp(12px,1.8vw,16px); font-weight: 300;
+  color: rgba(255,255,255,0.4); letter-spacing: 0.2em;
+  text-transform: uppercase; text-align: center;
+  opacity: 0;
+  min-height: clamp(12px,1.8vw,16px);
+}
+
+/* =====================================================
+   S3 — DJI (ex-S2)
+===================================================== */
+.s2-inner {
+  display: flex; flex-direction: column;
+  align-items: center; position: relative; z-index: 2;
+}
+/* Radar effect */
+#s2-radar {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none; z-index: 1;
+}
+.radar-ring {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 0.5px solid rgba(255,255,255,0.15);
+  width: 0; height: 0; opacity: 0;
+}
+#s2-logo-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(80px,14vw,140px);
+  min-width: clamp(80px,14vw,140px); /* quadrato: ratio 1:1 */
+  overflow: visible;
+}
+#s2-logo {
+  height: 100%; width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  display: block;
+  will-change: transform;
+}
+#s2-model {
+  font-size: clamp(14px,2.5vw,22px); font-weight: 200;
+  color: rgba(255,255,255,0.5); letter-spacing: 0.2em;
+  margin-top: 12px; text-align: center;
+}
+#s2-sub {
+  font-size: clamp(11px,1.5vw,14px); font-weight: 300;
+  color: rgba(255,255,255,0.3); letter-spacing: 0.2em;
+  text-transform: uppercase; text-align: center;
+  margin-top: 8px;
+}
+#s2-line {
+  width: 0; height: 0.5px;
+  background: rgba(255,255,255,0.2);
+  margin: 20px auto;
+}
+#s2-caption {
+  font-size: clamp(12px,1.8vw,16px); font-weight: 300;
+  color: rgba(255,255,255,0.4); letter-spacing: 0.2em;
+  text-transform: uppercase; text-align: center;
+}
+
+/* =====================================================
+   S4 — SOFTWARE SEQUENCE (loghi più grandi)
+===================================================== */
+.s4-inner {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  position: relative; z-index: 2;
+  width: 100%; height: 100%;
+}
+#s4-stage {
+  position: relative;
+  width: 100%; height: 280px;
+  display: flex; align-items: center; justify-content: center;
+}
+.sw-item {
+  position: absolute;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 16px;
+  opacity: 0;
+}
+.sw-logo {
+  height: clamp(100px,16vw,150px);
+  width: auto; object-fit: contain;
+}
+.sw-label {
+  font-size: 12px; font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase; opacity: 0;
+}
+#s4-connection {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 260px; height: 2px;
+  pointer-events: none;
+  overflow: visible;
+}
+#s4-tagline {
+  font-size: 11px; font-weight: 300;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.2em; text-transform: uppercase;
+  text-align: center; opacity: 0;
+  margin-top: 20px;
+}
+
+/* =====================================================
+   S6 — NUMERI + FILOSOFIA (senza loghi partner)
+===================================================== */
+.s6-inner {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  position: relative; z-index: 2;
+}
+#s6-numbers {
+  flex: 0 0 50%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 28px;
+}
+#s6-nums-row {
+  display: flex; align-items: flex-end;
+  gap: clamp(32px,6vw,80px);
+}
+.num-item {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 8px; opacity: 0;
+}
+.num-value {
+  font-size: clamp(52px,10vw,100px);
+  font-weight: 200; color: #fff; line-height: 1;
+}
+.num-label {
+  font-size: 10px; font-weight: 300;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  text-align: center;
+}
+#s6-philosophy {
+  flex: 0 0 50%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 0 32px;
+}
+#s6-quote {
+  font-size: clamp(18px,3.5vw,38px);
+  font-weight: 200; color: #fff;
+  line-height: 1.3; text-align: center;
+  max-width: 560px; margin: 0 auto;
+}
+#s6-quote .word {
+  display: inline-block;
+  margin-right: 0.28em; opacity: 0;
+}
+#s6-tags {
+  display: flex; align-items: center;
+  justify-content: center; flex-wrap: wrap;
+  margin-top: 24px; gap: 8px;
+}
+.s6-tag {
+  border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 20px; padding: 4px 12px;
+  font-size: 9px; font-weight: 300;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.1em; display: inline-block;
+  opacity: 0;
+}
+
+/* =====================================================
+   S7 — COMING SOON
+===================================================== */
+.s7-inner {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 0; width: 100%; max-width: 800px;
+  padding: 0 clamp(24px,6vw,80px);
+  position: relative; z-index: 2;
+  text-align: center;
+}
+#cs-title {
+  font-size: clamp(48px,10vw,96px); font-weight: 200;
+  color: #fff; letter-spacing: 0.05em; line-height: 1;
+  display: flex; flex-wrap: nowrap; justify-content: center; align-items: baseline;
+}
+#cs-title .cs-letter    { display: inline-block; opacity: 0; }
+#cs-title .cs-letter-sp { display: inline-block; width: 0.35em; }
+#cs-sub {
+  font-size: clamp(13px,1.8vw,16px); font-weight: 300;
+  color: rgba(255,255,255,0.3); letter-spacing: 0.08em;
+  margin-top: 24px; opacity: 0; min-height: 1.4em;
+}
+#cs-countdown {
+  display: flex; align-items: flex-start; justify-content: center;
+  margin-top: 48px; opacity: 0;
+}
+.cd-block {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 8px;
+}
+.cd-num {
+  font-size: clamp(36px,6vw,64px); font-weight: 200;
+  color: #fff; line-height: 1;
+}
+.cd-label {
+  font-size: 9px; font-weight: 300;
+  letter-spacing: 0.15em; color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+}
+.cd-sep {
+  font-size: 24px; color: rgba(255,255,255,0.2);
+  padding: 0 20px; line-height: clamp(36px,6vw,64px);
+}
+#cs-email-wrap {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 12px;
+  margin-top: 40px; opacity: 0;
+}
+.cs-email-row { display: flex; align-items: stretch; gap: 0; }
+#cs-email-input {
+  font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.15);
+  border-right: none;
+  border-radius: 2px 0 0 2px;
+  padding: 12px 20px;
+  color: rgba(255,255,255,0.6);
+  width: clamp(260px,40vw,380px);
+  outline: none;
+  transition: border-color 0.2s;
+}
+#cs-email-input:focus { border-color: rgba(255,255,255,0.4); }
+#cs-email-input::placeholder { color: rgba(255,255,255,0.2); }
+#cs-email-btn {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px; font-weight: 300;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.15);
+  border-radius: 0 2px 2px 0;
+  padding: 12px 20px; cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.2s, background 0.2s;
+}
+#cs-email-btn:hover {
+  border-color: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.08);
+}
+#cs-email-msg {
+  font-size: 11px; font-weight: 300;
+  letter-spacing: 0.04em; min-height: 1.2em;
+}
+@media (max-width: 768px) {
+  #cs-title { font-size: clamp(32px,8vw,52px); }
+  .cs-email-row { flex-direction: column; gap: 8px; }
+  #cs-email-input {
+    border-right: 0.5px solid rgba(255,255,255,0.15);
+    border-radius: 2px; width: clamp(260px,80vw,380px);
+  }
+  #cs-email-btn { border-radius: 2px; width: clamp(260px,80vw,380px); }
+  .cd-sep { padding: 0 10px; }
+  #cs-countdown { margin-top: 32px; }
+  #cs-email-wrap { margin-top: 28px; }
+}
+
+/* ── Rainbow borders (S7 CTA) ── */
+@keyframes rainbowFlow {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+.rb {
+  position: fixed;
+  z-index: 9998; pointer-events: none;
+  background: linear-gradient(90deg,
+    rgba(255,100,100,0.8), rgba(255,180,50,0.8), rgba(100,255,100,0.8),
+    rgba(50,180,255,0.8),  rgba(180,50,255,0.8), rgba(255,100,180,0.8),
+    rgba(255,100,100,0.8));
+  background-size: 300% 300%;
+  animation: rainbowFlow 3s ease infinite;
+  opacity: 0;
+}
+.rb-top    { top: 0;    left: 0; width: 100%; height: 3px; }
+.rb-bottom { bottom: 0; left: 0; width: 100%; height: 3px; }
+.rb-left   { top: 0;    left: 0; width: 3px;  height: 100%; }
+.rb-right  { top: 0;   right: 0; width: 3px;  height: 100%; }
+
+/* ── Button rainbow glow pulse ── */
+@keyframes btnRainbowGlow {
+  0%, 100% { box-shadow: 0 0 8px rgba(180,50,255,0.15), 0 0 0px rgba(100,255,180,0); }
+  33%       { box-shadow: 0 0 22px rgba(255,100,180,0.4), 0 0 40px rgba(100,255,180,0.1); }
+  66%       { box-shadow: 0 0 22px rgba(50,180,255,0.4),  0 0 40px rgba(255,180,50,0.1); }
+}
+#s7-btn.btn-glow { animation: btnRainbowGlow 4s ease-in-out infinite; }
+
+/* ── M5: 3D mouse tracking S1 ── */
+.s5-inner { perspective: 800px; }
+
+/* ── M6: Glitch overlay ── */
+#glitch-ov {
+  position: fixed; inset: 0;
+  z-index: 9997; pointer-events: none; opacity: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.03) 2px,
+    rgba(255,255,255,0.03) 4px
+  );
+}
+
+/* ── M7: Nav dots ── */
+#nav-dots {
+  position: fixed; left: 24px; top: 50%;
+  transform: translateY(-50%);
+  z-index: 9999;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 8px;
+  pointer-events: none;
+}
+.nav-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  transition: background 0.3s, transform 0.3s;
+}
+.nav-dot.nd-active {
+  background: rgba(255,255,255,0.6);
+  transform: scale(1.4);
+}
+@media (max-width: 768px) { #nav-dots { display: none; } }
+
+/* ── Vignetta globale ── */
+#vignette {
+  position: fixed; inset: 0; z-index: 3; pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);
+  opacity: 0.85;
+}
+
+/* ── Cursore personalizzato ── */
+body { cursor: none; }
+#cursor-dot {
+  position: fixed; width: 6px; height: 6px;
+  background: rgba(255,255,255,0.9); border-radius: 50%;
+  pointer-events: none; z-index: 99999;
+  transform: translate(-50%, -50%);
+}
+#cursor-ring {
+  position: fixed; width: 32px; height: 32px;
+  border: 0.5px solid rgba(255,255,255,0.3); border-radius: 50%;
+  pointer-events: none; z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease;
+}
+#cursor-ring.large { width: 48px; height: 48px; }
+@media (pointer: coarse) {
+  body { cursor: auto; }
+  #cursor-dot, #cursor-ring { display: none; }
+}
+
+/* ── Numero sezione bottom center ── */
+#sec-num {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999; pointer-events: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px; font-weight: 300;
+  color: rgba(255,255,255,0.18);
+  letter-spacing: 0.2em;
+}
+@media (max-width: 768px) { #sec-num { bottom: 12px; } }
+
+/* ── M9: Particelle logo burst ── */
+.particle {
+  position: fixed;
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  background: #fff; opacity: 0.6;
+  pointer-events: none; z-index: 9998;
+}
+</style>
+</head>
+<body>
+
+<!-- Fixed background -->
+<img id="bg-img" src="assets/placeholder_pilota_compressed.jpg" alt="">
+<div id="bg-overlay"></div>
+
+<!-- Vignetta globale -->
+<div id="vignette"></div>
+
+<!-- Particles -->
+<canvas id="ptc"></canvas>
+
+<!-- Custom cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Fade overlay -->
+<div id="fov"></div>
+
+<!-- Glitch overlay (M6) -->
+<div id="glitch-ov"></div>
+
+<!-- Rainbow borders S7 -->
+<div class="rb rb-top"    id="rb-top"></div>
+<div class="rb rb-bottom" id="rb-bottom"></div>
+<div class="rb rb-left"   id="rb-left"></div>
+<div class="rb rb-right"  id="rb-right"></div>
+
+<!-- Scroll progress (M5) -->
+<div id="scroll-progress-bg"><div id="scroll-progress-bar"></div></div>
+
+<!-- Section counter (bottom right) -->
+<div id="sec-counter">01 / 06</div>
+
+<!-- Section number (bottom center, con flip) -->
+<div id="sec-num">01</div>
+
+<!-- Nav dots (M7) -->
+<div id="nav-dots">
+  <div class="nav-dot nd-active"></div>
+  <div class="nav-dot"></div>
+  <div class="nav-dot"></div>
+  <div class="nav-dot"></div>
+  <div class="nav-dot"></div>
+  <div class="nav-dot"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     S1 — CHI SONO (prima sezione)
+════════════════════════════════════════════ -->
+<section id="s1">
+  <div class="s5-inner">
+    <div id="s5-name"></div>
+    <div id="s5-ticker-wrap">
+      <div id="s5-ticker">Fotografo · Videomaker · Drone Operator · Color Grading · Motion Graphics · Fotografo · Videomaker · Drone Operator · Color Grading · Motion Graphics · Fotografo · Videomaker · Drone Operator · Color Grading · Motion Graphics · </div>
+    </div>
+    <div id="s5-bio"></div>
+  </div>
+  <div class="scroll-arrow">↓</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     S2 — NIKON ZR
+════════════════════════════════════════════ -->
+<section id="s2">
+  <div class="s1-inner">
+    <div id="s1-logo-wrap">
+      <img id="s1-logo" src="assets/Nikon_RED_Logo%20trasp.png" alt="Nikon" loading="eager" width="2700" height="1414">
+    </div>
+    <div id="s1-sub">ZR — Z8 — Z6III</div>
+    <div id="s1-line"></div>
+    <div id="s1-caption">Per riprese cinematografiche</div>
+  </div>
+  <div class="scroll-arrow">↓</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     S3 — DJI
+════════════════════════════════════════════ -->
+<section id="s3">
+  <div class="s2-inner">
+    <div id="s2-radar">
+      <div class="radar-ring" id="rr1"></div>
+      <div class="radar-ring" id="rr2"></div>
+      <div class="radar-ring" id="rr3"></div>
+    </div>
+    <div id="s2-logo-wrap">
+      <img id="s2-logo" src="assets/dji-1.png" alt="DJI" loading="eager" width="512" height="512">
+    </div>
+    <div id="s2-model">Air 3S</div>
+    <div id="s2-line"></div>
+    <div id="s2-sub">Prospettive che cambiano tutto</div>
+  </div>
+  <div class="scroll-arrow">↓</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     S4 — SOFTWARE SEQUENCE
+════════════════════════════════════════════ -->
+<section id="s5">
+  <div class="s4-inner">
+    <div id="s4-stage">
+      <div class="sw-item" id="sw-davinci">
+        <img class="sw-logo" src="assets/davinci_resolve_macos_bigsur_icon_190261%202.png" alt="DaVinci Resolve">
+        <div class="sw-label" id="sw-davinci-lbl" style="color:rgba(255,107,53,0.6)">Color correction</div>
+      </div>
+      <div class="sw-item" id="sw-premiere">
+        <img class="sw-logo" src="assets/adobe_premiere_pro_macos_bigsur_icon_189485.png" alt="Premiere Pro">
+        <div class="sw-label" id="sw-premiere-lbl" style="color:rgba(153,153,255,0.6)">Montaggio video</div>
+      </div>
+      <div class="sw-item" id="sw-ae">
+        <img class="sw-logo" src="assets/adobe_after_effects_macos_bigsur_icon_190464.png" alt="After Effects">
+        <div class="sw-label" id="sw-ae-lbl" style="color:rgba(210,145,255,0.6)">Animazioni e titoli</div>
+      </div>
+      <svg id="s4-connection" viewBox="0 0 260 2" preserveAspectRatio="none"
+           xmlns="http://www.w3.org/2000/svg" style="opacity:0">
+        <line x1="0" y1="1" x2="260" y2="1"
+              stroke="rgba(255,255,255,0.08)" stroke-width="1"
+              pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
+      </svg>
+    </div>
+    <div id="s4-tagline">La suite completa</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     S6 — NUMERI + FILOSOFIA
+════════════════════════════════════════════ -->
+<section id="s6">
+  <div class="s6-inner">
+    <div id="s6-numbers">
+      <div id="s6-nums-row">
+        <div class="num-item" id="ni-proj">
+          <div class="num-value" id="nv-proj">0</div>
+          <div class="num-label">Progetti realizzati</div>
+        </div>
+        <div class="num-item" id="ni-matr">
+          <div class="num-value" id="nv-matr">0</div>
+          <div class="num-label">Eventi 2025</div>
+        </div>
+        <div class="num-item" id="ni-anni">
+          <div class="num-value" id="nv-anni">0</div>
+          <div class="num-label">Anni di esperienza</div>
+        </div>
+      </div>
+    </div>
+    <div id="s6-philosophy">
+      <div id="s6-quote"></div>
+      <div id="s6-tags">
+        <span class="s6-tag">Triveneto</span>
+        <span class="s6-tag">ENAC A1/A3</span>
+        <span class="s6-tag">Dal 2020</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     S7 — COMING SOON
+════════════════════════════════════════════ -->
+<section id="s7">
+  <div class="s7-inner">
+    <div id="cs-title"></div>
+    <div id="cs-sub"></div>
+    <div id="cs-countdown">
+      <div class="cd-block">
+        <div class="cd-num" id="cd-giorni">00</div>
+        <div class="cd-label">Giorni</div>
+      </div>
+      <span class="cd-sep">·</span>
+      <div class="cd-block">
+        <div class="cd-num" id="cd-ore">00</div>
+        <div class="cd-label">Ore</div>
+      </div>
+      <span class="cd-sep">·</span>
+      <div class="cd-block">
+        <div class="cd-num" id="cd-minuti">00</div>
+        <div class="cd-label">Minuti</div>
+      </div>
+      <span class="cd-sep">·</span>
+      <div class="cd-block">
+        <div class="cd-num" id="cd-secondi">00</div>
+        <div class="cd-label">Secondi</div>
+      </div>
+    </div>
+    <div id="cs-email-wrap">
+      <div class="cs-email-row">
+        <input type="email" id="cs-email-input" placeholder="La tua email per essere avvisato" autocomplete="email">
+        <button id="cs-email-btn">Avvisami →</button>
+      </div>
+      <div id="cs-email-msg"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ================================================================
+   PARTICLES
+================================================================ */
+(function () {
+  var canvas = document.getElementById('ptc');
+  var ctx    = canvas.getContext('2d');
+  var W, H, pts = [];
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  for (var i = 0; i < 50; i++) {
+    pts.push({
+      x:  Math.random() * window.innerWidth,
+      y:  Math.random() * window.innerHeight,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      op: 0.04 + Math.random() * 0.06
+    });
+  }
+  (function loop() {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < pts.length; i++) {
+      var p = pts[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W;  if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H;  if (p.y > H) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 1, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,' + p.op + ')';
+      ctx.fill();
+    }
+    requestAnimationFrame(loop);
+  })();
+})();
+
+/* ================================================================
+   HELPERS
+================================================================ */
+/* M9 — Particle burst al momento dell'apparizione del logo */
+function particleBurst(logoEl) {
+  if (!logoEl) return;
+  var rect = logoEl.getBoundingClientRect();
+  var cx = rect.left + rect.width  / 2;
+  var cy = rect.top  + rect.height / 2;
+  for (var i = 0; i < 12; i++) {
+    (function (idx) {
+      var p = document.createElement('div');
+      p.className = 'particle';
+      document.body.appendChild(p);
+      gsap.set(p, { x: cx, y: cy, xPercent: -50, yPercent: -50 });
+      gsap.to(p, {
+        x: cx + gsap.utils.random(-80, 80),
+        y: cy + gsap.utils.random(-80, 80),
+        opacity: 0, scale: 0,
+        duration: 0.8, ease: 'power2.out',
+        delay: idx * 0.03,
+        onComplete: function () { if (p.parentNode) p.parentNode.removeChild(p); }
+      });
+    })(i);
+  }
+}
+
+function onceVisible(id, fn) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var io = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) { fn(); io.disconnect(); }
+  }, { threshold: 0.5 });
+  io.observe(el);
+}
+
+/* ================================================================
+   SCROLL PROGRESS (M5)
+================================================================ */
+document.documentElement.addEventListener('scroll', function () {
+  var el  = document.documentElement;
+  var pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('scroll-progress-bar').style.width = pct + '%';
+});
+
+/* ================================================================
+   SECTION COUNTER + M6 GLITCH + M7 NAV-DOTS + VIGNETTE + SEC-NUM
+================================================================ */
+(function () {
+  var counter  = document.getElementById('sec-counter');
+  var sections = document.querySelectorAll('section');
+  var glitchOv = document.getElementById('glitch-ov');
+  var vignette = document.getElementById('vignette');
+  var secNum   = document.getElementById('sec-num');
+  var dots     = document.querySelectorAll('.nav-dot');
+  var prevIdx  = 0;
+
+  /* M6 — flash glitch subliminale al cambio sezione */
+  function triggerGlitch() {
+    var tl = gsap.timeline();
+    tl.to(glitchOv, { opacity: 0.8, duration: 0.05 })
+      .to(glitchOv, { skewX: 2,     duration: 0.05 })
+      .to(glitchOv, { skewX: 0, opacity: 0, duration: 0.1 });
+  }
+
+  /* M2 — vignetta pulse al cambio sezione */
+  function triggerVignette() {
+    gsap.to(vignette, { opacity: 1, duration: 0.15, ease: 'power2.out',
+      onComplete: function () {
+        gsap.to(vignette, { opacity: 0.85, duration: 0.3, ease: 'power2.in' });
+      }
+    });
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        var idx = Array.prototype.indexOf.call(sections, entry.target) + 1;
+        var n   = (idx < 10 ? '0' : '') + idx;
+
+        /* counter bottom right */
+        gsap.to(counter, {
+          opacity: 0, duration: 0.15,
+          onComplete: function () {
+            counter.textContent = n + ' / 06';
+            gsap.to(counter, { opacity: 1, duration: 0.3 });
+          }
+        });
+
+        /* M4 — numero sezione bottom center con flip verticale */
+        gsap.to(secNum, {
+          y: -10, opacity: 0, duration: 0.2, ease: 'power2.in',
+          onComplete: function () {
+            secNum.textContent = n;
+            gsap.fromTo(secNum,
+              { y: 10, opacity: 0 },
+              { y: 0,  opacity: 1, duration: 0.2, ease: 'power2.out' });
+          }
+        });
+
+        /* glitch + vignetta solo al cambio sezione */
+        if (idx !== prevIdx) {
+          triggerGlitch();
+          triggerVignette();
+          prevIdx = idx;
+        }
+
+        /* M7 — nav-dots */
+        dots.forEach(function (d, di) {
+          if (di === idx - 1) {
+            d.classList.add('nd-active');
+            gsap.to(d, { scale: 1.4, background: 'rgba(255,255,255,0.6)', duration: 0.3 });
+          } else {
+            d.classList.remove('nd-active');
+            gsap.to(d, { scale: 1, background: 'rgba(255,255,255,0.15)', duration: 0.3 });
+          }
+        });
+      }
+    });
+  }, { threshold: 0.5 });
+  sections.forEach(function (s) { io.observe(s); });
+})();
+
+/* ================================================================
+   COMING SOON — helpers
+================================================================ */
+function buildCSTitle() {
+  var str = 'COMING SOON';
+  var el  = document.getElementById('cs-title');
+  el.innerHTML = '';
+  for (var i = 0; i < str.length; i++) {
+    var s = document.createElement('span');
+    if (str[i] === ' ') {
+      s.className = 'cs-letter-sp';
+    } else {
+      s.className   = 'cs-letter';
+      s.textContent = str[i];
+    }
+    el.appendChild(s);
+  }
+}
+
+function startCountdown() {
+  var target = new Date('2026-06-05T00:00:00').getTime();
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function update() {
+    var diff = Math.max(0, target - Date.now());
+    document.getElementById('cd-giorni').textContent  = pad(Math.floor(diff / 86400000));
+    document.getElementById('cd-ore').textContent     = pad(Math.floor((diff % 86400000) / 3600000));
+    document.getElementById('cd-minuti').textContent  = pad(Math.floor((diff % 3600000)  / 60000));
+    document.getElementById('cd-secondi').textContent = pad(Math.floor((diff % 60000)    / 1000));
+  }
+  update();
+  setInterval(update, 1000);
+}
+
+/* ================================================================
+   S1 — CHI SONO (prima sezione, usa animateS5)
+================================================================ */
+function buildName() {
+  var str = 'ALESSIOLAZZARINI.COM';
+  var el  = document.getElementById('s5-name');
+  el.innerHTML = '';
+  for (var i = 0; i < str.length; i++) {
+    var s = document.createElement('span');
+    if (str[i] === ' ') {
+      s.className = 'ns';
+    } else {
+      s.className   = 'letter';
+      s.textContent = str[i];
+    }
+    el.appendChild(s);
+  }
+}
+
+function buildBio() {
+  var text  = 'Mi chiamo Alessio. Ho 26 anni e racconto storie attraverso immagini in movimento. Dal drone alla sala montaggio ogni progetto è fatto con cura e una visione cinematografica.';
+  var el    = document.getElementById('s5-bio');
+  el.innerHTML = '';
+  var words = text.split(' ');
+  words.forEach(function (w, i) {
+    var s = document.createElement('span');
+    s.className   = 'word';
+    s.textContent = w;
+    el.appendChild(s);
+    if (i < words.length - 1) {
+      var sp = document.createElement('span');
+      sp.className = 'bio-sp';
+      el.appendChild(sp);
+    }
+  });
+}
+
+function animateS5() {
+  buildName();
+  buildBio();
+
+  /* Lettere dall'alto con glitch colore */
+  gsap.fromTo('#s5-name .letter',
+    { y: -40, opacity: 0, rotation: -6 },
+    { y:  0,  opacity: 1, rotation:  0,
+      stagger: 0.04, ease: 'back.out(1.7)',
+      duration: 0.6, delay: 0.3 }
+  );
+
+  /* Micro-glitch arancione per ogni lettera */
+  document.querySelectorAll('#s5-name .letter').forEach(function (el, i) {
+    gsap.delayedCall(0.3 + i * 0.04 + 0.45, function () {
+      gsap.to(el, {
+        color: 'rgba(255,107,53,1)', duration: 0.08,
+        onComplete: function () { gsap.to(el, { color: '#ffffff', duration: 0.08 }); }
+      });
+    });
+  });
+
+  /* Ticker */
+  gsap.to('#s5-ticker-wrap', { opacity: 1, duration: 0.5, delay: 0.8, ease: 'power2.out' });
+  gsap.to('#s5-ticker', { x: '-33.33%', duration: 10, ease: 'none', repeat: -1, delay: 0.8 });
+
+  /* Bio parola per parola */
+  gsap.fromTo('#s5-bio .word',
+    { y: 16, opacity: 0 },
+    { y:  0, opacity: 1,
+      stagger: 0.06, ease: 'power2.out',
+      duration: 0.5, delay: 1.8 }
+  );
+
+  /* M5 — 3D mouse tracking sul titolo (solo pointer fine) */
+  if (!window.matchMedia('(pointer: coarse)').matches) {
+    document.addEventListener('mousemove', function (e) {
+      var dx = e.clientX - window.innerWidth  / 2;
+      var dy = e.clientY - window.innerHeight / 2;
+      gsap.to('.s5-inner', {
+        rotateX: dy / window.innerHeight * -8,
+        rotateY: dx / window.innerWidth  *  8,
+        transformPerspective: 800,
+        duration: 0.6, ease: 'power2.out'
+      });
+    });
+    document.addEventListener('mouseleave', function () {
+      gsap.to('.s5-inner', { rotateX: 0, rotateY: 0, duration: 0.8, ease: 'power2.out' });
+    });
+  }
+}
+
+/* ================================================================
+   S2 — NIKON ZR (glow pulsante, entry 0.7s, delay -30%)
+================================================================ */
+function animateS1() {
+  /* imposta PRIMA tutti gli elementi alla posizione finale (y:0)
+     così il layout è già stabile e non causa reflow durante l'animazione */
+  gsap.set('.s1-inner',   { position: 'absolute', top: '50%', left: '50%', xPercent: -50, yPercent: -50 });
+  gsap.set('#s1-logo',    { opacity: 0, scale: 0.6 });
+  gsap.set('#s1-sub',     { y: 0, opacity: 0, clipPath: 'inset(0 100% 0 0)' });
+  gsap.set('#s1-line',    { width: 0 });
+  gsap.set('#s1-caption', { y: 0, opacity: 0, clipPath: 'inset(0 100% 0 0)' });
+
+  var tl = gsap.timeline();
+  tl.to('#s1-logo', { scale: 1, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0)
+    /* glow appare */
+    .to('#s1-logo', {
+        filter: 'brightness(0) invert(1) drop-shadow(0 0 30px rgba(255,255,255,0.6))',
+        duration: 0.4, ease: 'power2.out',
+        onComplete: function () {
+          gsap.to('#s1-logo', {
+            filter: 'brightness(0) invert(1) drop-shadow(0 0 10px rgba(255,255,255,0.15))',
+            duration: 1.8, ease: 'power1.inOut', repeat: -1, yoyo: true
+          });
+          /* burst particelle dopo logo in posizione */
+          particleBurst(document.getElementById('s1-logo'));
+        }
+      }, 0.77)
+    .to('#s1-sub',     { opacity: 1, y: 0, clipPath: 'inset(0 0% 0 0)', duration: 0.7, ease: 'power3.out' }, 0.7)
+    .to('#s1-line',    { width: 60,  duration: 0.5, ease: 'power2.out' }, 1.12)
+    .to('#s1-caption', { opacity: 1, y: 0, clipPath: 'inset(0 0% 0 0)', duration: 0.7, ease: 'power3.out' }, 1.4);
+}
+
+/* ================================================================
+   S3 — DJI (glow pulsante + radar sonar, entry 0.7s, delay -30%)
+================================================================ */
+function animateS2() {
+  gsap.set('#s2-logo',  { scale: 0.6, opacity: 0 });
+  gsap.set('#s2-model', { y: 20, opacity: 0, clipPath: 'inset(0 100% 0 0)' });
+  gsap.set('#s2-sub',   { y: 16, opacity: 0, clipPath: 'inset(0 100% 0 0)' });
+
+  var tl = gsap.timeline();
+  tl.to('#s2-logo', { scale: 1, opacity: 1, duration: 0.7, ease: 'power3.out' }, 0)
+    /* glow appare */
+    .to('#s2-logo', {
+        filter: 'brightness(0) invert(1) drop-shadow(0 0 30px rgba(255,255,255,0.6))',
+        duration: 0.4, ease: 'power2.out',
+        onComplete: function () {
+          gsap.to('#s2-logo', {
+            filter: 'brightness(0) invert(1) drop-shadow(0 0 10px rgba(255,255,255,0.15))',
+            duration: 1.8, ease: 'power1.inOut', repeat: -1, yoyo: true
+          });
+          /* burst particelle dopo logo in posizione */
+          particleBurst(document.getElementById('s2-logo'));
+        }
+      }, 0.77)
+    .to('#s2-model', { opacity: 1, y: 0, clipPath: 'inset(0 0% 0 0)', duration: 0.7, ease: 'power3.out' }, 0.7)
+    .to('#s2-line',  { width: 60,  duration: 0.5, ease: 'power2.out' }, 1.12)
+    .to('#s2-sub',   { opacity: 1, y: 0, clipPath: 'inset(0 0% 0 0)', duration: 0.7, ease: 'power3.out' }, 1.4);
+
+  /* Radar sonar — parte dopo che il logo è in posizione */
+  gsap.delayedCall(1.05, function () {
+    [0, 0.5, 1.0].forEach(function (delay, i) {
+      gsap.fromTo('#rr' + (i + 1),
+        { width: 0, height: 0, opacity: 0.4 },
+        { width: 300, height: 300, opacity: 0,
+          duration: 1.5, ease: 'power2.out',
+          repeat: -1, delay: delay }
+      );
+    });
+  });
+}
+
+/* ================================================================
+   S5 — SOFTWARE SEQUENCE (loghi grandi, glow brandizzato pulsante)
+   Timing: entry 0.4s, slot per logo 0.8s
+================================================================ */
+function animateS4() {
+  var tl = gsap.timeline();
+
+  /* ── DaVinci entra al centro (t=0) ── */
+  tl.fromTo('#sw-davinci',
+    { scale: 0.5, opacity: 0 },
+    { scale: 1,   opacity: 1, duration: 0.4, ease: 'power3.out' }, 0)
+    /* glow DaVinci appare poi pulsa */
+    .to('#sw-davinci img', {
+        filter: 'drop-shadow(0 0 30px rgba(255,107,53,0.5))',
+        duration: 0.3, ease: 'power2.out',
+        onComplete: function () {
+          gsap.to('#sw-davinci img', {
+            filter: 'drop-shadow(0 0 10px rgba(255,107,53,0.15))',
+            duration: 1.2, ease: 'power1.inOut', repeat: -1, yoyo: true
+          });
+        }
+      }, 0.4)
+    .to('#sw-davinci-lbl', { opacity: 1, duration: 0.3 }, 0.5)
+
+  /* ── DaVinci esce a sinistra, Premiere entra (t=0.8) ── */
+    .to('#sw-davinci',     { x: '-35vw', scale: 0.4, opacity: 0.3, duration: 0.3, ease: 'power2.inOut' }, 0.8)
+    .to('#sw-davinci img', { filter: 'none', duration: 0.2, overwrite: true }, 0.8)
+    .to('#sw-davinci-lbl', { opacity: 0, duration: 0.2 }, 0.8)
+    .fromTo('#sw-premiere',
+      { scale: 0.5, opacity: 0 },
+      { scale: 1,   opacity: 1, duration: 0.4, ease: 'power3.out' }, 0.8)
+    /* glow Premiere appare poi pulsa */
+    .to('#sw-premiere img', {
+        filter: 'drop-shadow(0 0 30px rgba(153,153,255,0.5))',
+        duration: 0.3, ease: 'power2.out',
+        onComplete: function () {
+          gsap.to('#sw-premiere img', {
+            filter: 'drop-shadow(0 0 10px rgba(153,153,255,0.15))',
+            duration: 1.2, ease: 'power1.inOut', repeat: -1, yoyo: true
+          });
+        }
+      }, 1.2)
+    .to('#sw-premiere-lbl', { opacity: 1, duration: 0.3 }, 1.3)
+
+  /* ── Premiere esce a destra, AE entra (t=1.6) ── */
+    .to('#sw-premiere',     { x: '35vw', scale: 0.4, opacity: 0.3, duration: 0.3, ease: 'power2.inOut' }, 1.6)
+    .to('#sw-premiere img', { filter: 'none', duration: 0.2, overwrite: true }, 1.6)
+    .to('#sw-premiere-lbl', { opacity: 0, duration: 0.2 }, 1.6)
+    .fromTo('#sw-ae',
+      { scale: 0.5, opacity: 0 },
+      { scale: 1,   opacity: 1, duration: 0.4, ease: 'power3.out' }, 1.6)
+    /* glow AE appare poi pulsa */
+    .to('#sw-ae img', {
+        filter: 'drop-shadow(0 0 30px rgba(210,145,255,0.5))',
+        duration: 0.3, ease: 'power2.out',
+        onComplete: function () {
+          gsap.to('#sw-ae img', {
+            filter: 'drop-shadow(0 0 10px rgba(210,145,255,0.15))',
+            duration: 1.2, ease: 'power1.inOut', repeat: -1, yoyo: true
+          });
+        }
+      }, 2.0)
+    .to('#sw-ae-lbl', { opacity: 1, duration: 0.3 }, 2.1)
+
+  /* ── Tutti e tre convergono in riga (t=2.4) ──
+       scala finale: 60px / 150px max → scale 0.40 */
+    .to('#sw-davinci',  { x: '-120px', scale: 0.40, opacity: 0.5, duration: 0.4, ease: 'power2.inOut' }, 2.4)
+    .to('#sw-premiere', { x:        0, scale: 0.40, opacity: 0.5, duration: 0.4, ease: 'power2.inOut' }, 2.4)
+    .to('#sw-ae',       { x:  '120px', scale: 0.40, opacity: 0.5, duration: 0.4, ease: 'power2.inOut' }, 2.4)
+    .to('#sw-ae img',   { filter: 'none', duration: 0.2, overwrite: true }, 2.4)
+    .to('#sw-ae-lbl',   { opacity: 0, duration: 0.2 }, 2.4)
+    /* linea SVG di connessione */
+    .to('#s4-connection',      { opacity: 1, duration: 0.3 }, 2.9)
+    .to('#s4-connection line', { attr: { strokeDashoffset: 0 }, duration: 0.4, ease: 'power2.out' }, 2.9)
+    .to('#s4-tagline',         { opacity: 1, duration: 0.4, ease: 'power2.out' }, 3.1);
+}
+
+/* ================================================================
+   S6 — NUMERI + FILOSOFIA (M7: quote con delay 2s)
+================================================================ */
+function buildQuote() {
+  var text = 'Ogni storia merita di essere raccontata bene.';
+  var el   = document.getElementById('s6-quote');
+  el.innerHTML = '';
+  text.split(' ').forEach(function (w) {
+    var s = document.createElement('span');
+    s.className   = 'word';
+    s.textContent = w;
+    el.appendChild(s);
+  });
+}
+
+function animateS6() {
+  buildQuote();
+
+  /* Numeri compaiono */
+  gsap.fromTo('.num-item',
+    { y: 50, opacity: 0 },
+    { y:  0, opacity: 1, stagger: 0.2, ease: 'back.out(1.4)', duration: 0.8 }
+  );
+
+  /* Count-up */
+  var c1 = { val: 0 };
+  gsap.to(c1, {
+    val: 30, duration: 2, ease: 'power2.out', snap: { val: 1 },
+    onUpdate: function () { document.getElementById('nv-proj').textContent = Math.round(c1.val) + '+'; }
+  });
+  var c2 = { val: 0 };
+  gsap.to(c2, {
+    val: 12, duration: 2, ease: 'power2.out', snap: { val: 1 }, delay: 0.2,
+    onUpdate: function () { document.getElementById('nv-matr').textContent = Math.round(c2.val); }
+  });
+  var c3 = { val: 0 };
+  gsap.to(c3, {
+    val: 5, duration: 2, ease: 'power2.out', snap: { val: 1 }, delay: 0.4,
+    onUpdate: function () { document.getElementById('nv-anni').textContent = Math.round(c3.val) + '+'; }
+  });
+
+  /* Quote — appare 2s dopo i numeri, parole da direzioni casuali (M7) */
+  gsap.delayedCall(2.0, function () {
+    gsap.fromTo('#s6-quote .word',
+      {
+        x:        function () { return gsap.utils.random(-60, 60); },
+        y:        function () { return gsap.utils.random(-40, 40); },
+        rotation: function () { return gsap.utils.random(-6, 6); },
+        opacity: 0
+      },
+      { x: 0, y: 0, rotation: 0, opacity: 1,
+        duration: 0.8, ease: 'power3.out', stagger: 0.1 }
+    );
+  });
+
+  /* Tag */
+  gsap.fromTo('.s6-tag',
+    { y: 10, opacity: 0 },
+    { y:  0, opacity: 1, stagger: 0.15, duration: 0.6, ease: 'power2.out', delay: 3.2 }
+  );
+}
+
+/* ================================================================
+   S7 — COMING SOON
+================================================================ */
+function animateS7() {
+  buildCSTitle();
+  startCountdown();
+
+  /* Stato iniziale countdown e email */
+  gsap.set('#cs-countdown', { opacity: 0, y: 20 });
+  gsap.set('#cs-email-wrap', { opacity: 0, y: 20 });
+
+  /* Glitch COMING SOON — identico a ALESSIOLAZZARINI.COM ma viola */
+  gsap.fromTo('#cs-title .cs-letter',
+    { y: -40, opacity: 0, rotation: -6 },
+    { y:  0,  opacity: 1, rotation:  0,
+      stagger: 0.04, ease: 'back.out(1.7)',
+      duration: 0.6, delay: 0.3 }
+  );
+  document.querySelectorAll('#cs-title .cs-letter').forEach(function (el, i) {
+    gsap.delayedCall(0.3 + i * 0.04 + 0.45, function () {
+      gsap.to(el, {
+        color: 'rgba(160,100,255,0.8)', duration: 0.08,
+        onComplete: function () { gsap.to(el, { color: '#ffffff', duration: 0.08 }); }
+      });
+    });
+  });
+
+  /* Typewriter subtitle — delay 1s, 40ms per lettera */
+  gsap.delayedCall(1.0, function () {
+    var text = 'Qualcosa di nuovo sta arrivando';
+    var el   = document.getElementById('cs-sub');
+    el.style.opacity = '1';
+    var i = 0;
+    var iv = setInterval(function () {
+      el.textContent += text[i];
+      i++;
+      if (i >= text.length) clearInterval(iv);
+    }, 40);
+  });
+
+  /* Countdown fade-in — delay 2s */
+  gsap.to('#cs-countdown', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 2.0 });
+
+  /* Email form fade-in — delay 3s */
+  gsap.to('#cs-email-wrap', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: 3.0 });
+
+  /* Rainbow borders — identico a siri-cta di index.html */
+  var rbEls = document.querySelectorAll('.rb');
+  var rbObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        gsap.to(rbEls, { opacity: 1, duration: 0.8, ease: 'power2.out' });
+      } else {
+        gsap.to(rbEls, { opacity: 0, duration: 0.5, ease: 'power2.in' });
+      }
+    });
+  }, { threshold: 0.3 });
+  rbObs.observe(document.getElementById('s7'));
+
+  /* Email form handler */
+  function handleEmail() {
+    var email  = document.getElementById('cs-email-input').value.trim();
+    var msgEl  = document.getElementById('cs-email-msg');
+    var re     = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (re.test(email)) {
+      try {
+        var saved = JSON.parse(localStorage.getItem('csEmails') || '[]');
+        saved.push({ email: email, ts: Date.now() });
+        localStorage.setItem('csEmails', JSON.stringify(saved));
+      } catch (e) {}
+      msgEl.textContent = 'Grazie! Ti avviseremo presto.';
+      msgEl.style.color = 'rgba(255,255,255,0.4)';
+      document.getElementById('cs-email-input').value = '';
+    } else {
+      msgEl.textContent = "Inserisci un'email valida";
+      msgEl.style.color = 'rgba(255,100,100,0.6)';
+    }
+  }
+  document.getElementById('cs-email-btn').addEventListener('click', handleEmail);
+  document.getElementById('cs-email-input').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') handleEmail();
+  });
+}
+
+/* ================================================================
+   M3 — CURSORE PERSONALIZZATO (solo pointer fine)
+================================================================ */
+if (!window.matchMedia('(pointer: coarse)').matches) {
+  (function () {
+    var dot  = document.getElementById('cursor-dot');
+    var ring = document.getElementById('cursor-ring');
+    if (!dot || !ring) return;
+    var mx = -200, my = -200;
+    var rx = -200, ry = -200;
+
+    document.addEventListener('mousemove', function (e) {
+      mx = e.clientX; my = e.clientY;
+    }, { passive: true });
+
+    document.addEventListener('mouseover', function (e) {
+      var isHoverable = e.target.closest('a, button, [role="button"]');
+      if (isHoverable) { ring.classList.add('large'); }
+      else             { ring.classList.remove('large'); }
+    });
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function tick() {
+      rx = lerp(rx, mx, 0.12);
+      ry = lerp(ry, my, 0.12);
+      dot.style.left  = mx + 'px';
+      dot.style.top   = my + 'px';
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(tick);
+    }
+    tick();
+  })();
+}
+
+/* ================================================================
+   TRIGGERS — 6 sezioni: Chi Sono, Nikon, DJI, Software, Numeri, CTA
+================================================================ */
+gsap.delayedCall(0.15, animateS5);   /* S1: Chi Sono */
+onceVisible('s2', animateS1);        /* S2: Nikon ZR */
+onceVisible('s3', animateS2);        /* S3: DJI */
+onceVisible('s5', animateS4);        /* S4: Software sequence */
+onceVisible('s6', animateS6);        /* S5: Numeri + Filosofia */
+onceVisible('s7', animateS7);        /* S6: CTA */
+</script>
+</body>
+</html>
