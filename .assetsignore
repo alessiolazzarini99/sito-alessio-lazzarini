@@ -1,3 +1,4 @@
+# File esclusi dalla pubblicazione su Cloudflare (letto da wrangler: deve chiamarsi .assetsignore)
 .git
 .git/**
 _dev
@@ -9,6 +10,10 @@ node_modules/**
 *.mov
 *.MOV
 sito.html
+.DS_Store
+**/.DS_Store
+.gitignore
+wrangler.jsonc
 
 # Originali ad alta risoluzione: sul sito si usano le versioni ottimizzate in assets/web/
 assets/Placeholder calcio_1_jpeg.jpeg
