@@ -11,17 +11,56 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="format-detection" content="telephone=no">
 
+  <link rel="canonical" href="https://www.alessiolazzarini.com/" />
+
   <!-- Open Graph -->
   <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="Alessio Lazzarini" />
+  <meta property="og:locale"      content="it_IT" />
+  <meta property="og:url"         content="https://www.alessiolazzarini.com/" />
   <meta property="og:title"       content="Alessio Lazzarini — Fotografo &amp; Videomaker" />
   <meta property="og:description" content="Alessio Lazzarini — Fotografo, Videomaker e Drone Operator. Riprese aeree, video professionali e fotografia per eventi, aziende e matrimoni nel Triveneto." />
-  <meta property="og:image"       content="assets/placeholder_header_002.jpg" />
+  <meta property="og:image"       content="https://www.alessiolazzarini.com/assets/web/placeholder-header-002-1200.jpg" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card"        content="summary_large_image" />
   <meta name="twitter:title"       content="Alessio Lazzarini — Fotografo &amp; Videomaker" />
   <meta name="twitter:description" content="Alessio Lazzarini — Fotografo, Videomaker e Drone Operator. Riprese aeree, video professionali e fotografia per eventi, aziende e matrimoni nel Triveneto." />
-  <meta name="twitter:image"       content="assets/placeholder_header_002.jpg" />
+  <meta name="twitter:image"       content="https://www.alessiolazzarini.com/assets/web/placeholder-header-002-1200.jpg" />
+
+  <!-- Dati strutturati per Google -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Alessio Lazzarini — Fotografo & Videomaker",
+  "url": "https://www.alessiolazzarini.com/",
+  "image": "https://www.alessiolazzarini.com/assets/web/placeholder-header-002-1200.jpg",
+  "description": "Fotografo, videomaker e operatore drone (ENAC A1/A3). Riprese aeree, video professionali e fotografia per eventi, aziende e matrimoni nel Triveneto.",
+  "email": "alessio.lazzarini99@gmail.com",
+  "telephone": "+39 346 277 2270",
+  "areaServed": [
+    "Trentino-Alto Adige",
+    "Veneto",
+    "Friuli-Venezia Giulia"
+  ],
+  "knowsAbout": [
+    "Fotografia",
+    "Videomaking",
+    "Riprese aeree con drone",
+    "Fotografia di matrimonio",
+    "Montaggio video"
+  ],
+  "sameAs": [
+    "https://instagram.com/alessiolazzariniph"
+  ],
+  "founder": {
+    "@type": "Person",
+    "name": "Alessio Lazzarini",
+    "jobTitle": "Fotografo e Videomaker"
+  }
+}
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -350,7 +389,7 @@
       width: 100%; aspect-ratio: 16/9;
       display: flex; align-items: center; justify-content: center;
       position: relative;
-      /* SOSTITUIRE con <video autoplay loop muted playsinline preload="none"> */
+      /* SOSTITUIRE con <video loop muted playsinline preload="none"> */
     }
     .insta-media-garda { background: #0d1a2a; }
     .insta-media-dolomiti { background: #1a1208; }
@@ -2983,8 +3022,8 @@
   <!-- 01 HERO -->
   <section id="hero">
     <img id="heroParallaxImg"
-      src="assets/placeholder_header_002.jpg"
-      alt="Hero background"
+      src="assets/web/placeholder-header-002-2400.jpg" srcset="assets/web/placeholder-header-002-1200.jpg 1200w, assets/web/placeholder-header-002-2400.jpg 2400w"
+      alt="Alessio Lazzarini al lavoro con la fotocamera"
       fetchpriority="high"
       sizes="100vw"
       style="position:absolute;left:0;right:0;top:-10%;width:100%;height:120%;object-fit:cover;opacity:0.6;z-index:0;will-change:transform;">
@@ -3153,7 +3192,7 @@
       <div class="service-card">
         <div class="service-bg service-bg-foto">
           <img loading="lazy" fetchpriority="low"
-            src="assets/placeholder_servizi_fotografia.jpeg"
+            src="assets/web/placeholder-servizi-fotografia-2400.jpg" srcset="assets/web/placeholder-servizi-fotografia-1200.jpg 1200w, assets/web/placeholder-servizi-fotografia-2400.jpg 2400w"
             alt="Fotografia"
             sizes="(max-width: 768px) 100vw, 33vw"
             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
@@ -3170,7 +3209,7 @@
       <div class="service-card">
         <div class="service-bg service-bg-video">
           <img loading="lazy" fetchpriority="low"
-            src="assets/placeholder_servizi_videomaking.jpeg"
+            src="assets/web/placeholder-servizi-videomaking-2400.jpg" srcset="assets/web/placeholder-servizi-videomaking-1200.jpg 1200w, assets/web/placeholder-servizi-videomaking-2400.jpg 2400w"
             alt="Videomaking"
             sizes="(max-width: 768px) 100vw, 33vw"
             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
@@ -3187,7 +3226,7 @@
       <div class="service-card">
         <div class="service-bg service-bg-drone">
           <img loading="lazy" fetchpriority="low"
-            src="assets/placeholder_servizi_riprese%20aeree.jpeg"
+            src="assets/web/placeholder-servizi-riprese-aeree-2400.jpg" srcset="assets/web/placeholder-servizi-riprese-aeree-1200.jpg 1200w, assets/web/placeholder-servizi-riprese-aeree-2400.jpg 2400w"
             alt="Riprese aeree"
             sizes="(max-width: 768px) 100vw, 33vw"
             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
@@ -3266,23 +3305,20 @@
           <div class="carousel-track">
             <!-- Slide 1 -->
             <div class="carousel-slide">
-              <video autoplay loop muted playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;">
-                <source src="assets/garda_trentino.mov" type="video/quicktime">
-                <source src="assets/garda_trentino.mov">
+              <video loop muted playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;">
+                <source src="assets/web/garda-trentino-1.mp4" type="video/mp4">
               </video>
             </div>
             <!-- Slide 2 -->
             <div class="carousel-slide">
-              <video autoplay loop muted playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;">
-                <source src="assets/garda_trentino 2.mov" type="video/quicktime">
-                <source src="assets/garda_trentino 2.mov">
+              <video loop muted playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;">
+                <source src="assets/web/garda-trentino-2.mp4" type="video/mp4">
               </video>
             </div>
             <!-- Slide 3 -->
             <div class="carousel-slide">
-              <video autoplay loop muted playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;">
-                <source src="assets/garda_trentino 3.mov" type="video/quicktime">
-                <source src="assets/garda_trentino 3.mov">
+              <video loop muted playsinline preload="none" style="width:100%;height:100%;object-fit:cover;display:block;">
+                <source src="assets/web/garda-trentino-3.mp4" type="video/mp4">
               </video>
             </div>
           </div>
@@ -3331,7 +3367,7 @@
           <div class="carousel-track">
             <!-- Slide 1 — SOSTITUIRE: bike_festival.jpg -->
             <div class="carousel-slide">
-              <img loading="lazy" src="assets/bike_festival.jpg" alt="Bike Festival Riva">
+              <img loading="lazy" src="assets/web/bike-festival-2400.jpg" srcset="assets/web/bike-festival-1200.jpg 1200w, assets/web/bike-festival-2400.jpg 2400w" sizes="100vw" alt="Bike Festival Riva">
             </div>
             <!-- Slide 2 — slot vuoto per foto future -->
             <div class="carousel-slide carousel-empty-slide">
@@ -3385,7 +3421,7 @@
           <div class="carousel-track">
             <!-- Slide 1 — SOSTITUIRE: Comano_auto-1.mov -->
             <div class="carousel-slide">
-              <video autoplay loop muted playsinline preload="none">
+              <video loop muted playsinline preload="none">
                 <source src="assets/Comano_auto_v2.mp4" type="video/mp4">
               </video>
             </div>
@@ -3441,13 +3477,13 @@
           <div class="carousel-track">
             <!-- Slide 1 — SOSTITUIRE: placeholder_lapponia_1.mov -->
             <div class="carousel-slide">
-              <video autoplay loop muted playsinline preload="none">
+              <video loop muted playsinline preload="none">
                 <source src="assets/placeholder_lapponia_1_web.mp4" type="video/mp4">
               </video>
             </div>
             <!-- Slide 2 — SOSTITUIRE: placeholder_lapponia_2.mov -->
             <div class="carousel-slide">
-              <video autoplay loop muted playsinline preload="none">
+              <video loop muted playsinline preload="none">
                 <source src="assets/placeholder_lapponia_2_web.mp4" type="video/mp4">
               </video>
             </div>
@@ -3500,18 +3536,18 @@
     <!-- Nastro fotografico -->
     <div class="lapponia-strip-wrap" id="lapponiaStrip">
       <div class="lapponia-strip-track" id="lapponiaTrack">
-        <img loading="lazy" src="assets/lapponia-preview-1.jpg" alt="Lapponia — renna nel bosco artico">
-        <img loading="lazy" src="assets/lapponia-preview-2.jpg" alt="Lapponia — aurora boreale">
-        <img loading="lazy" src="assets/lapponia-preview-3.jpg" alt="Lapponia — grande aurora boreale">
-        <img loading="lazy" src="assets/lapponia-preview-4.jpg" alt="Lapponia — paesaggio drone">
-        <img loading="lazy" src="assets/lapponia-preview-1.jpg" alt="Lapponia — renna nel bosco artico">
-        <img loading="lazy" src="assets/lapponia-preview-2.jpg" alt="Lapponia — aurora boreale">
-        <img loading="lazy" src="assets/lapponia-preview-3.jpg" alt="Lapponia — grande aurora boreale">
-        <img loading="lazy" src="assets/lapponia-preview-4.jpg" alt="Lapponia — paesaggio drone">
-        <img loading="lazy" src="assets/lapponia-preview-1.jpg" alt="Lapponia — renna nel bosco artico">
-        <img loading="lazy" src="assets/lapponia-preview-2.jpg" alt="Lapponia — aurora boreale">
-        <img loading="lazy" src="assets/lapponia-preview-3.jpg" alt="Lapponia — grande aurora boreale">
-        <img loading="lazy" src="assets/lapponia-preview-4.jpg" alt="Lapponia — paesaggio drone">
+        <img loading="lazy" src="assets/web/lapponia-preview-1-1200.jpg" srcset="assets/web/lapponia-preview-1-1200.jpg 1200w, assets/web/lapponia-preview-1-2400.jpg 2400w" sizes="630px" alt="Lapponia — renna nel bosco artico">
+        <img loading="lazy" src="assets/web/lapponia-preview-2-1200.jpg" srcset="assets/web/lapponia-preview-2-1200.jpg 1200w, assets/web/lapponia-preview-2-2400.jpg 2400w" sizes="630px" alt="Lapponia — aurora boreale">
+        <img loading="lazy" src="assets/web/lapponia-preview-3-1200.jpg" srcset="assets/web/lapponia-preview-3-1200.jpg 1200w, assets/web/lapponia-preview-3-2400.jpg 2400w" sizes="630px" alt="Lapponia — grande aurora boreale">
+        <img loading="lazy" src="assets/web/lapponia-preview-4-1200.jpg" srcset="assets/web/lapponia-preview-4-1200.jpg 1200w, assets/web/lapponia-preview-4-2400.jpg 2400w" sizes="630px" alt="Lapponia — paesaggio drone">
+        <img loading="lazy" src="assets/web/lapponia-preview-1-1200.jpg" srcset="assets/web/lapponia-preview-1-1200.jpg 1200w, assets/web/lapponia-preview-1-2400.jpg 2400w" sizes="630px" alt="Lapponia — renna nel bosco artico">
+        <img loading="lazy" src="assets/web/lapponia-preview-2-1200.jpg" srcset="assets/web/lapponia-preview-2-1200.jpg 1200w, assets/web/lapponia-preview-2-2400.jpg 2400w" sizes="630px" alt="Lapponia — aurora boreale">
+        <img loading="lazy" src="assets/web/lapponia-preview-3-1200.jpg" srcset="assets/web/lapponia-preview-3-1200.jpg 1200w, assets/web/lapponia-preview-3-2400.jpg 2400w" sizes="630px" alt="Lapponia — grande aurora boreale">
+        <img loading="lazy" src="assets/web/lapponia-preview-4-1200.jpg" srcset="assets/web/lapponia-preview-4-1200.jpg 1200w, assets/web/lapponia-preview-4-2400.jpg 2400w" sizes="630px" alt="Lapponia — paesaggio drone">
+        <img loading="lazy" src="assets/web/lapponia-preview-1-1200.jpg" srcset="assets/web/lapponia-preview-1-1200.jpg 1200w, assets/web/lapponia-preview-1-2400.jpg 2400w" sizes="630px" alt="Lapponia — renna nel bosco artico">
+        <img loading="lazy" src="assets/web/lapponia-preview-2-1200.jpg" srcset="assets/web/lapponia-preview-2-1200.jpg 1200w, assets/web/lapponia-preview-2-2400.jpg 2400w" sizes="630px" alt="Lapponia — aurora boreale">
+        <img loading="lazy" src="assets/web/lapponia-preview-3-1200.jpg" srcset="assets/web/lapponia-preview-3-1200.jpg 1200w, assets/web/lapponia-preview-3-2400.jpg 2400w" sizes="630px" alt="Lapponia — grande aurora boreale">
+        <img loading="lazy" src="assets/web/lapponia-preview-4-1200.jpg" srcset="assets/web/lapponia-preview-4-1200.jpg 1200w, assets/web/lapponia-preview-4-2400.jpg 2400w" sizes="630px" alt="Lapponia — paesaggio drone">
       </div>
     </div>
 
@@ -3548,15 +3584,15 @@
         <div class="carousel-track">
           <!-- Slide 1 — Placeholder calcio_1_jpeg.jpeg -->
           <div class="carousel-slide">
-            <img loading="lazy" src="assets/Placeholder%20calcio_1_jpeg.jpeg" alt="Foto sportiva 1" style="width:100%;height:100%;object-fit:contain;display:block;">
+            <img loading="lazy" src="assets/web/placeholder-calcio-1-jpeg-2400.jpg" srcset="assets/web/placeholder-calcio-1-jpeg-1200.jpg 1200w, assets/web/placeholder-calcio-1-jpeg-2400.jpg 2400w" sizes="100vw" alt="Foto sportiva 1" style="width:100%;height:100%;object-fit:contain;display:block;">
           </div>
           <!-- Slide 2 — Placeholder calcio_2.jpg -->
           <div class="carousel-slide">
-            <img loading="lazy" src="assets/Placeholder%20calcio_2.jpg" alt="Foto sportiva 2" style="width:100%;height:100%;object-fit:contain;display:block;">
+            <img loading="lazy" src="assets/web/placeholder-calcio-2-2400.jpg" srcset="assets/web/placeholder-calcio-2-1200.jpg 1200w, assets/web/placeholder-calcio-2-2400.jpg 2400w" sizes="100vw" alt="Foto sportiva 2" style="width:100%;height:100%;object-fit:contain;display:block;">
           </div>
           <!-- Slide 3 — Placeholder calcio_3.jpg -->
           <div class="carousel-slide">
-            <img loading="lazy" src="assets/placeholder_calcio3_compressed.jpg" alt="Foto sportiva 3" style="width:100%;height:100%;object-fit:contain;display:block;">
+            <img loading="lazy" src="assets/web/placeholder-calcio3-compressed-2400.jpg" srcset="assets/web/placeholder-calcio3-compressed-1200.jpg 1200w, assets/web/placeholder-calcio3-compressed-2400.jpg 2400w" sizes="100vw" alt="Foto sportiva 3" style="width:100%;height:100%;object-fit:contain;display:block;">
           </div>
         </div>
         <button class="carousel-btn carousel-prev" aria-label="Precedente">‹</button>
@@ -3568,7 +3604,7 @@
     <!-- VIDEO SEQUENZA — card video sotto il carosello -->
     <div class="sport-video-wrap">
       <div class="seq-video-card">
-        <video autoplay loop playsinline data-bg preload="none">
+        <video loop playsinline data-bg preload="none">
           <source src="assets/placeholder_sequenza_calcio2_web.mp4" type="video/mp4">
           <source src="assets/placeholder_sequenza_calcio2_web.mp4">
         </video>
@@ -3741,9 +3777,8 @@
     </div>
     <div class="gear-hero-card">
       <!-- SOSTITUIRE: placeholder_gearmatters_1.mov -->
-      <video autoplay loop muted playsinline data-bg preload="none">
-        <source src="assets/placeholder_gearmatters_web.mp4" type="video/mp4">
-        <source src="assets/placeholder_gearmatters_web.mp4">
+      <video loop muted playsinline data-bg preload="none">
+        <source src="assets/web/gearmatters-1080.mp4" type="video/mp4">
       </video>
       <div class="gear-hero-overlay"></div>
       <div class="gear-hero-text">Il setup — ogni pezzo al suo posto</div>
@@ -3808,9 +3843,8 @@
       </div>
       <div class="wf-hero-glow-wrap">
         <div class="wf-hero-video-wrap">
-          <video autoplay loop muted playsinline data-silent preload="none">
-            <source src="assets/placeholder_workflow_apps.mov" type="video/quicktime">
-            <source src="assets/placeholder_workflow_apps.mov">
+          <video loop muted playsinline data-silent preload="none">
+            <source src="assets/web/workflow-apps.mp4" type="video/mp4">
           </video>
         </div>
       </div>
@@ -4076,7 +4110,7 @@
     </div>
     <div class="drone-hero">
       <img loading="lazy" fetchpriority="low"
-           src="assets/placeholder_drone_compressed.jpg"
+           src="assets/web/placeholder-drone-compressed-2400.jpg" srcset="assets/web/placeholder-drone-compressed-1200.jpg 1200w, assets/web/placeholder-drone-compressed-2400.jpg 2400w"
            alt="Riprese aeree"
            sizes="100vw"
            style="opacity:0.6;">
@@ -4106,18 +4140,18 @@
       </div>
       <div class="drone-photos">
         <div class="drone-photo">
-          <div class="drone-photo-img"><img loading="lazy" src="assets/placeholder_drone_in_volo.jpeg" alt="Drone in volo" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="drone-photo-img"><img loading="lazy" src="assets/web/placeholder-drone-in-volo-1200.jpg" alt="Drone in volo" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
           <div class="drone-photo-bar">Drone in volo — location alpina</div>
         </div>
         <div class="drone-photo">
-          <div class="drone-photo-img green"><img loading="lazy" src="assets/placeholder_pilota_compressed.jpg" alt="Pilota con radiocomando" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+          <div class="drone-photo-img green"><img loading="lazy" src="assets/web/placeholder-pilota-compressed-1200.jpg" alt="Pilota con radiocomando" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
           <div class="drone-photo-bar">Pilota con radiocomando — sul campo</div>
         </div>
       </div>
     </div>
     <div class="drone-video-strip" style="display:none">
       <div class="strip-top"><div class="strip-label">Clip aerea in loop</div><div class="strip-tag">Video · No audio</div></div>
-      <div class="strip-body"><!-- SOSTITUIRE con <video autoplay loop muted playsinline preload="none"> --><div class="strip-placeholder">video drone — panoramica aerea · 4–8 secondi · loop</div></div>
+      <div class="strip-body"><!-- SOSTITUIRE con <video loop muted playsinline preload="none"> --><div class="strip-placeholder">video drone — panoramica aerea · 4–8 secondi · loop</div></div>
     </div>
   </section>
 
@@ -4822,15 +4856,6 @@
   <button id="audio-toggle" aria-label="Toggle audio"></button>
 
   <script>
-    // ── SPLASH REDIRECT — prima visita → splash.html ──
-    // Se l'utente non ha ancora visto la splash screen, reindirizziamo.
-    // Il bottone "Entra nel sito" in splash.html imposta skipSplash=true.
-    (function() {
-      if (!sessionStorage.getItem('skipSplash')) {
-        window.location.replace('splash.html');
-      }
-    })();
-
     // Menu hamburger
     const hamburger = document.getElementById('nav-hamburger');
     const navLinks  = document.getElementById('nav-links');
@@ -4931,6 +4956,37 @@
     // Tracker video attivo su mobile (un solo video con audio alla volta)
     window._activeMobileVideo = null;
     window._activeMobileIcon  = null;
+
+    // ── VIDEO SOLO QUANDO VISIBILI ──
+    // play() su un video fuori schermo viene rimandato finché non entra nel viewport,
+    // e i video che escono vengono messi in pausa: niente download inutili all'apertura.
+    const _videoPlay  = HTMLMediaElement.prototype.play;
+    const _videoPause = HTMLMediaElement.prototype.pause;
+    const videoVisObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        const v = e.target;
+        v._inView = e.isIntersecting;
+        if (e.isIntersecting && v._resume) {
+          v._resume = false;
+          _videoPlay.call(v).catch(() => {});
+        } else if (!e.isIntersecting && !v.paused) {
+          _videoPause.call(v);
+          v._resume = true;
+        }
+      });
+    }, { rootMargin: '200px 0px' });
+    document.querySelectorAll('video').forEach(v => {
+      v._inView = false;
+      v.play = function () {
+        if (!this._inView) { this._resume = true; return Promise.resolve(); }
+        return _videoPlay.call(this);
+      };
+      v.pause = function () {
+        this._resume = false;
+        return _videoPause.call(this);
+      };
+      videoVisObs.observe(v);
+    });
 
     document.querySelectorAll('video').forEach(video => {
       const isSilent = video.hasAttribute('data-silent');

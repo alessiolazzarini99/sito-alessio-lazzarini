@@ -9,3 +9,16 @@ node_modules/**
 *.mov
 *.MOV
 sito.html
+
+# Originali ad alta risoluzione: sul sito si usano le versioni ottimizzate in assets/web/
+assets/Placeholder calcio_1_jpeg.jpeg
+assets/Placeholder calcio_2.jpg
+assets/bike_festival.jpg
+assets/lapponia-preview-*.jpg
+assets/placeholder_calcio3_compressed.jpg
+assets/placeholder_drone_compressed.jpg
+assets/placeholder_drone_in_volo.jpeg
+assets/placeholder_header_002.jpg
+assets/placeholder_pilota_compressed.jpg
+assets/placeholder_servizi_*.jpeg
+assets/placeholder_gearmatters_web.mp4

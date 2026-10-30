@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lapponia, Svezia 2024 — Alessio Lazzarini</title>
   <meta name="description" content="3 settimane in Lapponia svedese a −30°C. Aurora boreale, renne, drone a 120m. Progetto personale di Alessio Lazzarini — Fotografo & Videomaker." />
+  <link rel="canonical" href="https://www.alessiolazzarini.com/lapponia" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="Alessio Lazzarini" />
+  <meta property="og:locale"      content="it_IT" />
+  <meta property="og:url"         content="https://www.alessiolazzarini.com/lapponia" />
+  <meta property="og:title"       content="Lapponia, Svezia 2024 — Alessio Lazzarini" />
+  <meta property="og:description" content="3 settimane in Lapponia svedese a −30°C. Aurora boreale, renne, drone a 120m. Progetto personale di Alessio Lazzarini — Fotografo & Videomaker." />
+  <meta property="og:image"       content="https://www.alessiolazzarini.com/assets/web/lapponia-preview-2-1200.jpg" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Lapponia, Svezia 2024 — Alessio Lazzarini" />
+  <meta name="twitter:description" content="3 settimane in Lapponia svedese a −30°C. Aurora boreale, renne, drone a 120m. Progetto personale di Alessio Lazzarini — Fotografo & Videomaker." />
+  <meta name="twitter:image"       content="https://www.alessiolazzarini.com/assets/web/lapponia-preview-2-1200.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -240,19 +256,19 @@
     <div class="lap-section-label reveal">Fotografia</div>
     <div class="lap-photo-grid">
       <div class="lap-photo-item reveal" style="--reveal-delay:0ms">
-        <img loading="lazy" src="assets/lapponia-preview-1.jpg" alt="Renna nel bosco artico">
+        <img loading="lazy" src="assets/web/lapponia-preview-1-2400.jpg" srcset="assets/web/lapponia-preview-1-1200.jpg 1200w, assets/web/lapponia-preview-1-2400.jpg 2400w" sizes="(max-width: 768px) 100vw, 50vw" alt="Renna nel bosco artico">
         <div class="lap-photo-caption">Renna nel bosco artico</div>
       </div>
       <div class="lap-photo-item reveal" style="--reveal-delay:80ms">
-        <img loading="lazy" src="assets/lapponia-preview-2.jpg" alt="Aurora boreale — notte di gennaio">
+        <img loading="lazy" src="assets/web/lapponia-preview-2-2400.jpg" srcset="assets/web/lapponia-preview-2-1200.jpg 1200w, assets/web/lapponia-preview-2-2400.jpg 2400w" sizes="(max-width: 768px) 100vw, 50vw" alt="Aurora boreale — notte di gennaio">
         <div class="lap-photo-caption">Aurora boreale — notte di gennaio</div>
       </div>
       <div class="lap-photo-item reveal" style="--reveal-delay:160ms">
-        <img loading="lazy" src="assets/lapponia-preview-3.jpg" alt="Aurora boreale — grande apparizione">
+        <img loading="lazy" src="assets/web/lapponia-preview-3-2400.jpg" srcset="assets/web/lapponia-preview-3-1200.jpg 1200w, assets/web/lapponia-preview-3-2400.jpg 2400w" sizes="(max-width: 768px) 100vw, 50vw" alt="Aurora boreale — grande apparizione">
         <div class="lap-photo-caption">Aurora boreale — grande apparizione</div>
       </div>
       <div class="lap-photo-item reveal" style="--reveal-delay:240ms">
-        <img loading="lazy" src="assets/lapponia-preview-4.jpg" alt="Paesaggio innevato — drone a 120m">
+        <img loading="lazy" src="assets/web/lapponia-preview-4-2400.jpg" srcset="assets/web/lapponia-preview-4-1200.jpg 1200w, assets/web/lapponia-preview-4-2400.jpg 2400w" sizes="(max-width: 768px) 100vw, 50vw" alt="Paesaggio innevato — drone a 120m">
         <div class="lap-photo-caption">Paesaggio innevato — drone a 120m</div>
       </div>
     </div>
@@ -263,7 +279,7 @@
     <div class="lap-video-title reveal">Video e reel</div>
     <div class="lap-video-grid">
       <div class="lap-video-wrap reveal" style="--reveal-delay:0ms">
-        <video autoplay loop muted playsinline preload="none">
+        <video loop muted playsinline preload="none">
           <source src="assets/placeholder_lapponia_1_web.mp4" type="video/mp4">
         </video>
         <div class="lap-video-speaker">
@@ -273,7 +289,7 @@
         </div>
       </div>
       <div class="lap-video-wrap reveal" style="--reveal-delay:120ms">
-        <video autoplay loop muted playsinline preload="none">
+        <video loop muted playsinline preload="none">
           <source src="assets/placeholder_lapponia_2_web.mp4" type="video/mp4">
         </video>
         <div class="lap-video-speaker">
@@ -347,6 +363,18 @@
         wrap.addEventListener('mouseenter', () => fadeIn(video));
         wrap.addEventListener('mouseleave', () => fadeOut(video));
       });
+    })();
+  </script>
+  <script>
+    // Video in riproduzione solo quando sono visibili: niente download inutili all'apertura
+    (function () {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) e.target.play().catch(() => {});
+          else e.target.pause();
+        });
+      }, { rootMargin: '200px 0px' });
+      document.querySelectorAll('video').forEach(v => obs.observe(v));
     })();
   </script>
 </body>
