@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /splash
+
+Sitemap: https://www.alessiolazzarini.com/sitemap.xml

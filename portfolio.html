@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portfolio — Alessio Lazzarini</title>
   <meta name="description" content="Tutti i lavori di Alessio Lazzarini — matrimoni interviste documentari spot auto e progetti personali." />
+  <link rel="canonical" href="https://www.alessiolazzarini.com/portfolio" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="Alessio Lazzarini" />
+  <meta property="og:locale"      content="it_IT" />
+  <meta property="og:url"         content="https://www.alessiolazzarini.com/portfolio" />
+  <meta property="og:title"       content="Portfolio — Alessio Lazzarini" />
+  <meta property="og:description" content="Tutti i lavori di Alessio Lazzarini — matrimoni interviste documentari spot auto e progetti personali." />
+  <meta property="og:image"       content="https://www.alessiolazzarini.com/assets/web/placeholder-header-002-1200.jpg" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Portfolio — Alessio Lazzarini" />
+  <meta name="twitter:description" content="Tutti i lavori di Alessio Lazzarini — matrimoni interviste documentari spot auto e progetti personali." />
+  <meta name="twitter:image"       content="https://www.alessiolazzarini.com/assets/web/placeholder-header-002-1200.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet" />
@@ -433,7 +449,7 @@
     <!-- Per aziende -->
     <div class="subsection-label reveal" style="--reveal-delay:200ms">Per aziende</div>
     <div class="port-video-wrap reveal" style="--reveal-delay:260ms">
-      <video autoplay loop muted playsinline preload="none">
+      <video loop muted playsinline preload="none">
         <source src="assets/intervista_agrilife.mp4" type="video/mp4">
       </video>
       <div class="port-video-overlay">
@@ -474,7 +490,7 @@
     <h2 class="section-title reveal" style="--reveal-delay:80ms">Racconti brevi — storie vere</h2>
 
     <div class="port-video-wrap reveal" style="--reveal-delay:180ms; margin-top:40px;">
-      <video autoplay loop muted playsinline preload="none">
+      <video loop muted playsinline preload="none">
         <source src="assets/documentario_valle_don_pedro.mp4" type="video/mp4">
       </video>
       <div class="port-video-overlay">
@@ -498,7 +514,7 @@
     <h2 class="section-title reveal" style="--reveal-delay:80ms">Video branded — ogni auto ha una storia</h2>
 
     <div class="port-video-wrap reveal" style="--reveal-delay:180ms; margin-top:40px;">
-      <video autoplay loop muted playsinline preload="none">
+      <video loop muted playsinline preload="none">
         <source src="assets/Comano_auto_v2.mp4" type="video/mp4">
       </video>
       <div class="port-video-overlay">
@@ -524,7 +540,7 @@
 
       <!-- Video 1 -->
       <div class="port-video-wrap">
-        <video autoplay loop muted playsinline preload="none">
+        <video loop muted playsinline preload="none">
           <source src="assets/placeholder_progetto1_web.mp4" type="video/mp4">
         </video>
         <div class="port-video-overlay">
@@ -539,7 +555,7 @@
 
       <!-- Video 2 -->
       <div class="port-video-wrap">
-        <video autoplay loop muted playsinline preload="none">
+        <video loop muted playsinline preload="none">
           <source src="assets/placeholder_progetto2_compressed.mp4" type="video/mp4">
         </video>
         <div class="port-video-overlay">
@@ -644,5 +660,17 @@
     })();
   </script>
 
+  <script>
+    // Video in riproduzione solo quando sono visibili: niente download inutili all'apertura
+    (function () {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) e.target.play().catch(() => {});
+          else e.target.pause();
+        });
+      }, { rootMargin: '200px 0px' });
+      document.querySelectorAll('video').forEach(v => obs.observe(v));
+    })();
+  </script>
 </body>
 </html>
